@@ -1,15 +1,24 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import ReactDOM = require("react-dom");
+import React = require("react");
+import { ColorfulGrid } from "./App/ColorfulGrid";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
-	/**
-	 * Empty constructor.
-	 */
+	private _container : HTMLDivElement;
+
 	constructor()
 	{
 
+	}
+
+	private renderGrid(context : ComponentFramework.Context<IInputs>){
+		const props = {
+			dataset : context.parameters.dataset
+		};
+		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
 
 	/**
@@ -22,7 +31,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
-		// Add control initialization code
+		this._container = container;
 	}
 
 
@@ -32,7 +41,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
 	{
-		// Add code to update control view
+		this.renderGrid(context);
 	}
 
 	/** 
