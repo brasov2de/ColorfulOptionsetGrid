@@ -16,7 +16,8 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 
 	private renderGrid(context : ComponentFramework.Context<IInputs>){
 		const props = {
-			dataset : context.parameters.dataset
+			dataset : context.parameters.dataset, 
+			utils : context.utils
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
@@ -50,7 +51,8 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 */
 	public getOutputs(): IOutputs
 	{
-		return {};
+		return {
+		};
 	}
 
 	/** 
