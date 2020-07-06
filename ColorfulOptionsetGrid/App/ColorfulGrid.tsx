@@ -27,9 +27,14 @@ export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Elemen
             name : column.displayName,             
             fieldName: column.name,
             minWidth : column.visualSizeFactor,
-            maxWidth: 300,            
+            maxWidth: column.visualSizeFactor,
             isResizable: true, 
             onRender: column.dataType==="OptionSet"  ? (item : any) => {
+                //border
+                //return  <div style={{ overflow: "hidden", borderWidth: "1px", borderStyle: "solid", borderColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: meta?.get(item.raw.getValue(column.name)) ?? "black", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>  
+                //box
+                //return  <div style={{overflow: "hidden", backgroundColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: "white", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>  
+                //icon
                 return  <div> <Icon className="colorIcon" style={{color: meta?.get(item.raw.getValue(column.name)) ?? "white", marginRight: "5px"}} iconName="CircleShapeSolid" aria-hidden="true" /><span>{item[column.name]}</span></div>  
               } : undefined,                  
         };

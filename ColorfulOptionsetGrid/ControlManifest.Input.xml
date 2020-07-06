@@ -12,6 +12,12 @@
       -->
     </data-set>
     <!--property name="column1Icon" display-name-key="column1Icon" description-key="column1Icon" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/-->
+     <property name="colorSchema" display-name-key="ColorSchema" description-key="Color Schema" of-type="Enum" usage="input" required="true">
+      <value name="BOX" display-name-key="Colorful background" description-key="Colorful background" >BOX</value>
+      <value name="BORDER" display-name-key="White background" description-key="White background" default="true">BORDER</value>
+      <value name="ICON" display-name-key="Icon" description-key="Icon" default="true">ICON</value>
+    </property>
+    <property name="icon" display-name-key="Icon" description-key="Icon" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/>
     <resources>
       <code path="index.ts" order="1" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
