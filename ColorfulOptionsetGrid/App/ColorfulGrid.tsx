@@ -4,7 +4,6 @@ import {mergeStyles } from '@fluentui/react/lib/Styling';
 import { useGetAttributes } from './Hooks/useGetMetadata';
 import {Icon} from '@fluentui/react/lib/Icon';
 import {initializeIcons} from '@fluentui/react/lib/Icons';
-import {Fabric} from '@fluentui/react/lib/Fabric';
 import {ScrollablePane} from '@fluentui/react/lib/ScrollablePane';
 import {IRenderFunction} from '@fluentui/react/lib/Utilities';
 import {Sticky, StickyPositionType} from '@fluentui/react/lib/Sticky';
@@ -21,11 +20,10 @@ export interface IColorfulGridProps{
 }
 
 export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Element => {
-    const customizedColors = dataset.columns.filter((column) => ["column1", "column2", "column3"].includes(column.alias));    
+    const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);
 
-    //const optionSetColumns = ["column1", "column2", "column3", "column4"].map((alias) => dataset.columns.find((column) => column.alias===alias)?.name ?? alias); 
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );
     const columns = dataset.columns.map((column) : IColumn => {
         const meta = metadataAttributes?.options.get(column.name);
@@ -56,9 +54,9 @@ export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Elemen
             ...attributes)
     });      
     
-    const cmdBarFarItems: ICommandBarItemProps[] = [];
+   
     const cmdBarItems: ICommandBarItemProps[] = [];
-    const totalRecords: number = 25;
+    const totalRecords: number = 500;
 
     const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
         return (
@@ -68,7 +66,31 @@ export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Elemen
         );
       }
 
+   
+
+    const renderCommandBarFarItem = (recordsLoaded: number): ICommandBarItemProps[] =>
+    {
+        return [
+            {
+                key: 'next',
+                text: (recordsLoaded === totalRecords) 
+                        ? `${recordsLoaded} of ${totalRecords}` 
+                        : `Load more (${recordsLoaded} of ${totalRecords})`,
+                ariaLabel: 'Next',
+                iconProps: { iconName: 'ChevronRight' },
+                disabled: recordsLoaded == totalRecords,
+               // className: classNames.cmdBarFarItems,
+                /*onClick: () => {
+                    if (this.state._triggerPaging) {
+                        this.state._triggerPaging("next");
+                    }
+                }*/
+            }
+        ];
+    }
+
     const _onRenderDetailsFooter = (props: IDetailsFooterProps | undefined, defaultRender?: IRenderFunction<IDetailsFooterProps>): JSX.Element => {
+        const cmdBarFarItems: ICommandBarItemProps[] = renderCommandBarFarItem(dataset.sortedRecordIds.length);
         return (
             <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
                 <div> 
@@ -88,7 +110,8 @@ export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Elemen
                     onRenderDetailsFooter={_onRenderDetailsFooter}
                     onRenderDetailsHeader={_onRenderDetailsHeader}
                     items={items} 
-                    columns={columns}                     
+                    columns={columns}           
+                              
                     layoutMode={DetailsListLayoutMode.justified}>        
                 </DetailsList>
           
