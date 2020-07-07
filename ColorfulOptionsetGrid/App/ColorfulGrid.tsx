@@ -1,9 +1,16 @@
 import * as React from 'react';
-import {DetailsList, IColumn} from '@fluentui/react/lib/DetailsList';
+import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsFooterProps, ISelection} from '@fluentui/react/lib/DetailsList';
 import {mergeStyles } from '@fluentui/react/lib/Styling';
 import { useGetAttributes } from './Hooks/useGetMetadata';
 import {Icon} from '@fluentui/react/lib/Icon';
 import {initializeIcons} from '@fluentui/react/lib/Icons';
+import {Fabric} from '@fluentui/react/lib/Fabric';
+import {ScrollablePane} from '@fluentui/react/lib/ScrollablePane';
+import {IRenderFunction} from '@fluentui/react/lib/Utilities';
+import {Sticky, StickyPositionType} from '@fluentui/react/lib/Sticky';
+import {Label} from '@fluentui/react/lib/Label';
+import {CommandBar, ICommandBarItemProps} from '@fluentui/react/lib/CommandBar';
+import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
@@ -47,6 +54,37 @@ export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Elemen
                 raw : entityIn
             },
             ...attributes)
-    });        
-    return (<DetailsList items={items} columns={columns}></DetailsList>);
+    });      
+    
+    const cmdBarFarItems: ICommandBarItemProps[] = [];
+    const cmdBarItems: ICommandBarItemProps[] = [];
+    const totalRecords: number = 25;
+
+    const _onRenderDetailsFooter = (props: IDetailsFooterProps | undefined, defaultRender?: IRenderFunction<IDetailsFooterProps>): JSX.Element => {
+        return (
+            <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
+                <div> 
+                    <Label className={"listFooterLabel"}>{`25 selected`}</Label>
+                    <CommandBar className={"cmdbar"} farItems={cmdBarFarItems} items={cmdBarItems} />                    
+                </div>
+            </Sticky>
+        );
+    }
+   
+
+    return (
+        <div style={{width: "100%", height: "100%", position: "relative"}}>
+            <ScrollablePane scrollbarVisibility={"auto"} >
+          
+                <DetailsList 
+                    onRenderDetailsFooter={_onRenderDetailsFooter}
+                    items={items} 
+                    columns={columns}                     
+                    layoutMode={DetailsListLayoutMode.justified}>        
+                </DetailsList>
+          
+            </ScrollablePane>
+            </div>
+        
+    );
 }
