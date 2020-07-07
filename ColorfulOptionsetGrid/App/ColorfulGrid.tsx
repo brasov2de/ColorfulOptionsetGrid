@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsFooterProps, ISelection} from '@fluentui/react/lib/DetailsList';
+import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsFooterProps, ISelection, IDetailsHeaderProps} from '@fluentui/react/lib/DetailsList';
 import {mergeStyles } from '@fluentui/react/lib/Styling';
 import { useGetAttributes } from './Hooks/useGetMetadata';
 import {Icon} from '@fluentui/react/lib/Icon';
@@ -60,6 +60,14 @@ export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Elemen
     const cmdBarItems: ICommandBarItemProps[] = [];
     const totalRecords: number = 25;
 
+    const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
+        return (
+          <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
+            {defaultRender!({...props!})}
+          </Sticky>
+        );
+      }
+
     const _onRenderDetailsFooter = (props: IDetailsFooterProps | undefined, defaultRender?: IRenderFunction<IDetailsFooterProps>): JSX.Element => {
         return (
             <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
@@ -78,6 +86,7 @@ export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Elemen
           
                 <DetailsList 
                     onRenderDetailsFooter={_onRenderDetailsFooter}
+                    onRenderDetailsHeader={_onRenderDetailsHeader}
                     items={items} 
                     columns={columns}                     
                     layoutMode={DetailsListLayoutMode.justified}>        
