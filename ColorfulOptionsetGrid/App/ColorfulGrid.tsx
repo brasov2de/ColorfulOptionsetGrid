@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsFooterProps, ISelection, IDetailsHeaderProps} from '@fluentui/react/lib/DetailsList';
 import {mergeStyles } from '@fluentui/react/lib/Styling';
 import { useGetAttributes } from './Hooks/useGetMetadata';
@@ -14,12 +15,22 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
 
+export interface IOptionSetParam {
+    columnAlias ?: string;
+    setup: "BOX" | "BORDER" | "ICON";    
+    setupValue ?: string;
+}
+
+
+
 export interface IColorfulGridProps{
     dataset: DataSet;    
     utils : ComponentFramework.Utility;
+    setup : Map<string, IOptionSetParam>;
+    defaultSetup: IOptionSetParam;
 }
 
-export const ColorfulGrid = ({dataset, utils} : IColorfulGridProps) : JSX.Element => {
+export const ColorfulGrid = ({dataset, utils, setup, defaultSetup} : IColorfulGridProps) : JSX.Element => {
     const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);
