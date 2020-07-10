@@ -30,7 +30,7 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : I
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
 
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );
-    const columns = dataset.columns.map((column) : IColumn => {
+    const columns = dataset.columns.sort((c1, c2) => c1.order - c2.order).map((column) : IColumn => {
         const meta = metadataAttributes?.options.get(column.name);
         const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.name);
         return {
@@ -51,12 +51,6 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : I
                     default:
                         break;
                 }
-                //border
-                //return  <div style={{ overflow: "hidden", borderWidth: "1px", borderStyle: "solid", borderColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: meta?.get(item.raw.getValue(column.name)) ?? "black", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>  
-                //box
-                //return  <div style={{overflow: "hidden", backgroundColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: "white", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>  
-                //icon
-                //return  <div> <Icon className="colorIcon" style={{color: meta?.get(item.raw.getValue(column.name)) ?? "white", marginRight: "5px"}} iconName="CircleShapeSolid" aria-hidden="true" /><span>{item[column.name]}</span></div>  
               } : undefined,                  
         };
     });   
