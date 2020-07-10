@@ -1,0 +1,29 @@
+.ORBIS\.ColorfulOptionsetGrid  .ColorfulCell{
+    overflow: hidden;
+    display: inline;
+   /* font-size: medium;
+    font-weight: 600;
+    padding-left: 5px;
+    padding-top: 3px;
+    padding-bottom: 3px;    */
+}
+
+
+.ORBIS\.ColorfulOptionsetGrid  .colorIcon{      
+        font-weight: 600;
+        vertical-align: baseline;
+}
+
+.ORBIS\.ColorfulOptionsetGrid  div{
+    font-weight: normal;
+    font-size: 15px;
+    vertical-align: baseline;
+}
+
+.ORBIS\.ColorfulOptionsetGrid  .ColorfulCell span{
+    font-weight: normal;
+    font-size: 15px;
+    vertical-align: baseline;
+   text-overflow: ellipsis;
+}
+

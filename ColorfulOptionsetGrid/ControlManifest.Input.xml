@@ -22,8 +22,9 @@
     <property name="optionset2EnvVarSchema" display-name-key="optionset2 Environment Variable" description-key="OptionSet2 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false"/>
     <property name="optionset3EnvVarSchema" display-name-key="optionset3 Environment Variable" description-key="OptionSet3 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false"/>
 
-    <resources>    
+    <resources>        
       <code path="index.ts" order="1" />
+      <css path="css/ColorfulOptionsetGrid.css" order="1" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
       <css path="css/ColorfulOptionsetGrid.css" order="1" />
       <resx path="strings/ColorfulOptionsetGrid.1033.resx" version="1.0.0" />

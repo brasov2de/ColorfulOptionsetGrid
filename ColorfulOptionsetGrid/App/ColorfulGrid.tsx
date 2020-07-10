@@ -46,8 +46,8 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : I
             key: column.name,
             name : column.displayName,             
             fieldName: column.name,
-            minWidth : column.visualSizeFactor,
-            maxWidth: column.visualSizeFactor,
+            minWidth : column.visualSizeFactor + (displayType==="ICON" ? 20 : 0),
+            maxWidth: column.visualSizeFactor + (displayType==="ICON" ? 20 : 0),
             isResizable: true, 
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
                 const currentOptionSetValue=  item.raw.getValue(column.name) as number;
@@ -55,11 +55,11 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : I
                 const icon  = schema?.[currentOptionSetValue]?.icon ?? displayTypeValue;
                 switch(displayType){
                     case "BORDER":
-                        return  <div style={{ overflow: "hidden", borderWidth: "1px", borderStyle: "solid", borderColor: color, color: color, paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
+                        return  <div  className="ColorfulCell" style={{ borderWidth: "1px", borderStyle: "solid", borderColor: color, color: color,  borderRadius: "5px"}}><span  className="cell">{item[column.name]}</span></div>;
                     case "BOX":                    
-                        return <div style={{overflow: "hidden", backgroundColor: color, color: "white", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
+                        return <div  className="ColorfulCell"style={{ backgroundColor: color, color: "white", borderRadius: "5px"}}><span className="cell">{item[column.name]}</span></div>;
                     case "ICON":
-                        return <div> <Icon className="colorIcon" style={{color: color , marginRight: "5px", fontSize: "medium", fontWeight: "bold"}} iconName={icon} aria-hidden="true" /><span>{item[column.name]}</span></div>;
+                        return <div className="ColorfulCell"> <Icon className="colorIcon" style={{color: color , marginRight: "5px"}} iconName={icon} aria-hidden="true" /><span className="cell">{item[column.name]}</span></div>;
                     default:
                         break;
                 }
