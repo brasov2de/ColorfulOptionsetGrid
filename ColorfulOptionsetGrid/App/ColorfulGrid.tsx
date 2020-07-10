@@ -11,11 +11,19 @@ import {Sticky, StickyPositionType} from '@fluentui/react/lib/Sticky';
 import {Label} from '@fluentui/react/lib/Label';
 import {CommandBar, ICommandBarItemProps} from '@fluentui/react/lib/CommandBar';
 import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
+import {Example_Env_Var_Ampel} from '../Data/EnvVarSchema';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
 
+export interface ISetupSchemaValue{
+    icon ?: string;
+    color ?: string;
+}
 
+export interface ISetupSchema{
+    [value:number] : ISetupSchemaValue;    
+}
 
 export interface IColorfulGridProps{
     dataset: DataSet;    
@@ -33,6 +41,7 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : I
     const columns = dataset.columns.sort((c1, c2) => c1.order - c2.order).map((column) : IColumn => {
         const meta = metadataAttributes?.options.get(column.name);
         const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.name);
+        const schema = column.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;        
         return {
             key: column.name,
             name : column.displayName,             
@@ -40,14 +49,17 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : I
             minWidth : column.visualSizeFactor,
             maxWidth: column.visualSizeFactor,
             isResizable: true, 
-            onRender: isOptionSetRenderer===true  ? (item : any) => {                            
+            onRender: isOptionSetRenderer===true  ? (item : any) => {      
+                const currentOptionSetValue=  item.raw.getValue(column.name) as number;
+                const color = schema?.[currentOptionSetValue]?.color ?? meta?.get(currentOptionSetValue?.toString() ?? "") ?? "black";
+                const icon  = schema?.[currentOptionSetValue]?.icon ?? displayTypeValue;
                 switch(displayType){
                     case "BORDER":
-                        return  <div style={{ overflow: "hidden", borderWidth: "1px", borderStyle: "solid", borderColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: meta?.get(item.raw.getValue(column.name)) ?? "black", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
+                        return  <div style={{ overflow: "hidden", borderWidth: "1px", borderStyle: "solid", borderColor: color, color: color, paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
                     case "BOX":                    
-                        return <div style={{overflow: "hidden", backgroundColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: "white", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
+                        return <div style={{overflow: "hidden", backgroundColor: color, color: "white", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
                     case "ICON":
-                        return <div> <Icon className="colorIcon" style={{color: meta?.get(item.raw.getValue(column.name)) ?? "white", marginRight: "5px"}} iconName="CircleShapeSolid" aria-hidden="true" /><span>{item[column.name]}</span></div>;
+                        return <div> <Icon className="colorIcon" style={{color: color , marginRight: "5px", fontSize: "medium", fontWeight: "bold"}} iconName={icon} aria-hidden="true" /><span>{item[column.name]}</span></div>;
                     default:
                         break;
                 }

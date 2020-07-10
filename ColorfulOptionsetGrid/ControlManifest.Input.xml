@@ -18,6 +18,9 @@
       <value name="ICON" display-name-key="Colorful Icon" description-key="Colorful Icon" default="true">ICON</value>
     </property>
     <property name="displayTypeValue" display-name-key="Value for display type ICON" description-key="Valur for display type ICON" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/>
+    <property name="optionset1EnvVarSchema" display-name-key="optionset1 Environment Variable" description-key="OptionSet1 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="optionset2EnvVarSchema" display-name-key="optionset2 Environment Variable" description-key="OptionSet2 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false"/>
+    <property name="optionset3EnvVarSchema" display-name-key="optionset3 Environment Variable" description-key="OptionSet3 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false"/>
 
     <resources>    
       <code path="index.ts" order="1" />
@@ -28,6 +31,7 @@
     </resources>
     <feature-usage>
       <uses-feature name="Utility" required="true" />
+      <uses-feature name="WebAPI" required="true" />
     </feature-usage>
     <!-- UNCOMMENT TO ENABLE THE SPECIFIED API
     <feature-usage>
