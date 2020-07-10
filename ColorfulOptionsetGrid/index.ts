@@ -2,66 +2,26 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import ReactDOM = require("react-dom");
 import React = require("react");
-import { ColorfulGrid, IOptionSetParam } from "./App/ColorfulGrid";
+import { ColorfulGrid } from "./App/ColorfulGrid";
 import { TooltipHost } from "@fluentui/react";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container : HTMLDivElement;
-	private _setup : Map<string, IOptionSetParam>;
-	private _defaultSetup : IOptionSetParam;
 
 	constructor()
 	{
 
 	}
+	
 
-	private extractGridParameters(context: ComponentFramework.Context<IInputs>){
-		const params : Map<string, IOptionSetParam> = new Map([
-			["optionset1",{
-				columnAlias: "optionset1", 
-				setup: context.parameters.optionset1Setup.raw,
-				setupValue: context.parameters.optionset1SetupValue?.raw ?? "CircleShapeSolid"
-			 }],
-			 ["optionset2",{
-				columnAlias: "optionset2", 
-				setup: context.parameters.optionset2Setup.raw,
-				setupValue: context.parameters.optionset2SetupValue?.raw ?? "CircleShapeSolid"
-			 }],
-			 ["optionset3",{
-				columnAlias: "optionset3", 
-				setup: context.parameters.optionset3Setup.raw,
-				setupValue: context.parameters.optionset3SetupValue?.raw ?? "CircleShapeSolid"
-		 	}]
-		]);
-
-		this._defaultSetup = {
-				columnAlias: "optionset1", 
-			setup: context.parameters.optionset1Setup.raw,
-			setupValue: context.parameters.optionset1SetupValue?.raw ?? "CircleShapeSolid"
-		};
-		const columns = context.parameters.dataset.columns.filter((column) => params.has(column.alias));
-		const setup :  [string, IOptionSetParam][] = columns.map((column) => [column.name, params.get(column.alias) ?? this._defaultSetup] );
-/*
-		const setup : Array<[string, IOptionSetParam]> = params.map((param : IOptionSetParam) => {		
-			const col = context.parameters.dataset.columns.find((column) => column.alias===param.columnAlias);
-			return [col?.name, param];
-		}).filter( ([name]) => name!== undefined);
-				
-		*/
-		this._setup = new Map(setup);
-
-		
-
-	}
-
-	private renderGrid(context : ComponentFramework.Context<IInputs>){
+	private renderGrid(context : ComponentFramework.Context<IInputs>){		
 		const props = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
-			setup: this._setup, 
-			defaultSetup : this._defaultSetup
+			displayType: context.parameters.displayType?.raw ?? "ICON",
+			displayTypeValue: context.parameters.displayTypeValue?.raw ?? "CircleShapeSolid"
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
@@ -76,8 +36,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
-		this._container = container;	
-		this.extractGridParameters(context);	
+		this._container = container;			
 	}
 
 

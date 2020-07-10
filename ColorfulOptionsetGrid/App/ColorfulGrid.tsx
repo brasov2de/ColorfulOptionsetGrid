@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsFooterProps, ISelection, IDetailsHeaderProps} from '@fluentui/react/lib/DetailsList';
-import {mergeStyles } from '@fluentui/react/lib/Styling';
+import {mergeStyles, DefaultFontStyles } from '@fluentui/react/lib/Styling';
 import { useGetAttributes } from './Hooks/useGetMetadata';
 import {Icon} from '@fluentui/react/lib/Icon';
 import {initializeIcons} from '@fluentui/react/lib/Icons';
@@ -15,29 +15,24 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
 
-export interface IOptionSetParam {
-    columnAlias ?: string;
-    setup: "BOX" | "BORDER" | "ICON";    
-    setupValue ?: string;
-}
-
 
 
 export interface IColorfulGridProps{
     dataset: DataSet;    
-    utils : ComponentFramework.Utility;
-    setup : Map<string, IOptionSetParam>;
-    defaultSetup: IOptionSetParam;
+    utils : ComponentFramework.Utility;    
+    displayType: "BOX" | "BORDER" | "ICON";    
+    displayTypeValue ?: string;
 }
 
-export const ColorfulGrid = ({dataset, utils, setup, defaultSetup} : IColorfulGridProps) : JSX.Element => {
+export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : IColorfulGridProps) : JSX.Element => {
     const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
-    const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);
+    const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
 
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );
     const columns = dataset.columns.map((column) : IColumn => {
         const meta = metadataAttributes?.options.get(column.name);
+        const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.name);
         return {
             key: column.name,
             name : column.displayName,             
@@ -45,13 +40,23 @@ export const ColorfulGrid = ({dataset, utils, setup, defaultSetup} : IColorfulGr
             minWidth : column.visualSizeFactor,
             maxWidth: column.visualSizeFactor,
             isResizable: true, 
-            onRender: column.dataType==="OptionSet"  ? (item : any) => {
+            onRender: isOptionSetRenderer===true  ? (item : any) => {                            
+                switch(displayType){
+                    case "BORDER":
+                        return  <div style={{ overflow: "hidden", borderWidth: "1px", borderStyle: "solid", borderColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: meta?.get(item.raw.getValue(column.name)) ?? "black", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
+                    case "BOX":                    
+                        return <div style={{overflow: "hidden", backgroundColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: "white", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>;
+                    case "ICON":
+                        return <div> <Icon className="colorIcon" style={{color: meta?.get(item.raw.getValue(column.name)) ?? "white", marginRight: "5px"}} iconName="CircleShapeSolid" aria-hidden="true" /><span>{item[column.name]}</span></div>;
+                    default:
+                        break;
+                }
                 //border
                 //return  <div style={{ overflow: "hidden", borderWidth: "1px", borderStyle: "solid", borderColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: meta?.get(item.raw.getValue(column.name)) ?? "black", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>  
                 //box
                 //return  <div style={{overflow: "hidden", backgroundColor: meta?.get(item.raw.getValue(column.name)) ?? "black", color: "white", paddingLeft: "5px", paddingTop: "3px", paddingBottom: "3px", borderRadius: "5px"}}>{item[column.name]}</div>  
                 //icon
-                return  <div> <Icon className="colorIcon" style={{color: meta?.get(item.raw.getValue(column.name)) ?? "white", marginRight: "5px"}} iconName="CircleShapeSolid" aria-hidden="true" /><span>{item[column.name]}</span></div>  
+                //return  <div> <Icon className="colorIcon" style={{color: meta?.get(item.raw.getValue(column.name)) ?? "white", marginRight: "5px"}} iconName="CircleShapeSolid" aria-hidden="true" /><span>{item[column.name]}</span></div>  
               } : undefined,                  
         };
     });   
@@ -122,8 +127,8 @@ export const ColorfulGrid = ({dataset, utils, setup, defaultSetup} : IColorfulGr
                     onRenderDetailsHeader={_onRenderDetailsHeader}
                     items={items} 
                     columns={columns}           
-                              
                     layoutMode={DetailsListLayoutMode.justified}>        
+                    
                 </DetailsList>
           
             </ScrollablePane>

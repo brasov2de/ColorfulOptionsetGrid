@@ -12,26 +12,12 @@
       -->
     </data-set>
     <!--property name="column1Icon" display-name-key="column1Icon" description-key="column1Icon" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/-->
-     <property name="optionset1Setup" display-name-key="OptionSet1Setup (Default)" description-key="Color Schema" of-type="Enum" usage="input" required="true">
+     <property name="displayType" display-name-key="Display type" description-key="Display type" of-type="Enum" usage="input" required="true">
       <value name="BOX" display-name-key="Colorful background" description-key="Colorful background" >BOX</value>
       <value name="BORDER" display-name-key="Colorful Border" description-key="Colorful Border" >BORDER</value>
       <value name="ICON" display-name-key="Colorful Icon" description-key="Colorful Icon" default="true">ICON</value>
     </property>
-    <property name="optionset1SetupValue" display-name-key="OptionSet1SetupValue (Default)" description-key="OptionSet1SetupValue" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/>
-
-    <property name="optionset2Setup" display-name-key="OptionSet2Setup" description-key="Color Schema" of-type="Enum" usage="input" required="true">
-      <value name="BOX" display-name-key="Colorful background" description-key="Colorful background" >BOX</value>
-      <value name="BORDER" display-name-key="Colorful Border" description-key="Colorful Border" >BORDER</value>
-      <value name="ICON" display-name-key="Colorful Icon" description-key="Colorful Icon" default="true">ICON</value>
-    </property>
-    <property name="optionset2SetupValue" display-name-key="OptionSet2SetupValue" description-key="OptionSet2SetupValue" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/>
-
-     <property name="optionset3Setup" display-name-key="OptionSet3Setup" description-key="Color Schema" of-type="Enum" usage="input" required="true">
-      <value name="BOX" display-name-key="Colorful background" description-key="Colorful background" >BOX</value>
-      <value name="BORDER" display-name-key="Colorful Border" description-key="Colorful Border" >BORDER</value>
-      <value name="ICON" display-name-key="Colorful Icon" description-key="Colorful Icon" default="true">ICON</value>
-    </property>
-    <property name="optionset3SetupValue" display-name-key="OptionSet3SetupValue" description-key="OptionSet3SetupValue" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/>
+    <property name="displayTypeValue" display-name-key="Value for display type ICON" description-key="Valur for display type ICON" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/>
 
     <resources>    
       <code path="index.ts" order="1" />
