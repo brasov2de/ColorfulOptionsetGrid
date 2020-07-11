@@ -35,14 +35,9 @@ export interface IColorfulGridProps{
 }
 
 export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, containerWidth} : IColorfulGridProps) : JSX.Element => {
-    const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
+     const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
-/*
-    const sumWidth = dataset.columns.reduce((sum, column) => sum + (column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor) + 14, 0) + optionSetColumns.length * 35 + 50;    
-    const widthBuffer = (containerWidth != null && containerWidth > sumWidth) ? ((containerWidth - sumWidth)/ dataset.columns.length) : 0;
-    */
-
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );
 
     const gridColumns = useColumns(dataset, containerWidth);

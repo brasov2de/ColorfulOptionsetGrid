@@ -21,6 +21,11 @@ interface IGridColumnAggregates {
     count : number;
 }
 
+interface IColumnsHookState{
+    calculatedColumns : IGridColumn[],
+    aggregates : IGridColumnAggregates
+}
+
 function calculateAggregatesBasedOnFeatures(cols : IGridColumn[]) : IGridColumnAggregates{
     return cols.reduce(({sum, count}, column) => {
         return { 
@@ -32,7 +37,7 @@ function calculateAggregatesBasedOnFeatures(cols : IGridColumn[]) : IGridColumnA
 
 
 
-function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSetApi.Column[]){        
+function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSetApi.Column[]): IColumnsHookState{        
     const calculatedColumns = originalColumns.map((column) => {
        return {
            original : column,
@@ -64,7 +69,7 @@ function recalculateWidth(calculatedColumns: IGridColumn[], aggregates: IGridCol
 }
 
 export const useColumns = (dataset: DataSet, availableWidth?: number) => {    
-    const [state, setState] = React.useState(parseColumns(dataset.columns));           
+    const [state, setState] = React.useState<IColumnsHookState>({calculatedColumns: [], aggregates: {sum: 0, count:0} });
     const [columns, setColumns] = React.useState<IGridColumn[]>(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));    
 
     React.useEffect(() => {       
