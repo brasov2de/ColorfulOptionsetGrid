@@ -12,6 +12,7 @@ import {Label} from '@fluentui/react/lib/Label';
 import {CommandBar, ICommandBarItemProps} from '@fluentui/react/lib/CommandBar';
 import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import {Example_Env_Var_Ampel} from '../Data/EnvVarSchema';
+import { IGridColumn, useColumns } from './Hooks/useColumns';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
@@ -37,41 +38,43 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, con
     const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
-
+/*
     const sumWidth = dataset.columns.reduce((sum, column) => sum + (column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor) + 14, 0) + optionSetColumns.length * 35 + 50;    
     const widthBuffer = (containerWidth != null && containerWidth > sumWidth) ? ((containerWidth - sumWidth)/ dataset.columns.length) : 0;
+    */
 
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );
-    const columns = dataset.columns.sort((c1, c2) => (c1.order===-1 ? 100 : c1.order) - (c2.order===-1 ? 100 : c2.order)).map((column) : IColumn => {
-        const meta = metadataAttributes?.options.get(column.name);
-        const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.name);
-        const schema = column.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;   
-        const width =  column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor + (displayType==="ICON" ? 20 : 0);    
+
+    const gridColumns = useColumns(dataset, containerWidth);
+
+    const columns = gridColumns.columns.map((column) : IColumn => {
+        const meta = metadataAttributes?.options.get(column.original.name);
+        const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.original.name);
+        const schema = column.original.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;   
         return {
-            key: column.name,
-            name : column.displayName,             
-            fieldName: column.name,
-            minWidth : width,  
-            maxWidth : width + widthBuffer,          
+            key: column.original.name,
+            name : column.original.displayName,             
+            fieldName: column.original.name,
+            minWidth : column.minWidth,
+            maxWidth : column.maxWidth,
             isResizable: true, 
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
-                const currentOptionSetValue=  item.raw.getValue(column.name) as number;
+                const currentOptionSetValue=  item.raw.getValue(column.original.name) as number;
                 const color = schema?.[currentOptionSetValue]?.color ?? meta?.get(currentOptionSetValue?.toString() ?? "") ?? "black";
                 const icon  = schema?.[currentOptionSetValue]?.icon ?? displayTypeValue;
                 switch(displayType){
                     case "BORDER":
-                        return  <div  className="ColorfulCell" style={{ borderWidth: "1px", borderStyle: "solid", borderColor: color, color: color,  borderRadius: "5px"}}><span  className="cell">{item[column.name]}</span></div>;
+                        return  <div  className="ColorfulCell" style={{ borderWidth: "1px", borderStyle: "solid", borderColor: color, color: color,  borderRadius: "5px"}}><span  className="cell">{item[column.original.name]}</span></div>;
                     case "BOX":                    
-                        return <div  className="ColorfulCell"style={{ backgroundColor: color, color: "white", borderRadius: "5px"}}><span className="cell">{item[column.name]}</span></div>;
+                        return <div  className="ColorfulCell"style={{ backgroundColor: color, color: "white", borderRadius: "5px"}}><span className="cell">{item[column.original.name]}</span></div>;
                     case "ICON":
-                        return <div className="ColorfulCell"> <Icon className="colorIcon" style={{color: color , marginRight: "5px"}} iconName={icon} aria-hidden="true" /><span className="cell">{item[column.name]}</span></div>;
+                        return <div className="ColorfulCell"> <Icon className="colorIcon" style={{color: color , marginRight: "5px"}} iconName={icon} aria-hidden="true" /><span className="cell">{item[column.original.name]}</span></div>;
                     default:
                         break;
                 }
               } : undefined,                  
         };
-    });
-    //columns.push({key: "dummy", name: "", fieldName: "", minWidth: 0, maxWidth: 500});   
+    });    
     const items = dataset.sortedRecordIds.map((id) => {                
         const entityIn = dataset.records[id];
         const attributes = dataset.columns.map((column) => ({[column.name]: entityIn.getFormattedValue(column.name)}));

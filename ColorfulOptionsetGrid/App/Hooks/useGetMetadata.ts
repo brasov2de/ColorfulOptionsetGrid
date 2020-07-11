@@ -1,4 +1,4 @@
-import React = require("react");
+import * as React from 'react';
 
 
 export const useGetAttributes = (entityName : string, attributeNames : string[], utils: ComponentFramework.Utility) => {
