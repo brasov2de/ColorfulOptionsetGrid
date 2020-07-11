@@ -21,7 +21,8 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
 			displayType: context.parameters.displayType?.raw ?? "ICON",
-			displayTypeValue: context.parameters.displayTypeValue?.raw ?? "CircleShapeSolid"
+			displayTypeValue: context.parameters.displayTypeValue?.raw ?? "CircleShapeSolid",
+			containerWidth : context.mode.allocatedWidth
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
@@ -37,6 +38,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
 		this._container = container;			
+		context.mode.trackContainerResize(true);
 	}
 
 

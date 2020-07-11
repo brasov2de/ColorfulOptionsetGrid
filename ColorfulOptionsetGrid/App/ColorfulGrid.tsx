@@ -30,24 +30,29 @@ export interface IColorfulGridProps{
     utils : ComponentFramework.Utility;    
     displayType: "BOX" | "BORDER" | "ICON";    
     displayTypeValue ?: string;
+    containerWidth ?: number;
 }
 
-export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : IColorfulGridProps) : JSX.Element => {
+export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, containerWidth} : IColorfulGridProps) : JSX.Element => {
     const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
 
+    const sumWidth = dataset.columns.reduce((sum, column) => sum + (column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor) + 14, 0) + optionSetColumns.length * 35 + 50;    
+    const widthBuffer = (containerWidth != null && containerWidth > sumWidth) ? ((containerWidth - sumWidth)/ dataset.columns.length) : 0;
+
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );
-    const columns = dataset.columns.sort((c1, c2) => c1.order - c2.order).map((column) : IColumn => {
+    const columns = dataset.columns.sort((c1, c2) => (c1.order===-1 ? 100 : c1.order) - (c2.order===-1 ? 100 : c2.order)).map((column) : IColumn => {
         const meta = metadataAttributes?.options.get(column.name);
         const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.name);
-        const schema = column.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;        
+        const schema = column.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;   
+        const width =  column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor + (displayType==="ICON" ? 20 : 0);    
         return {
             key: column.name,
             name : column.displayName,             
             fieldName: column.name,
-            minWidth : column.visualSizeFactor + (displayType==="ICON" ? 20 : 0),
-            maxWidth: column.visualSizeFactor + (displayType==="ICON" ? 20 : 0),
+            minWidth : width,  
+            maxWidth : width + widthBuffer,          
             isResizable: true, 
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
                 const currentOptionSetValue=  item.raw.getValue(column.name) as number;
@@ -65,7 +70,8 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue} : I
                 }
               } : undefined,                  
         };
-    });   
+    });
+    //columns.push({key: "dummy", name: "", fieldName: "", minWidth: 0, maxWidth: 500});   
     const items = dataset.sortedRecordIds.map((id) => {                
         const entityIn = dataset.records[id];
         const attributes = dataset.columns.map((column) => ({[column.name]: entityIn.getFormattedValue(column.name)}));
