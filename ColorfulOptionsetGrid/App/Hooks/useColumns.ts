@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { allowedNodeEnvironmentFlags } from 'process';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
+import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+
 
 export interface IColumnFeature{
     width: number;
@@ -70,7 +71,23 @@ function recalculateWidth(calculatedColumns: IGridColumn[], aggregates: IGridCol
 
 export const useColumns = (dataset: DataSet, availableWidth?: number) => {    
     const [state, setState] = React.useState<IColumnsHookState>({calculatedColumns: [], aggregates: {sum: 0, count:0} });
-    const [columns, setColumns] = React.useState<IGridColumn[]>(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));    
+    const [columns, setColumns] = React.useState<IGridColumn[]>(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));  
+    const [sorting, setSorting] = React.useState<DataSetInterfaces.SortStatus[]>(dataset.sorting);
+
+    function onColumnClick(columnClicked : string){       
+        const oldSorting = (sorting || []).find((sort) => sort.name===columnClicked);        
+        const newValue : DataSetInterfaces.SortStatus = {
+            name: columnClicked, 
+            sortDirection : oldSorting!= null ? (oldSorting.sortDirection === 0 ? 1 : 0) : 0 //0 = ascendinf
+        };
+        while (dataset.sorting.length > 0) {
+            dataset.sorting.pop();
+        }
+        dataset.sorting.push(newValue);
+        dataset.refresh();
+        
+        setSorting(dataset.sorting);
+    };  
 
     React.useEffect(() => {       
         const tempState = parseColumns(dataset.columns);        
@@ -83,6 +100,7 @@ export const useColumns = (dataset: DataSet, availableWidth?: number) => {
     }, [availableWidth]);
 
     return {
-        columns
+        columns, 
+        onColumnClick
     };
 }

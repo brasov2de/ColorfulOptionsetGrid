@@ -67,7 +67,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 */
 	public destroy(): void
 	{
-		// Add code to cleanup control if necessary
+		ReactDOM.unmountComponentAtNode(this._container);
 	}
 
 }

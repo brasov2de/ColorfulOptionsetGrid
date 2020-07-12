@@ -38,14 +38,20 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, con
      const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
-    const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );
+    const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );    
 
-    const gridColumns = useColumns(dataset, containerWidth);
-
-    const columns = gridColumns.columns.map((column) : IColumn => {
+    const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
+    
+    const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
+        const name = column?.fieldName ?? "";
+        onColumnClick(name);
+    }
+    
+    const columns = gridColumns.map((column) : IColumn => {
         const meta = metadataAttributes?.options.get(column.original.name);
         const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.original.name);
         const schema = column.original.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;   
+        const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);
         return {
             key: column.original.name,
             name : column.original.displayName,             
@@ -53,6 +59,10 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, con
             minWidth : column.minWidth,
             maxWidth : column.maxWidth,
             isResizable: true, 
+            isSorted: sortNode?.sortDirection===0 || sortNode?.sortDirection===1,
+            isSortedDescending: sortNode?.sortDirection === 1,
+            sortAscendingAriaLabel: "A-Z",
+            sortDescendingAriaLabel: "Z-A",
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
                 const currentOptionSetValue=  item.raw.getValue(column.original.name) as number;
                 const color = schema?.[currentOptionSetValue]?.color ?? meta?.get(currentOptionSetValue?.toString() ?? "") ?? "black";
@@ -87,7 +97,7 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, con
     const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
         return (
           <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
-            {defaultRender!({...props!})}
+            {defaultRender!({...props!, onColumnClick : onColumnHeaderClick })}
           </Sticky>
         );
       }
@@ -137,7 +147,7 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, con
                     onRenderDetailsHeader={_onRenderDetailsHeader}
                     items={items} 
                     columns={columns}           
-                    layoutMode={DetailsListLayoutMode.justified}>        
+                    layoutMode={DetailsListLayoutMode.justified}>                                                               
                     
                 </DetailsList>
           
