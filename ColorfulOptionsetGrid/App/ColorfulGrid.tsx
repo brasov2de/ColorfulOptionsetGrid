@@ -35,7 +35,7 @@ export interface IColorfulGridProps{
     containerHeight ?: number;
 }
 
-export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, containerWidth, containerHeight} : IColorfulGridProps) : JSX.Element => {    
+export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayType, displayTypeValue, containerWidth, containerHeight} : IColorfulGridProps) : JSX.Element{    
      const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
     //found customized, or take all optionset columns otherwise
     const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
@@ -157,4 +157,8 @@ export const ColorfulGrid = ({dataset, utils, displayType, displayTypeValue, con
             </div>
         
     );
-}
+},(prevProps, newProps) => {
+    return prevProps.dataset === newProps.dataset 
+        && prevProps.containerWidth === newProps.containerWidth
+        && prevProps.containerHeight === newProps.containerHeight
+});
