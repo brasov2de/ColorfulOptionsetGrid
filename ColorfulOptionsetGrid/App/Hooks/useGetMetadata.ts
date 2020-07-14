@@ -6,7 +6,11 @@ export const useGetAttributes = (entityName : string, attributeNames : string[],
     
 
     React.useEffect(() => {
-
+        if(utils==null || typeof((window as any).Xrm) ==="undefined"){
+            console.log("could not find utils. It's a canvas app");
+            setOptions(new Map(attributeNames.map((attributeName) => [attributeName, new Map<string, string>()])));  
+            return;       
+        }
         utils.getEntityMetadata(entityName, attributeNames)
         .then((entityMetadata) => {
             const opts = attributeNames.map((attributeName) => {                

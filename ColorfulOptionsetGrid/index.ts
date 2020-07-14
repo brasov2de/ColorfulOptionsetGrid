@@ -2,7 +2,7 @@ import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import ReactDOM = require("react-dom");
 import React = require("react");
-import { ColorfulGrid } from "./App/ColorfulGrid";
+import { ColorfulGrid, IColorfulGridProps } from "./App/ColorfulGrid";
 import { TooltipHost } from "@fluentui/react";
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -17,12 +17,13 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	
 
 	private renderGrid(context : ComponentFramework.Context<IInputs>){		
-		const props = {
+		const props : IColorfulGridProps = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
 			displayType: context.parameters.displayType?.raw ?? "ICON",
 			displayTypeValue: context.parameters.displayTypeValue?.raw ?? "CircleShapeSolid",
-			containerWidth : context.mode.allocatedWidth
+			containerWidth : context.mode.allocatedWidth,
+			containerHeight: context.mode.allocatedHeight
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}

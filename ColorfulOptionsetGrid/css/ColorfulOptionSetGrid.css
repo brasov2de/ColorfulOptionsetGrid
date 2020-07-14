@@ -1,3 +1,8 @@
+.ORBIS\.ColorfulOptionsetGrid  .container{
+    width: 100%;
+    position: relative;
+    min-height: 500px ;
+}
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCell{
     overflow: hidden;
     display: inline;
