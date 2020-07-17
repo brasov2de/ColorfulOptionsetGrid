@@ -2,7 +2,7 @@ import * as React from 'react';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 
-
+//
 export interface IColumnFeature{
     width: number;
     isVisible ?: boolean;
