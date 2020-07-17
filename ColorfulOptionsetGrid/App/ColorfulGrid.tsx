@@ -121,7 +121,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                   }*/
               }
           ];
-      }   //gittags
+      }  
   
       const cmdBarItems: ICommandBarItemProps[] = [];    
      const [selectedCount, setSelectedCount] = React.useState<number>(0);
