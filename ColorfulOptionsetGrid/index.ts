@@ -9,7 +9,7 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container : HTMLDivElement;
-
+   
 	constructor()
 	{
 
