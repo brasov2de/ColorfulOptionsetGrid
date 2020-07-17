@@ -163,7 +163,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
             <ScrollablePane scrollbarVisibility={"auto"} >
           
                 <DetailsList 
-                    //onRenderDetailsFooter={onRenderDetailsFooter}
+                    onRenderDetailsFooter={onRenderDetailsFooter}
                     onRenderDetailsHeader={_onRenderDetailsHeader}
                     items={items} 
                     columns={columns}                          
