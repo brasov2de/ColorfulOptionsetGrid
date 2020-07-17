@@ -86,7 +86,7 @@ export const useColumns = (dataset: DataSet, availableWidth?: number) => {
         dataset.sorting.push(newValue);
         dataset.refresh();
         
-        setSorting(dataset.sorting);
+        setSorting(dataset.sorting);//
     };  
 
     React.useEffect(() => {       
