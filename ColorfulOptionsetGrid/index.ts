@@ -27,7 +27,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
-
+ 
 	/**
 	 * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
 	 * Data-set values are not initialized here, use updateView.
