@@ -119,7 +119,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                           this.state._triggerPaging("next");
                       }
                   }*/
-              }
+              }  
           ];
       }  
   
