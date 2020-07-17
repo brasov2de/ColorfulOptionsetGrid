@@ -151,7 +151,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                       <CommandBar className={"cmdbar"} farItems={cmdBarFarItems} items={cmdBarItems} />                    
                   </div>
               </Sticky>
-          );
+          );  
       }
 
    
