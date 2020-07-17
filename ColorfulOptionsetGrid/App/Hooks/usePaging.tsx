@@ -10,7 +10,7 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 
 export const usePaging = (dataset: DataSet) => {    
     const [selectedIds, setSelectedIds] = React.useState<string[]>();      
-               //d
+               
     function onSelectionIdsChanged(selectionIds: string[]){
         setSelectedIds(selectionIds);      
     }
