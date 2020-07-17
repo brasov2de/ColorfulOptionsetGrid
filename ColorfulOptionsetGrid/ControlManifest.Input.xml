@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.2" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ColorfulOptionsetGrid description" control-type="standard">
+  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.1" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ColorfulOptionsetGrid description" control-type="standard">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="dataset" display-name-key="Dataset" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayquickfind:true">
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
