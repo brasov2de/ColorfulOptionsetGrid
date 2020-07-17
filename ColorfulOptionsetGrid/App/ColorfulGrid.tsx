@@ -21,7 +21,7 @@ initializeIcons();
 export interface ISetupSchemaValue{
     icon ?: string;
     color ?: string;
-} //5, 6
+} //5, 6 small 6
 
 export interface ISetupSchema{
     [value:number] : ISetupSchemaValue;    
