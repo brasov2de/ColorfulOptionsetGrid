@@ -152,7 +152,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                   </div>
               </Sticky>
           );  
-      }  
+      }
 
    
    
