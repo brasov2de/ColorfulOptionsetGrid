@@ -121,6 +121,9 @@
     <value>Deutsch</value>
   </data>
   <data name="ORBIS_ColorfulOptionsetGrid" xml:space="preserve">
-    <value>ColorfulOptionSet</value>
+    <value>ColorfulOptionSetGrid_de</value>
+  </data>
+  <data name="ORBIS_ColorfulOptionsetGrid_Description" xml:space="preserve">
+    <value>Show grid with optionset colors</value>
   </data>
 </root>

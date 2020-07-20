@@ -59,7 +59,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+    <data name="Lang" xml:space="preserve">
+    <value>English</value>
+  </data>
   <data name="ORBIS_ColorfulOptionsetGrid" xml:space="preserve">
-    <value>ColorfulOptionsSet</value>
+    <value>ColorfulOptionSetGrid_en</value>
+  </data>
+  <data name="ORBIS_ColorfulOptionsetGrid_Description" xml:space="preserve">
+    <value>Show grid with optionset colors</value>
   </data>
 </root>
