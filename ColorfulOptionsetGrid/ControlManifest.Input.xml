@@ -24,7 +24,7 @@
     <resources>
       <code path="index.ts" order="1" />
       <css path="css/ColorfulOptionsetGrid.css" order="1" />
-      <resx path="strings/ColorfulOptionsetGrid.1033.resx" version="0.0.9" />
+      <resx path="strings/ColorfulOptionsetGrid.1033.resx" version="1.0.0" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
       <css path="css/ColorfulOptionsetGrid.css" order="1" />
       <resx path="strings/ColorfulOptionsetGrid.1033.resx" version="1.0.0" />
