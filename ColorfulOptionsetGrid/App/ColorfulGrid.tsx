@@ -14,33 +14,56 @@ import { IGridColumn, useColumns } from './Hooks/useColumns';
 import {usePaging} from './Hooks/usePaging';
 import { CommandBar, ICommandBarItemProps } from '@fluentui/react/lib/CommandBar';
 import { Label } from '@fluentui/react/lib/Label';
+import { IConfigRawValues, ISetupSchema, ISetupSchemaValue } from './Model/interfaces';
+import { ColorfulCell } from './Cells/ColorfulCell';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
 
-export interface ISetupSchemaValue{
-    icon ?: string;
-    color ?: string;
-} //5, 6 small 6
 
-export interface ISetupSchema{
-    [value:number] : ISetupSchemaValue;    
-}
+
 
 export interface IColorfulGridProps{
     dataset: DataSet;    
     utils : ComponentFramework.Utility;    
-    displayType: "BOX" | "BORDER" | "ICON";    
-    displayTypeValue ?: string;
+    displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NONE";    
+    displayIconType : "NONE" | "NAME" | "CONFIG" | "ENVIRONMENT";
+    defaultIcon : string;
+    iconConfig1 ?: string;
+    iconConfig2 ?: string;
+    iconConfig3 ?: string;
     containerWidth ?: number;
     containerHeight ?: number;
 }
 
-export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayType, displayTypeValue, containerWidth, containerHeight} : IColorfulGridProps) : JSX.Element{    
-     const customizedColors = dataset.columns.filter((column) => ["optionset1", "optionset2", "optionset3"].includes(column.alias));    
+
+
+
+
+export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayTextType, displayIconType, defaultIcon, iconConfig1, iconConfig2, iconConfig3, containerWidth, containerHeight} : IColorfulGridProps) : JSX.Element{    
+    const customizedColumns = {
+        "optionset1": {
+                column: dataset.columns.find((column) => column.alias ==="optionset1"),
+                config : iconConfig1
+        },
+        "optionset2": {
+            column: dataset.columns.find((column) => column.alias ==="optionset2"),
+            config : iconConfig2
+        },
+        "optionset3": {
+            column: dataset.columns.find((column) => column.alias ==="optionset3"),
+            config : iconConfig3
+        }
+    }
+     const customizedColumnsArray  = Object.values(customizedColumns).filter((setup) => setup.column !== undefined && setup.config!==undefined);
+     const configs : [string, ISetupSchema | undefined][] =  (displayIconType==="CONFIG" 
+            ?  customizedColumnsArray.map((setup) => [setup.column?.name ?? "", setup.config!== undefined ? (JSON.parse(setup.config) as ISetupSchema) : undefined] )
+            : []);
     //found customized, or take all optionset columns otherwise
-    const optionSetColumns = (customizedColors.length >0 ? customizedColors : dataset.columns.filter((column) => column.dataType==="OptionSet")).map((column) => column.name);    
-    const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils );    
+    const optionSetColumns : string[] = customizedColumnsArray.length >0 
+        ? customizedColumnsArray.map((setup) => setup.column?.name ?? "")
+        : dataset.columns.filter((column) => column.dataType==="OptionSet").map((column) => column.name);    
+    const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils , new Map(configs));    
 
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
     
@@ -66,19 +89,14 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
             sortAscendingAriaLabel: "A-Z",
             sortDescendingAriaLabel: "Z-A",
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
-                const currentOptionSetValue=  item.raw.getValue(column.original.name) as number;
-                const color = schema?.[currentOptionSetValue]?.color ?? meta?.get(currentOptionSetValue?.toString() ?? "") ?? "black";
-                const icon  = schema?.[currentOptionSetValue]?.icon ?? displayTypeValue;
-                switch(displayType){
-                    case "BORDER":
-                        return  <div  className="ColorfulCell" style={{ borderWidth: "1px", borderStyle: "solid", borderColor: color, color: color,  borderRadius: "5px"}}><span  className="cell">{item[column.original.name]}</span></div>;
-                    case "BOX":                    
-                        return <div  className="ColorfulCell"style={{ backgroundColor: color, color: "white", borderRadius: "5px"}}><span className="cell">{item[column.original.name]}</span></div>;
-                    case "ICON":
-                        return <div className="ColorfulCell"> <Icon className="colorIcon" style={{color: color , marginRight: "5px"}} iconName={icon} aria-hidden="true" /><span className="cell">{item[column.original.name]}</span></div>;
-                    default:
-                        break;
-                }
+              return <ColorfulCell 
+                item={item} 
+                column={column} 
+                metadataOptions={metadataAttributes.options.get(column.original.name)} 
+                displayTextType ={displayTextType} 
+                displayIconType={displayIconType}
+                defaultIcon = {defaultIcon}
+                ></ColorfulCell>
               } : undefined,                  
         };
     });    

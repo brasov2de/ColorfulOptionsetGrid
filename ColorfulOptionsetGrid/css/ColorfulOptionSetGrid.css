@@ -1,8 +1,11 @@
 .ORBIS\.ColorfulOptionsetGrid  .container{
     width: 100%;
     position: relative;
-    min-height: 500px ;
+    min-height: 500px ;  
 }
+
+
+
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCell{
     overflow: hidden;
     display: inline;
@@ -13,7 +16,13 @@
     padding-top: 3px;
     padding-bottom: 3px;    */
 }
-  
+ 
+
+.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellText{
+    overflow: hidden;
+    display: inline;
+    font-family: 'SegoeUI', 'Segoe UI';
+}
 
 .ORBIS\.ColorfulOptionsetGrid  .colorIcon{      
         font-weight: 600;

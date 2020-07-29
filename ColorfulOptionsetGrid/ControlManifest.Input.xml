@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.9" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ORBIS_ColorfulOptionsetGrid_Description" control-type="standard">
+  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.10" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ORBIS_ColorfulOptionsetGrid_Description" control-type="standard">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <data-set name="dataset" display-name-key="Dataset" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayquickfind:true">
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
@@ -12,19 +12,26 @@
       -->
     </data-set>
     <!--property name="column1Icon" display-name-key="column1Icon" description-key="column1Icon" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid"/-->
-    <property name="displayType" display-name-key="Display type" description-key="Display type" of-type="Enum" usage="input" required="true">
+    <property name="displayTextType" display-name-key="Display text type" description-key="Display text type" of-type="Enum" usage="input" required="true">
+      <value name="SIMPLE" display-name-key="No decoration" description-key="No decoration" default="true">SIMPLE</value>
       <value name="BOX" display-name-key="Colorful background" description-key="Colorful background">BOX</value>
       <value name="BORDER" display-name-key="Colorful Border" description-key="Colorful Border">BORDER</value>
-      <value name="ICON" display-name-key="Colorful Icon" description-key="Colorful Icon" default="true">ICON</value>
+      <value name="NONE" display-name-key="None" description-key="The text won't be shown">NONE</value>
     </property>
-    <property name="displayTypeValue" display-name-key="Value for display type ICON" description-key="Valur for display type ICON" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid" />
-    <property name="optionset1EnvVarSchema" display-name-key="optionset1 Environment Variable" description-key="OptionSet1 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false" />
-    <property name="optionset2EnvVarSchema" display-name-key="optionset2 Environment Variable" description-key="OptionSet2 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false" />
-    <property name="optionset3EnvVarSchema" display-name-key="optionset3 Environment Variable" description-key="OptionSet3 Environment Variable Schema" of-type="SingleLine.Text" usage="input" required="false" />
+     <property name="displayIconType" display-name-key="Display icon type" description-key="Display icon type" of-type="Enum" usage="input" required="true">
+      <value name="NONE" display-name-key="No icon" description-key="No icon">NONE</value>
+      <value name="NAME" display-name-key="By name" description-key="Using the icon name specified in ">NAME</value>
+      <value name="CONFIG" display-name-key="JSON Configuration" description-key="The iconConfig parameters contains JSON Config like {value, color, icon}">CONFIG</value>
+      <value name="ENVIRONMENT" display-name-key="Name of environment variable" description-key="The iconConfig parameters contains the name of Envirionment Variables containing JSON Config like {value, color, icon}">ENVIRONMENT</value>
+    </property>
+    <property name="defaultIcon" display-name-key="Default Icon name" description-key="The default name of the icon" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid" />
+    <property name="iconConfig1" display-name-key="iconConfig1" description-key="iconConfig1" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="iconConfig2" display-name-key="iconConfig2" description-key="iconConfig2" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="iconConfig3" display-name-key="iconConfig3" description-key="iconConfig3" of-type="SingleLine.Text" usage="input" required="false" />
     <resources>
       <code path="index.ts" order="1" />
       <css path="css/ColorfulOptionsetGrid.css" order="1" />
-      <resx path="strings/ColorfulOptionsetGrid.1033.resx" version="1.0.0" />
+      <resx path="strings/ColorfulOptionsetGrid.1033.resx" version="1.0.0" />    
       <!-- UNCOMMENT TO ADD MORE RESOURCES
       <css path="css/ColorfulOptionsetGrid.css" order="1" />
       <resx path="strings/ColorfulOptionsetGrid.1033.resx" version="1.0.0" />

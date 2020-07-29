@@ -21,8 +21,12 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 		const props : IColorfulGridProps = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
-			displayType: context.parameters.displayType?.raw ?? "ICON",
-			displayTypeValue: context.parameters.displayTypeValue?.raw ?? "CircleShapeSolid",
+			displayTextType: context.parameters.displayTextType?.raw ?? "SIMPLE",
+			displayIconType : context.parameters.displayIconType?.raw ?? "NAME",
+			defaultIcon: context.parameters.defaultIcon?.raw ?? "CircleShapeSolid",
+			iconConfig1 : context.parameters.iconConfig1?.raw ?? undefined, 
+			iconConfig2 : context.parameters.iconConfig2?.raw ?? undefined, 
+			iconConfig3 : context.parameters.iconConfig3?.raw ?? undefined, 
 			containerWidth : context.mode.allocatedWidth,
 			containerHeight: context.mode.allocatedHeight
 		};
