@@ -16,6 +16,8 @@ import { CommandBar, ICommandBarItemProps } from '@fluentui/react/lib/CommandBar
 import { Label } from '@fluentui/react/lib/Label';
 import { IConfigRawValues, ISetupSchema, ISetupSchemaValue } from './Model/interfaces';
 import { ColorfulCell } from './Cells/ColorfulCell';
+import { Stack } from '@fluentui/react/lib/Stack';
+import { IconButton } from '@fluentui/react/lib/Button';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
@@ -170,7 +172,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
    
   
       const onRenderDetailsFooter = (props: IDetailsFooterProps | undefined, defaultRender?: IRenderFunction<IDetailsFooterProps>): JSX.Element => {
-          const cmdBarFarItems: ICommandBarItemProps[] = renderCommandBarFarItem(dataset.sortedRecordIds.length);
+          /*const cmdBarFarItems: ICommandBarItemProps[] = renderCommandBarFarItem(dataset.sortedRecordIds.length);
           const selectionDetails = `${selectedCount} selected`;
           return (
               <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
@@ -179,7 +181,30 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                       <CommandBar className={"cmdbar"} farItems={cmdBarFarItems} items={cmdBarItems} />                    
                   </div>
               </Sticky>
-          );  
+          );*/
+          const firstItemNumber = 1;
+          const lastItemNumber = 50;
+          const totalRecords = 120;
+          const currentPage = 1;
+          return (
+          <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
+             <Stack.Item className="Footer">
+                <Stack
+                    grow
+                    horizontal
+                    horizontalAlign="space-between"
+                >
+                    <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedCount} selected)</Stack.Item>
+                    <Stack.Item grow={1} align="center" className="FooterRight">
+                        <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} />
+                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} />
+                        <span >Page {currentPage}</span>
+                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronRight" }} />
+                    </Stack.Item>
+                </Stack>
+            </Stack.Item>
+          </Sticky>
+          )
       }
 
    

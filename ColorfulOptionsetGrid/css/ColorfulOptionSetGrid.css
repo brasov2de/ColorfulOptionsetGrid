@@ -20,12 +20,27 @@
     padding-bottom: 3px;    */
 }
  
-
-.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellText{
-    overflow: hidden;
-    display: inline;
-    font-family: 'SegoeUI', 'Segoe UI';
+.ORBIS\.ColorfulOptionsetGrid  .Footer{
+    height: 38px;
+    width: 100%;    
+    padding-top: 3px;
+    margin-left: 10px;   
+    color: "#333";
+    font-size: 0.857143rem;
+    border-top: 1px solid #edebe9;    
 }
+
+.ORBIS\.ColorfulOptionsetGrid  .FooterRight{
+   text-align: right; 
+   margin-right:10px;
+}
+
+.ORBIS\.ColorfulOptionsetGrid  .FooterIcon i{
+    color: #333333;
+    font-size: 14px;
+}
+
+
 
 .ORBIS\.ColorfulOptionsetGrid  .colorIcon{      
         font-weight: 600;
