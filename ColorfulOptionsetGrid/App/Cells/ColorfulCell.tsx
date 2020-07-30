@@ -30,7 +30,7 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
             borderRadius: "5px"
         },
         "BOX" : {
-            backgroundColor: color, color: iconColor, borderRadius: "5px"
+            backgroundColor: color==="white" ? "black" : color, color: iconColor, borderRadius: "5px"
         }, 
         "SIMPLE" : {             
         }
