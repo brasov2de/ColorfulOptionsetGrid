@@ -26,8 +26,8 @@ initializeIcons();
 export interface IColorfulGridProps{
     dataset: DataSet;    
     utils : ComponentFramework.Utility;    
-    displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NONE";    
-    displayIconType : "NONE" | "NAME" | "CONFIG" | "ENVIRONMENT";
+    displayTextType: "SIMPLE" | "BOX" | "BORDER";    
+    displayIconType : "NONE" | "NAME";// | "ENVIRONMENT";
     defaultIcon : string;
     iconConfig1 ?: string;
     iconConfig2 ?: string;
@@ -38,27 +38,35 @@ export interface IColorfulGridProps{
 
 
 
+function parseIconConfig(defaultIcon : string, iconConfig ?: string){
+    const isJSON = iconConfig && iconConfig.includes("{");
+    return { 
+        jsonConfig : isJSON === true ? JSON.parse(iconConfig as string) as ISetupSchema : undefined,
+        defaultIconName : isJSON===false ? iconConfig : defaultIcon
+    }
+}
 
 
 export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayTextType, displayIconType, defaultIcon, iconConfig1, iconConfig2, iconConfig3, containerWidth, containerHeight} : IColorfulGridProps) : JSX.Element{    
     const customizedColumns = {
         "optionset1": {
                 column: dataset.columns.find((column) => column.alias ==="optionset1"),
-                config : iconConfig1
+                ...parseIconConfig(defaultIcon, iconConfig1)
         },
         "optionset2": {
             column: dataset.columns.find((column) => column.alias ==="optionset2"),
-            config : iconConfig2
+            ...parseIconConfig(defaultIcon, iconConfig2)
         },
         "optionset3": {
             column: dataset.columns.find((column) => column.alias ==="optionset3"),
-            config : iconConfig3
+            ...parseIconConfig(defaultIcon, iconConfig3)
         }
     }
      const customizedColumnsArray  = Object.values(customizedColumns).filter((setup) => setup.column !== undefined);
-     const configs : [string, ISetupSchema | undefined][] =  (displayIconType==="CONFIG" 
+     const configs : [string, ISetupSchema | undefined][] = customizedColumnsArray.map((setup) => [setup.column?.name ?? "", setup.jsonConfig ])
+     /* (displayIconType==="CONFIG" 
             ?  customizedColumnsArray.map((setup) => [setup.column?.name ?? "", setup.config!== undefined ? (JSON.parse(setup.config) as ISetupSchema) : {}] )
-            : []);
+            : []);*/
     //found customized, or take all optionset columns otherwise
     const optionSetColumns : string[] = customizedColumnsArray.length >0 
         ? customizedColumnsArray.map((setup) => setup.column?.name ?? "")
@@ -78,7 +86,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         const schema = column.original.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;   
         const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);        
         const def = Object.entries(customizedColumns).find(([key, value]) => key===column.original.alias) ?? [];
-        const columnDefaultIcon = displayIconType==="NAME" ? (def[1]?.config??defaultIcon) : defaultIcon; 
+        const columnDefaultIcon = displayIconType==="NAME" ? (def[1]?.defaultIconName??defaultIcon) : defaultIcon; 
         return {
             key: column.original.name,
             name : column.original.displayName,             

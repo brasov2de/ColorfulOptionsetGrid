@@ -9,6 +9,8 @@
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCell{
     overflow: hidden;
     padding-top: 3px;
+    padding-left: 4px;
+    padding-bottom: 3px;
  /*   display: inline;*/
     font-family: 'SegoeUI', 'Segoe UI';
    /* font-size: medium;
@@ -27,8 +29,7 @@
 
 .ORBIS\.ColorfulOptionsetGrid  .colorIcon{      
         font-weight: 600;
-        vertical-align: baseline;
-        padding-left: 3px;
+        vertical-align: baseline;     
 }
 
 .ORBIS\.ColorfulOptionsetGrid  div{

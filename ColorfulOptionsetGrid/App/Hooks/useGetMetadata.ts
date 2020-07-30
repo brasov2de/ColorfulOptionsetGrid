@@ -18,7 +18,16 @@ export const useGetAttributes = (entityName : string, attributeNames : string[],
         .then((entityMetadata) => {
             const opts = attributeNames.map((attributeName) => {                
                 const config = configs.get(attributeName);
-                const thisOptions : []= (entityMetadata.Attributes.get(attributeName)?.attributeDescriptor.OptionSet ?? []).map((option : any) => [option.Value.toString(), {color : config?.color ?? option.Color, icon: config?.icon}] );
+                const thisOptions : []= (entityMetadata.Attributes.get(attributeName)?.attributeDescriptor.OptionSet ?? [])
+                    .map((option : any) => {
+                        const configOption = config ? config[option.Value.toString()] : undefined;
+                        return [
+                        option.Value.toString(), 
+                        {
+                            color : configOption?.color ?? option.Color, 
+                            icon: configOption?.icon
+                        }];
+                    } );
                 return [attributeName, new Map(thisOptions)] as [string,  Map<string, ISetupSchemaValue>];
             } )
             const mapped = new Map(opts);

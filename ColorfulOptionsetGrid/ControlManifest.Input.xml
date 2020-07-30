@@ -14,14 +14,12 @@
     <property name="displayTextType" display-name-key="Display_text_type" description-key="Display text type" of-type="Enum" usage="input" required="true">
       <value name="SIMPLE" display-name-key="No_decoration" description-key="No decoration" default="true">SIMPLE</value>
       <value name="BOX" display-name-key="Colorful_background" description-key="Colorful background">BOX</value>
-      <value name="BORDER" display-name-key="Colorful_Border" description-key="Colorful Border">BORDER</value>
-      <value name="NONE" display-name-key="None" description-key="No text">NONE</value>
+      <value name="BORDER" display-name-key="Colorful_Border" description-key="Colorful Border">BORDER</value>     
     </property>
     <property name="displayIconType" display-name-key="Icon definition" description-key="Icon definition" of-type="Enum" usage="input" required="true">
       <value name="NONE" display-name-key="No icon" description-key="No icon">NONE</value>
-      <value name="NAME" display-name-key="Icon" description-key="Using the icon name specified" default="true">NAME</value>
-      <value name="CONFIG" display-name-key="JSON Configuration" description-key="The iconConfig parameters contains JSON Config like {value, color, icon}">CONFIG</value>
-      <value name="ENVIRONMENT" display-name-key="Name of environment variable" description-key="The iconConfig parameters contains the name of Envirionment Variables containing JSON Config like {value, color, icon}">ENVIRONMENT</value>
+      <value name="NAME" display-name-key="Icon name or JSON" description-key="Using the icon name or a JSON config {value: {icon, color}}" default="true">NAME</value>      
+      <!--value name="ENVIRONMENT" display-name-key="Name of environment variable" description-key="The iconConfig parameters contains the name of Envirionment Variables containing JSON Config like {value, color, icon}">ENVIRONMENT</value-->
     </property>
     <property name="defaultIcon" display-name-key="Default Icon name" description-key="The default name of the icon" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid" />
     <property name="iconConfig1" display-name-key="iconConfig1" description-key="iconConfig1" of-type="SingleLine.Text" usage="input" required="false" />
