@@ -131,6 +131,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         );
       }
 
+      /*
       const renderCommandBarFarItem = (recordsLoaded: number): ICommandBarItemProps[] =>
       {
           const totalRecords = dataset.paging.totalResultCount;
@@ -144,18 +145,18 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                   iconProps: { iconName: 'ChevronRight' },
                   disabled: recordsLoaded == totalRecords,
                  // className: classNames.cmdBarFarItems,
-                  /*onClick: () => {
+                  onClick: () => {
                       if (this.state._triggerPaging) {
                           this.state._triggerPaging("next");
                       }
-                  }*/
+                  }
               }  
           ];
-      }  
+      }  */
   
-      const cmdBarItems: ICommandBarItemProps[] = [];    
-     const [selectedCount, setSelectedCount] = React.useState<number>(0);
-     const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
+     // const cmdBarItems: ICommandBarItemProps[] = [];    
+    // const [selectedCount, setSelectedCount] = React.useState<number>(0);
+    // const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
       //const {onSelectionIdsChanged, selectedIds } = usePaging(dataset);
      
   
@@ -168,6 +169,18 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         }
     });
 
+
+    const {       
+        selectedIds,   
+        onSelectionIdsChanged, 
+        currentPage,
+        firstItemNumber, 
+        lastItemNumber, 
+        totalRecords, 
+        moveToFirst, 
+        movePrevious,
+        moveNext
+    } = usePaging(dataset);
    
    
   
@@ -181,11 +194,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                       <CommandBar className={"cmdbar"} farItems={cmdBarFarItems} items={cmdBarItems} />                    
                   </div>
               </Sticky>
-          );*/
-          const firstItemNumber = 1;
-          const lastItemNumber = 50;
-          const totalRecords = 120;
-          const currentPage = 1;
+          );*/         
           return (
           <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
              <Stack.Item className="Footer">
@@ -194,12 +203,12 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                     horizontal
                     horizontalAlign="space-between"
                 >
-                    <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedCount} selected)</Stack.Item>
+                    <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedIds?.length} selected)</Stack.Item>
                     <Stack.Item grow={1} align="center" className="FooterRight">
-                        <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} />
-                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} />
+                        <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
+                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>
                         <span >Page {currentPage}</span>
-                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronRight" }} />
+                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronRight" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
                     </Stack.Item>
                 </Stack>
             </Stack.Item>

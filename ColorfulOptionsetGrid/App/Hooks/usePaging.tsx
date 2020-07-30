@@ -10,14 +10,55 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 
 export const usePaging = (dataset: DataSet) => {    
     const [selectedIds, setSelectedIds] = React.useState<string[]>();      
+    const [firstItemNumber, setFirstItemNumber] = React.useState<number>(0);
+    const [lastItemNumber, setLastItemNumber] = React.useState<number>();
+    const [totalRecords, setTotalRecords] = React.useState<number>();
+    const [currentPage, setCurrentPage] = React.useState<number>(0);
+    const [pageSize, setPageSize] = React.useState<number>(0);
                
+
+    React.useEffect(() => {
+        if(pageSize===0){
+            setPageSize(dataset.sortedRecordIds.length);
+            setCurrentPage(1);
+            setTotalRecords(dataset.paging.totalResultCount);      
+        }               
+        setFirstItemNumber((currentPage-1) * pageSize + 1);
+        setLastItemNumber((currentPage-1) * pageSize + dataset.sortedRecordIds.length )       
+    }, [dataset]);
+
+
     function onSelectionIdsChanged(selectionIds: string[]){
         setSelectedIds(selectionIds);      
-    } //change for 4
+    } 
 
+    function moveToFirst(){        
+        setCurrentPage(1);
+        (dataset.paging as any).loadExactPage(1);
+    }
+
+    function movePrevious(){        
+        const newPage = currentPage-1;
+        setCurrentPage(newPage);
+        (dataset.paging as any).loadExactPage(newPage);        
+    }
+
+    function moveNext(){        
+        const newPage = currentPage+1;
+        setCurrentPage(newPage);
+        (dataset.paging as any).loadExactPage(newPage);        
+    }
 
     return {       
         selectedIds,   
-        onSelectionIdsChanged
+        onSelectionIdsChanged, 
+        currentPage,
+        firstItemNumber, 
+        lastItemNumber, 
+        totalRecords, 
+        moveToFirst, 
+        movePrevious,
+        moveNext
+
     }
 }
