@@ -8,7 +8,7 @@
 
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCell{
     overflow: hidden;
-    padding-top: 2px;
+    padding-top: 3px;
  /*   display: inline;*/
     font-family: 'SegoeUI', 'Segoe UI';
    /* font-size: medium;
