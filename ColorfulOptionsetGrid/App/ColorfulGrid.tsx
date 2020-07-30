@@ -125,7 +125,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
               } : undefined,                  
         };
     });    
-    const items = dataset.sortedRecordIds.map((id) => {                
+    const items = dataset.sortedRecordIds.slice(0, Math.min(dataset.sortedRecordIds.length, dataset.paging.totalResultCount)).map((id) => {                
         const entityIn = dataset.records[id];
         const attributes = dataset.columns.map((column) => ({[column.name]: entityIn.getFormattedValue(column.name)}));
         return Object.assign({

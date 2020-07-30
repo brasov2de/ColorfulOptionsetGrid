@@ -17,7 +17,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	
 
 	private renderGrid(context : ComponentFramework.Context<IInputs>){		
-		//console.log(context.resources.getString("ORBIS_ColorfulOptionsetGrid"));
+		console.log(context.parameters.dataset.sortedRecordIds.length);		
 		const props : IColorfulGridProps = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 

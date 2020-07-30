@@ -41,12 +41,13 @@ export const usePaging = (dataset: DataSet) => {
         const newPage = currentPage-1;
         setCurrentPage(newPage);
         (dataset.paging as any).loadExactPage(newPage);        
+       
     }
 
     function moveNext(){        
         const newPage = currentPage+1;
         setCurrentPage(newPage);
-        (dataset.paging as any).loadExactPage(newPage);        
+        (dataset.paging as any).loadExactPage(newPage);                
     }
 
     function reset(){
