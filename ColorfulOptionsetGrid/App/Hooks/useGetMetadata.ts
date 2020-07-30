@@ -21,9 +21,16 @@ export const useGetAttributes = (entityName : string, attributeNames : string[],
                 const thisOptions : []= (entityMetadata.Attributes.get(attributeName)?.attributeDescriptor.OptionSet ?? []).map((option : any) => [option.Value.toString(), {color : config?.color ?? option.Color, icon: config?.icon}] );
                 return [attributeName, new Map(thisOptions)] as [string,  Map<string, ISetupSchemaValue>];
             } )
+            const mapped = new Map(opts);
+            configs.forEach((value, key) => {
+                if(!mapped.has(key) && value !== undefined){
+                    mapped.set(key, new Map(Object.entries(value)));
+                }
+            })            
             console.log(opts);
             //todo implement fallback per webapi
-            setOptions(new Map(opts));
+            
+            setOptions(mapped);
         })
         .catch(console.error);
 

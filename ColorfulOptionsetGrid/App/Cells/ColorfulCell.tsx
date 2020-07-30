@@ -16,7 +16,8 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
     const currentOptionSetValue=  item.raw.getValue(column.original.name) as number;    
     const color = metadataOptions?.get(currentOptionSetValue?.toString() ?? "")?.color ?? "black";  
     const icon  = metadataOptions?.get(currentOptionSetValue?.toString() ?? "")?.icon ?? defaultIcon;  
-    const renderIcon = displayIconType!=="NONE" ? <Icon className="colorIcon" style={{color: color , marginRight: "5px"}} iconName={icon} aria-hidden="true" /> : "";
+    const iconColor = displayTextType==="BOX" ? "white" : color;
+    const renderIcon = displayIconType!=="NONE" ? <Icon className="colorIcon" style={{color: iconColor , marginRight: "5px"}} iconName={icon} aria-hidden="true" /> : "";
     const style = {
         "BORDER" : {
             borderWidth: "1px", 
@@ -26,18 +27,18 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
             borderRadius: "5px"
         },
         "BOX" : {
-            backgroundColor: color, color: "white", borderRadius: "5px"
+            backgroundColor: color, color: iconColor, borderRadius: "5px"
         }, 
         "SIMPLE" : {
         }, 
         "NONE": {
         }
     }[displayTextType];   
-    return(<div className="ColorfulCell" >            
+    return(<div className="ColorfulCell" style={style}>            
             {renderIcon}
-            <div className="ColorfulCellText" style={style}>
+           
                 <span  className="cell">{item[column.original.name]}</span>
-            </div>
+           
         </div>);
 
     

@@ -55,9 +55,9 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
             config : iconConfig3
         }
     }
-     const customizedColumnsArray  = Object.values(customizedColumns).filter((setup) => setup.column !== undefined && setup.config!==undefined);
+     const customizedColumnsArray  = Object.values(customizedColumns).filter((setup) => setup.column !== undefined);
      const configs : [string, ISetupSchema | undefined][] =  (displayIconType==="CONFIG" 
-            ?  customizedColumnsArray.map((setup) => [setup.column?.name ?? "", setup.config!== undefined ? (JSON.parse(setup.config) as ISetupSchema) : undefined] )
+            ?  customizedColumnsArray.map((setup) => [setup.column?.name ?? "", setup.config!== undefined ? (JSON.parse(setup.config) as ISetupSchema) : {}] )
             : []);
     //found customized, or take all optionset columns otherwise
     const optionSetColumns : string[] = customizedColumnsArray.length >0 
@@ -76,7 +76,9 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         const meta = metadataAttributes?.options.get(column.original.name);
         const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.original.name);
         const schema = column.original.alias==="optionset3" ? Example_Env_Var_Ampel : undefined;   
-        const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);
+        const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);        
+        const def = Object.entries(customizedColumns).find(([key, value]) => key===column.original.alias) ?? [];
+        const columnDefaultIcon = displayIconType==="NAME" ? (def[1]?.config??defaultIcon) : defaultIcon; 
         return {
             key: column.original.name,
             name : column.original.displayName,             
@@ -95,7 +97,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                 metadataOptions={metadataAttributes.options.get(column.original.name)} 
                 displayTextType ={displayTextType} 
                 displayIconType={displayIconType}
-                defaultIcon = {defaultIcon}
+                defaultIcon = {columnDefaultIcon}
                 ></ColorfulCell>
               } : undefined,                  
         };
