@@ -18,7 +18,7 @@ export const usePaging = (dataset: DataSet) => {
                
 
     React.useEffect(() => {
-        if(pageSize===0){
+        if(!dataset.paging.hasPreviousPage){ //first page
             setPageSize(dataset.sortedRecordIds.length);
             setCurrentPage(1);
             setTotalRecords(dataset.paging.totalResultCount);      
@@ -49,6 +49,10 @@ export const usePaging = (dataset: DataSet) => {
         (dataset.paging as any).loadExactPage(newPage);        
     }
 
+    function reset(){
+        setCurrentPage(1);
+    }
+
     return {       
         selectedIds,   
         onSelectionIdsChanged, 
@@ -58,7 +62,8 @@ export const usePaging = (dataset: DataSet) => {
         totalRecords, 
         moveToFirst, 
         movePrevious,
-        moveNext
+        moveNext, 
+        reset
 
     }
 }

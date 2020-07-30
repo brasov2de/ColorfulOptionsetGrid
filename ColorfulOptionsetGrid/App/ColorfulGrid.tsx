@@ -76,10 +76,23 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils , new Map(configs));    
 
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
+    const {       
+        selectedIds,   
+        onSelectionIdsChanged, 
+        currentPage,
+        firstItemNumber, 
+        lastItemNumber, 
+        totalRecords, 
+        moveToFirst, 
+        movePrevious,
+        moveNext, 
+        reset
+    } = usePaging(dataset);
     
     const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
         const name = column?.fieldName ?? "";
         onColumnClick(name);
+        reset();
     }    
     
     const columns = gridColumns.map((column) : IColumn => {
@@ -170,17 +183,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     });
 
 
-    const {       
-        selectedIds,   
-        onSelectionIdsChanged, 
-        currentPage,
-        firstItemNumber, 
-        lastItemNumber, 
-        totalRecords, 
-        moveToFirst, 
-        movePrevious,
-        moveNext
-    } = usePaging(dataset);
+   
    
    
   
