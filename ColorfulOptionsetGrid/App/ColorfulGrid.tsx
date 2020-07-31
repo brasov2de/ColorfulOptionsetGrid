@@ -111,8 +111,11 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
             isResizable: true, 
             isSorted: sortNode?.sortDirection===0 || sortNode?.sortDirection===1,
             isSortedDescending: sortNode?.sortDirection === 1,
+            //ariaLabel: "Sort by",
+            //filterAriaLabel: "Sort by",
             sortAscendingAriaLabel: "A-Z",
             sortDescendingAriaLabel: "Z-A",
+           // columnActionsMode: 2,         
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
               return <ColorfulCell 
                 item={item} 
