@@ -4,6 +4,12 @@
     min-height: 500px ;  
 }
 
+.ORBIS\.ColorfulOptionsetGrid  .gridContainer{
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: auto;
+    position: relative;
+}
 
 
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCell{
@@ -21,7 +27,7 @@
 }
  
 .ORBIS\.ColorfulOptionsetGrid  .Footer{
-    height: 38px;
+    height: 32px;
     width: 100%;    
     padding-top: 3px;
     margin-left: 10px;   

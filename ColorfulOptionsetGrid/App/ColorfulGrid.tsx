@@ -144,34 +144,6 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         );
       }
 
-      /*
-      const renderCommandBarFarItem = (recordsLoaded: number): ICommandBarItemProps[] =>
-      {
-          const totalRecords = dataset.paging.totalResultCount;
-          return [
-              {
-                  key: 'next',
-                  text: (recordsLoaded === totalRecords) 
-                          ? `${recordsLoaded} of ${totalRecords}` 
-                          : `Load more (${recordsLoaded} of ${totalRecords})`,
-                  ariaLabel: 'Next',
-                  iconProps: { iconName: 'ChevronRight' },
-                  disabled: recordsLoaded == totalRecords,
-                 // className: classNames.cmdBarFarItems,
-                  onClick: () => {
-                      if (this.state._triggerPaging) {
-                          this.state._triggerPaging("next");
-                      }
-                  }
-              }  
-          ];
-      }  */
-  
-     // const cmdBarItems: ICommandBarItemProps[] = [];    
-    // const [selectedCount, setSelectedCount] = React.useState<number>(0);
-    // const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
-      //const {onSelectionIdsChanged, selectedIds } = usePaging(dataset);
-     
   
       const selection =new Selection({
         onSelectionChanged: () => {
@@ -181,66 +153,46 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
             
         }
     });
-
-
-   
-   
-   
-  
-      const onRenderDetailsFooter = (props: IDetailsFooterProps | undefined, defaultRender?: IRenderFunction<IDetailsFooterProps>): JSX.Element => {
-          /*const cmdBarFarItems: ICommandBarItemProps[] = renderCommandBarFarItem(dataset.sortedRecordIds.length);
-          const selectionDetails = `${selectedCount} selected`;
-          return (
-              <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
-                  <div> 
-                      <Label className={"listFooterLabel"}>{selectionDetails}</Label>
-                      <CommandBar className={"cmdbar"} farItems={cmdBarFarItems} items={cmdBarItems} />                    
-                  </div>
-              </Sticky>
-          );*/         
-          return (
-          <Sticky stickyPosition={StickyPositionType.Footer} isScrollSynced={true}>
-             <Stack.Item className="Footer">
-                <Stack
-                    grow
-                    horizontal
-                    horizontalAlign="space-between"
-                >
-                    <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedIds?.length} selected)</Stack.Item>
-                    <Stack.Item grow={1} align="center" className="FooterRight">
-                        <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
-                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>
-                        <span >Page {currentPage}</span>
-                        <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronRight" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
-                    </Stack.Item>
-                </Stack>
-            </Stack.Item>
-          </Sticky>
-          )
-      }
-
-   
-   
+                   
     const height = (containerHeight != null && containerHeight!==-1) ? `${containerHeight}px` : "100%";
 
     return (
-        <div className="container" style={{height}}>
-            <ScrollablePane scrollbarVisibility={"auto"} >
-          
-                <DetailsList 
-                    onRenderDetailsFooter={onRenderDetailsFooter}
-                    onRenderDetailsHeader={_onRenderDetailsHeader}
-                    items={items} 
-                    columns={columns}                          
-                    selection={selection}
-                    selectionPreservedOnEmptyClick={true}
-                    selectionMode={SelectionMode.multiple}     
-                    layoutMode={DetailsListLayoutMode.justified}>                       
-                    
-                </DetailsList>
-          
-            </ScrollablePane>
-            </div>
+        <Stack grow verticalFill className="container" style={{height, width: "100%"}}>             
+            <Stack.Item grow className="gridContainer" >
+                <ScrollablePane scrollbarVisibility={"auto"} >
+            
+                    <DetailsList                       
+                        onRenderDetailsHeader={_onRenderDetailsHeader}
+                        items={items} 
+                        columns={columns}                          
+                        selection={selection}
+                        selectionPreservedOnEmptyClick={true}
+                        selectionMode={SelectionMode.multiple}     
+                        layoutMode={DetailsListLayoutMode.justified}>                       
+                        
+                    </DetailsList>
+            
+                </ScrollablePane>
+                </Stack.Item>
+
+                <Stack.Item>                
+                <Stack grow horizontal horizontalAlign="space-between" >
+                    <Stack.Item className="Footer">
+                        <Stack grow horizontal horizontalAlign="space-between" >
+                            <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedIds?.length} selected)</Stack.Item>
+                            <Stack.Item grow={1} align="center" className="FooterRight">
+                                <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
+                                <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>
+                                <span >Page {currentPage}</span>
+                                <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronRight" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
+                            </Stack.Item>
+                        </Stack>
+                    </Stack.Item>
+                </Stack>
+                
+            </Stack.Item>
+
+            </Stack>
         
     );
 },(prevProps, newProps) => {
