@@ -36,7 +36,7 @@ export interface IColorfulGridProps{
     iconConfig2 ?: string;
     iconConfig3 ?: string;
     containerWidth ?: number;
-    containerHeight ?: number;
+    containerHeight ?: number;    
 }
 
 
@@ -149,6 +149,11 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
           }
       }))
   
+    const myItemInvoked = React.useCallback((item : any) : void => {
+        console.log("item invoked");
+        const record = dataset.records[item.key];
+        dataset.openDatasetItem(record.getNamedReference());
+    }, [dataset]); 
                    
     const height = (containerHeight != null && containerHeight!==-1) ? `${containerHeight}px` : "100%";
    
@@ -167,7 +172,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                             selectionPreservedOnEmptyClick={true}
                             selectionMode={SelectionMode.multiple}     
                             layoutMode={DetailsListLayoutMode.justified}       
-                                     
+                            onItemInvoked={myItemInvoked}
                             
                             ariaLabelForSelectionColumn="Toggle selection"
                             ariaLabelForSelectAllCheckbox="Toggle selection for all items"

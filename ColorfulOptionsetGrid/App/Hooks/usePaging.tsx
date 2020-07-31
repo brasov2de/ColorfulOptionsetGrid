@@ -29,6 +29,7 @@ export const usePaging = (dataset: DataSet) => {
 
 
     function selectionIdsChanged(selectionIds: string[]){
+        dataset.setSelectedRecordIds(selectionIds);
         setSelectedIds(selectionIds);      
     } 
 
