@@ -14,7 +14,7 @@ export const usePaging = (dataset: DataSet) => {
     const [lastItemNumber, setLastItemNumber] = React.useState<number>();
     const [totalRecords, setTotalRecords] = React.useState<number>();
     const [currentPage, setCurrentPage] = React.useState<number>(0);
-    const [pageSize, setPageSize] = React.useState<number>(0);
+    const [pageSize, setPageSize] = React.useState<number>(0);    
                
 
     React.useEffect(() => {
@@ -28,7 +28,7 @@ export const usePaging = (dataset: DataSet) => {
     }, [dataset]);
 
 
-    function onSelectionIdsChanged(selectionIds: string[]){
+    function selectionIdsChanged(selectionIds: string[]){
         setSelectedIds(selectionIds);      
     } 
 
@@ -56,7 +56,7 @@ export const usePaging = (dataset: DataSet) => {
 
     return {       
         selectedIds,   
-        onSelectionIdsChanged, 
+        selectionIdsChanged,        
         currentPage,
         firstItemNumber, 
         lastItemNumber, 

@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsFooterProps, Selection, IDetailsHeaderProps, SelectionMode} from '@fluentui/react/lib/DetailsList';
+import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsFooterProps, Selection, IDetailsHeaderProps, SelectionMode, IDragDropEvents, IDragDropContext} from '@fluentui/react/lib/DetailsList';
 import {mergeStyles, DefaultFontStyles } from '@fluentui/react/lib/Styling';
 import { useGetAttributes } from './Hooks/useGetMetadata';
 import {Icon} from '@fluentui/react/lib/Icon';
@@ -18,6 +18,7 @@ import { IConfigRawValues, ISetupSchema, ISetupSchemaValue } from './Model/inter
 import { ColorfulCell } from './Cells/ColorfulCell';
 import { Stack } from '@fluentui/react/lib/Stack';
 import { IconButton } from '@fluentui/react/lib/Button';
+import { Fabric } from '@fluentui/react/lib/Fabric';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
@@ -78,7 +79,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
     const {       
         selectedIds,   
-        onSelectionIdsChanged, 
+        selectionIdsChanged, 
         currentPage,
         firstItemNumber, 
         lastItemNumber, 
@@ -147,34 +148,48 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         );
       }
 
+      const [selection, setSelection] = React.useState(new Selection({
+          onSelectionChanged: () => {
+              const ids = selection.getSelection().map((item :any) => item.key);
+                selectionIdsChanged(ids);
+          }
+      }))
   
+      /*
       const selection =new Selection({
-        onSelectionChanged: () => {
+       /* onSelectionChanged: () => {
            
           //  setSelectedCount(selection.getSelectedCount());
           // setSelectedIds(selection.getSelection().map((item) => item.key as string));      
             
         }
-    });
+    });*/
                    
     const height = (containerHeight != null && containerHeight!==-1) ? `${containerHeight}px` : "100%";
+   
 
-    return (
+    return (      
         <Stack grow verticalFill className="container" style={{height, width: "100%"}}>             
             <Stack.Item grow className="gridContainer" >
-                <ScrollablePane scrollbarVisibility={"auto"} >
-            
-                    <DetailsList                       
-                        onRenderDetailsHeader={_onRenderDetailsHeader}
-                        items={items} 
-                        columns={columns}                          
-                        selection={selection}
-                        selectionPreservedOnEmptyClick={true}
-                        selectionMode={SelectionMode.multiple}     
-                        layoutMode={DetailsListLayoutMode.justified}>                       
-                        
-                    </DetailsList>
-            
+                <ScrollablePane scrollbarVisibility={"auto"} >                 
+                    <MarqueeSelection selection={selection}>
+                        <DetailsList       
+                            setKey="items"                
+                            onRenderDetailsHeader={_onRenderDetailsHeader}
+                            items={items} 
+                            columns={columns}                          
+                            selection={selection}
+                            selectionPreservedOnEmptyClick={true}
+                            selectionMode={SelectionMode.multiple}     
+                            layoutMode={DetailsListLayoutMode.justified}       
+                                     
+                            
+                            ariaLabelForSelectionColumn="Toggle selection"
+                            ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+                            checkButtonAriaLabel="Row checkbox"
+                            >
+                        </DetailsList>
+                    </MarqueeSelection>                    
                 </ScrollablePane>
                 </Stack.Item>
 
@@ -195,7 +210,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                 
             </Stack.Item>
 
-            </Stack>
+            </Stack>         
         
     );
 },(prevProps, newProps) => {
