@@ -8,7 +8,6 @@ import {IRenderFunction} from '@fluentui/react/lib/Utilities';
 import {Sticky, StickyPositionType} from '@fluentui/react/lib/Sticky';
 import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import { Stack } from '@fluentui/react/lib/Stack';
-import { IconButton } from '@fluentui/react/lib/Button';
 
 
 import { useGetAttributes } from './Hooks/useGetMetadata';
@@ -16,7 +15,8 @@ import {usePaging} from './Hooks/usePaging';
 import { useColumns } from './Hooks/useColumns';
 
 import {  ISetupSchema } from './Model/interfaces';
-import { ColorfulCell } from './Cells/ColorfulCell';
+import { ColorfulCell } from './Controls/ColorfulCell';
+import { GridFooter } from './Controls/GridFooter';
 
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -75,23 +75,13 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils , new Map(configs));    
 
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
-    const {       
-        selectedIds,   
-        selectionIdsChanged, 
-        currentPage,
-        firstItemNumber, 
-        lastItemNumber, 
-        totalRecords, 
-        moveToFirst, 
-        movePrevious,
-        moveNext, 
-        reset
+    const {              
+        selectionIdsChanged,            
     } = usePaging(dataset);
     
     const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
         const name = column?.fieldName ?? "";
-        onColumnClick(name);
-        reset();
+        onColumnClick(name);       
     }    
     
     const columns = gridColumns.map((column) : IColumn => {        
@@ -107,7 +97,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
             maxWidth : column.maxWidth,
             isResizable: true, 
             isSorted: sortNode?.sortDirection===0 || sortNode?.sortDirection===1,
-            isSortedDescending: sortNode?.sortDirection === 1,         
+            isSortedDescending: sortNode?.sortDirection === 1,                                 
             sortAscendingAriaLabel: "A-Z",
             sortDescendingAriaLabel: "Z-A",
            // columnActionsMode: 2,         
@@ -181,26 +171,13 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
                         </DetailsList>
                     </MarqueeSelection>                    
                 </ScrollablePane>
-                </Stack.Item>
-
-                <Stack.Item>                
-                <Stack grow horizontal horizontalAlign="space-between" >
-                    <Stack.Item className="Footer">
-                        <Stack grow horizontal horizontalAlign="space-between" >
-                            <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedIds?.length} selected)</Stack.Item>
-                            <Stack.Item grow={1} align="center" className="FooterRight">
-                                <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
-                                <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>
-                                <span >Page {currentPage}</span>
-                                <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronRight" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
-                            </Stack.Item>
-                        </Stack>
-                    </Stack.Item>
-                </Stack>
-                
+            </Stack.Item>
+            
+            <Stack.Item>                
+                <GridFooter dataset={dataset}></GridFooter>                
             </Stack.Item>
 
-            </Stack>         
+        </Stack>         
         
     );
 },(prevProps, newProps) => {

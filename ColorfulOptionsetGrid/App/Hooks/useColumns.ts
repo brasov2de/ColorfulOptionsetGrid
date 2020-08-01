@@ -83,7 +83,8 @@ export const useColumns = (dataset: DataSet, availableWidth?: number) => {
         while (dataset.sorting.length > 0) {
             dataset.sorting.pop();
         }
-        dataset.sorting.push(newValue);
+        dataset.sorting.push(newValue);        
+        (dataset.paging as any).loadExactPage(1);
         dataset.refresh();
         
         setSorting(dataset.sorting);

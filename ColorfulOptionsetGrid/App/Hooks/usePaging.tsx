@@ -49,11 +49,7 @@ export const usePaging = (dataset: DataSet) => {
         const newPage = currentPage+1;
         setCurrentPage(newPage);
         (dataset.paging as any).loadExactPage(newPage);                
-    }
-
-    function reset(){
-        setCurrentPage(1);
-    }
+    }   
 
     return {       
         selectedIds,   
@@ -64,8 +60,7 @@ export const usePaging = (dataset: DataSet) => {
         totalRecords, 
         moveToFirst, 
         movePrevious,
-        moveNext, 
-        reset
+        moveNext,       
 
     }
 }
