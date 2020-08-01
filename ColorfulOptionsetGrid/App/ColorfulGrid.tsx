@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {DetailsList, IColumn, DetailsListLayoutMode, Selection, IDetailsHeaderProps, SelectionMode} from '@fluentui/react/lib/DetailsList';
+import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsHeaderProps, SelectionMode} from '@fluentui/react/lib/DetailsList';
 import {mergeStyles, DefaultFontStyles } from '@fluentui/react/lib/Styling';
 import {initializeIcons} from '@fluentui/react/lib/Icons';
 import {ScrollablePane} from '@fluentui/react/lib/ScrollablePane';
@@ -13,7 +13,7 @@ import { Stack } from '@fluentui/react/lib/Stack';
 import { useColumns } from './Hooks/useColumns';
 import { useSelection } from './Hooks/useSelection';
 
-import {  ISetupSchema } from './Utils/interfaces';
+
 import { ColorfulCell } from './Controls/ColorfulCell';
 import { GridFooter } from './Controls/GridFooter';
 import { useConfig } from './Hooks/useConfig';
@@ -45,7 +45,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     const {defaultIconNames, metadataAttributes } = useConfig(dataset, defaultIcon, utils, iconConfig1, iconConfig2, iconConfig3);
    
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
-    const {selection} = useSelection(dataset);
+    const {selection, selectedCount} = useSelection(dataset);
   
     
     const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
@@ -138,7 +138,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
             </Stack.Item>
             
             <Stack.Item>                
-                <GridFooter dataset={dataset}></GridFooter>                
+                <GridFooter dataset={dataset} selectedCount={selectedCount}></GridFooter>                
             </Stack.Item>
 
         </Stack>         

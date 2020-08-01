@@ -7,9 +7,10 @@ type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export interface IGridFooterProps {
     dataset: DataSet;
+    selectedCount: number;
 }
 
-export const GridFooter = ({dataset} : IGridFooterProps) => {
+export const GridFooter = ({dataset, selectedCount} : IGridFooterProps) => {
     const {             
         currentPage,
         firstItemNumber, 
@@ -23,7 +24,7 @@ export const GridFooter = ({dataset} : IGridFooterProps) => {
     return (<Stack grow horizontal horizontalAlign="space-between" >
     <Stack.Item className="Footer">
         <Stack grow horizontal horizontalAlign="space-between" >
-            <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({dataset.getSelectedRecordIds().length} selected)</Stack.Item>
+            <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedCount} selected)</Stack.Item>
             <Stack.Item grow={1} align="center" className="FooterRight">
                 <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
                 <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>

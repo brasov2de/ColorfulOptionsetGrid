@@ -12,9 +12,9 @@
       -->
     </data-set>    
     <property name="displayTextType" display-name-key="Display_text_type" description-key="Display text type" of-type="Enum" usage="input" required="true">
-      <value name="SIMPLE" display-name-key="No_decoration" description-key="No decoration" default="true">SIMPLE</value>
-      <value name="BOX" display-name-key="Colorful_background" description-key="Colorful background">BOX</value>
-      <value name="BORDER" display-name-key="Colorful_Border" description-key="Colorful Border">BORDER</value>     
+      <value name="SIMPLE" display-name-key="No decoration" description-key="No decoration" default="true">SIMPLE</value>
+      <value name="BOX" display-name-key="Colorful background" description-key="Colorful background">BOX</value>
+      <value name="BORDER" display-name-key="Colorful Border" description-key="Colorful Border">BORDER</value>     
     </property>
     <property name="displayIconType" display-name-key="Icon definition" description-key="Icon definition" of-type="Enum" usage="input" required="true">
       <value name="NONE" display-name-key="No icon" description-key="No icon">NONE</value>
