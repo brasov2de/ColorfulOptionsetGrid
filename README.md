@@ -58,7 +58,7 @@ For this option, choose "Display text type": "No decoration"
 ### No Icon
 Here you have two possibilities: the text with border, or the text with background. Similar to above, but choose "Icon definition" to "No icon"
 ![ColorfulBorderAndIcon](./Docs/img/NoIcon_TextBorder.png)
-![ColorfulBorderAndIcon](./Docs/img/NOIcon_TextBox.png)
+![ColorfulBorderAndIcon](./Docs/img/NoIcon_TextBox.png) 
 
 
 ## Icons configuration
