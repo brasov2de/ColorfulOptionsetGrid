@@ -3,6 +3,7 @@
 The family of ColorfulOptionset Controls has a new member: ColorfulOptionsetGrid. Using this control, you can show the OptionsSets using the colors customized using the standard experience.
 The Grid is not limited to showing the color "with a dot". You can choose from different possibities: with/no icon of your choice, whowing a border or a filled box.
 ![ColorfulOptionsetGrid](./Docs/img/ColorfulOptionsetGrid.png)
+![ColorfulOptionsetGrid](./Docs/img/ColorfulOptionsetGrid.gif)
 
 For now the control is only for ModelDriven apps, but as soon the CanvasAPps geht more stable, I intend to extend the control.
 
@@ -81,6 +82,11 @@ If you need more columns, you can define "Optionset 2" and "iconConfig2" paramet
 &#10071; If only "Optionset x" is defined, but not the "iconConfig x", then the "Default icon name" will be used.
 
 
-
+## Open isses:
+- Translations
+- Extend the icon definition to "Environment variables"
+- Show lookups as hyperlinks
+- Responsive UI (cards)
+- CanvasApp
 
 
