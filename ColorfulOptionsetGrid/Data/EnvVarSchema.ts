@@ -1,4 +1,4 @@
-import { ISetupSchema } from "../App/Model/interfaces"
+import { ISetupSchema } from "../App/Utils/interfaces"
 
 
 export const Example_Env_Var_Ampel : ISetupSchema = {"434350002": {"icon": "Sad", "color": "darkred"}, "434350001": {"icon": "EmojiNeutral", "color": "orange"}, "434350000":{"icon":"Emoji2", "color": "darkgreen"}, "434350003":{ "color": "white"}}

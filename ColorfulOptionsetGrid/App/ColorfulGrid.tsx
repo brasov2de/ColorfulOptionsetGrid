@@ -10,21 +10,19 @@ import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import { Stack } from '@fluentui/react/lib/Stack';
 
 
-import { useGetAttributes } from './Hooks/useGetMetadata';
 import { useColumns } from './Hooks/useColumns';
 import { useSelection } from './Hooks/useSelection';
 
-import {  ISetupSchema } from './Model/interfaces';
+import {  ISetupSchema } from './Utils/interfaces';
 import { ColorfulCell } from './Controls/ColorfulCell';
 import { GridFooter } from './Controls/GridFooter';
+import { useConfig } from './Hooks/useConfig';
 
 
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 initializeIcons();
-
-
 
 
 export interface IColorfulGridProps{
@@ -42,39 +40,10 @@ export interface IColorfulGridProps{
 
 
 
-function parseIconConfig(defaultIcon : string, iconConfig ?: string){
-    const isJSON = iconConfig && iconConfig.includes("{");
-    return { 
-        jsonConfig : isJSON === true ? JSON.parse(iconConfig as string) as ISetupSchema : undefined,
-        defaultIconName : isJSON===false ? iconConfig : defaultIcon
-    }
-}
-
-
 export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayTextType, displayIconType, defaultIcon, iconConfig1, iconConfig2, iconConfig3, containerWidth, containerHeight} : IColorfulGridProps) : JSX.Element{    
-    const customizedColumns = {
-        "optionset1": {
-                column: dataset.columns.find((column) => column.alias ==="optionset1"),
-                ...parseIconConfig(defaultIcon, iconConfig1)
-        },
-        "optionset2": {
-            column: dataset.columns.find((column) => column.alias ==="optionset2"),
-            ...parseIconConfig(defaultIcon, iconConfig2)
-        },
-        "optionset3": {
-            column: dataset.columns.find((column) => column.alias ==="optionset3"),
-            ...parseIconConfig(defaultIcon, iconConfig3)
-        }
-    }
-     const customizedColumnsArray  = Object.values(customizedColumns).filter((setup) => setup.column !== undefined);
-     const configs : [string, ISetupSchema | undefined][] = customizedColumnsArray.map((setup) => [setup.column?.name ?? "", setup.jsonConfig ])
-
-    //found customized, or take all optionset columns otherwise
-    const optionSetColumns : string[] = customizedColumnsArray.length >0 
-        ? customizedColumnsArray.map((setup) => setup.column?.name ?? "")
-        : dataset.columns.filter((column) => column.dataType==="OptionSet").map((column) => column.name);    
-    const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils , new Map(configs));    
-
+    
+    const {defaultIconNames, metadataAttributes } = useConfig(dataset, defaultIcon, utils, iconConfig1, iconConfig2, iconConfig3);
+   
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
     const {selection} = useSelection(dataset);
   
@@ -85,10 +54,9 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     }    
     
     const columns = gridColumns.map((column) : IColumn => {        
-        const isOptionSetRenderer : boolean = metadataAttributes?.options.has(column.original.name);       
-        const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);        
-        const def = Object.entries(customizedColumns).find(([key, value]) => key===column.original.alias) ?? [];
-        const columnDefaultIcon = displayIconType==="NAME" ? (def[1]?.defaultIconName??defaultIcon) : defaultIcon; 
+        const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);
+        const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);                     
+        const columnDefaultIcon = displayIconType==="NAME" ? defaultIconNames.get(column.original.name)??defaultIcon : defaultIcon; 
         return {
             key: column.original.name,
             name : column.original.displayName,             
@@ -105,7 +73,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
               return <ColorfulCell 
                 item={item} 
                 column={column} 
-                metadataOptions={metadataAttributes.options.get(column.original.name)} 
+                metadataOptions={metadataAttributes.get(column.original.name)} 
                 displayTextType ={displayTextType} 
                 displayIconType={displayIconType}
                 defaultIcon = {columnDefaultIcon}
@@ -113,6 +81,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
               } : undefined,                  
         };
     });    
+    //bworkaround bug: search while on page >1, has 25 records, but totalResultCount is right
     const items = dataset.sortedRecordIds.slice(0, Math.min(dataset.sortedRecordIds.length, dataset.paging.totalResultCount)).map((id) => {                
         const entityIn = dataset.records[id];
         const attributes = dataset.columns.map((column) => ({[column.name]: entityIn.getFormattedValue(column.name)}));

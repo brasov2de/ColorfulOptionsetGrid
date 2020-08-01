@@ -1,20 +1,16 @@
 import * as React from 'react';
-import { IConfigRawValues, ISetupSchemaValue } from '../Model/interfaces';
+import { IConfigRawValues, ISetupSchemaValue } from './interfaces';
 
 
 
 
-export const useGetAttributes = (entityName : string, attributeNames : string[], utils: ComponentFramework.Utility, configs : IConfigRawValues) => {
-    const [options, setOptions] = React.useState<Map<string, Map<string, ISetupSchemaValue>>>(new Map());
-    
-
-    React.useEffect(() => {
+export const getAttributes = (entityName : string, attributeNames : string[], utils: ComponentFramework.Utility, configs : IConfigRawValues) : Promise<Map<string, Map<string, ISetupSchemaValue>>>  => {
+  
         if(utils==null || typeof((window as any).Xrm) ==="undefined"){
             console.log("could not find utils. It's a canvas app");
-            setOptions(new Map(attributeNames.map((attributeName) => [attributeName, new Map<string, ISetupSchemaValue>()])));  
-            return;       
+            return Promise.resolve(new Map(attributeNames.map((attributeName) => [attributeName, new Map<string, ISetupSchemaValue>()])));
         }
-        utils.getEntityMetadata(entityName, attributeNames)
+        return utils.getEntityMetadata(entityName, attributeNames)
         .then((entityMetadata) => {
             const opts = attributeNames.map((attributeName) => {                
                 const config = configs.get(attributeName);
@@ -35,18 +31,16 @@ export const useGetAttributes = (entityName : string, attributeNames : string[],
                 if(!mapped.has(key) && value !== undefined){
                     mapped.set(key, new Map(Object.entries(value)));
                 }
-            })            
+            });            
             console.log(opts);
             //todo implement fallback per webapi
             
-            setOptions(mapped);
+           return mapped;
         })
-        .catch(console.error);
+        .catch((err) => {
+            console.error(err);
+            return new Map();
+        });
 
-    }, [entityName, ...attributeNames]);
-
-    return {
-        options
-    };
-
+  
 }
