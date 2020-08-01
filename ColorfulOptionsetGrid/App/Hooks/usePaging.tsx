@@ -9,7 +9,7 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 
 
 export const usePaging = (dataset: DataSet) => {    
-    const [selectedIds, setSelectedIds] = React.useState<string[]>();      
+      
     const [firstItemNumber, setFirstItemNumber] = React.useState<number>(0);
     const [lastItemNumber, setLastItemNumber] = React.useState<number>();
     const [totalRecords, setTotalRecords] = React.useState<number>();
@@ -27,11 +27,7 @@ export const usePaging = (dataset: DataSet) => {
         setLastItemNumber((currentPage-1) * pageSize + dataset.sortedRecordIds.length )       
     }, [dataset]);
 
-
-    function selectionIdsChanged(selectionIds: string[]){
-        dataset.setSelectedRecordIds(selectionIds);
-        setSelectedIds(selectionIds);      
-    } 
+  
 
     function moveToFirst(){        
         setCurrentPage(1);
@@ -52,8 +48,7 @@ export const usePaging = (dataset: DataSet) => {
     }   
 
     return {       
-        selectedIds,   
-        selectionIdsChanged,        
+        
         currentPage,
         firstItemNumber, 
         lastItemNumber, 

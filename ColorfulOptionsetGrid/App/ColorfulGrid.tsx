@@ -11,12 +11,13 @@ import { Stack } from '@fluentui/react/lib/Stack';
 
 
 import { useGetAttributes } from './Hooks/useGetMetadata';
-import {usePaging} from './Hooks/usePaging';
 import { useColumns } from './Hooks/useColumns';
+import { useSelection } from './Hooks/useSelection';
 
 import {  ISetupSchema } from './Model/interfaces';
 import { ColorfulCell } from './Controls/ColorfulCell';
 import { GridFooter } from './Controls/GridFooter';
+
 
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
@@ -75,9 +76,8 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     const metadataAttributes = useGetAttributes(dataset.getTargetEntityType(), optionSetColumns, utils , new Map(configs));    
 
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
-    const {              
-        selectionIdsChanged,            
-    } = usePaging(dataset);
+    const {selection} = useSelection(dataset);
+  
     
     const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
         const name = column?.fieldName ?? "";
@@ -132,12 +132,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         );
       }
 
-      const [selection, setSelection] = React.useState(new Selection({
-          onSelectionChanged: () => {
-              const ids = selection.getSelection().map((item :any) => item.key);
-                selectionIdsChanged(ids);
-          }
-      }))
+     
   
     const myItemInvoked = React.useCallback((item : any) : void => {
         console.log("item invoked");
