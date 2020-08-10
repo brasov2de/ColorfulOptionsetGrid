@@ -1,31 +1,55 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {         
+        {
             "label": "incrementManifest",
             "type": "shell",
             "command": "pac pcf version -s manifest",
             "problemMatcher": []
         },
-        {       
-            "label": "buildDebug",             
-            "type": "shell",            
+        {
+            "label": "build restore",
+            "type": "shell",
             "command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe\"",
-            "args": [     
-                "Solution/ColorfulOptionsetGridSol"               
+            "args": [
+                "Solution/ColorfulOptionsetGridSol", 
+                "-t:restore"
             ],
-            "problemMatcher": [ "$msCompile"],
+            "problemMatcher": [
+                "$msCompile"
+            ],
             "dependsOn": [
                 "incrementManifest"
-            ]
-           
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+        {
+            "label": "buildDebug",
+            "type": "shell",
+            "command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe\"",
+            "args": [
+                "Solution/ColorfulOptionsetGridSol"
+            ],
+            "problemMatcher": [
+                "$msCompile"
+            ],
+            "dependsOn": [
+                "incrementManifest"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
-            "label": "buildProduction",         
-            "type": "shell",            
+            "label": "buildProduction",
+            "type": "shell",
             "command": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Enterprise\\MSBuild\\Current\\Bin\\MSBuild.exe\"",
-            "args": [                
-                "Solution/ColorfulOptionsetGridSol", 
+            "args": [
+                "Solution/ColorfulOptionsetGridSol",
                 "-p:configuration=Release"
             ],
             "problemMatcher": "$msCompile",
@@ -33,11 +57,11 @@
                 "buildDebug"
             ]
         },
-        {           
+        {
             "label": "RELEASE",
             "dependsOn": [
                 "buildProduction"
-            ],          
+            ],
             "problemMatcher": []
         }
     ]
