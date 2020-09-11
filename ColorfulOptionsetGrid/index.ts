@@ -28,7 +28,8 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 			iconConfig2 : context.parameters.iconConfig2?.raw ?? undefined, 
 			iconConfig3 : context.parameters.iconConfig3?.raw ?? undefined, 
 			containerWidth : context.mode.allocatedWidth,
-			containerHeight: context.mode.allocatedHeight
+			containerHeight: context.mode.allocatedHeight, 
+			isSubgrid : (context.parameters as any).autoExpand!= null
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
