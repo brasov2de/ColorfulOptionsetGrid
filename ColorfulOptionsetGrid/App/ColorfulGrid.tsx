@@ -36,11 +36,12 @@ export interface IColorfulGridProps{
     iconConfig3 ?: string;
     containerWidth ?: number;
     containerHeight ?: number;    
+    isSubgrid : boolean;
 }
 
 
 
-export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayTextType, displayIconType, defaultIcon, iconConfig1, iconConfig2, iconConfig3, containerWidth, containerHeight} : IColorfulGridProps) : JSX.Element{    
+export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayTextType, displayIconType, defaultIcon, iconConfig1, iconConfig2, iconConfig3, containerWidth, containerHeight, isSubgrid} : IColorfulGridProps) : JSX.Element{    
     
     const {defaultIconNames, metadataAttributes } = useConfig(dataset, defaultIcon, utils, iconConfig1, iconConfig2, iconConfig3);
    
@@ -108,10 +109,35 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         const record = dataset.records[item.key];
         dataset.openDatasetItem(record.getNamedReference());
     }, [dataset]); 
-                   
-    const height = (containerHeight != null && containerHeight!==-1) ? `${containerHeight}px` : "100%";
-   
+                          
+    if(isSubgrid===true){
+        return (                 
+            <>
+                <MarqueeSelection selection={selection}>
+                    <DetailsList       
+                        setKey="items"                
+                        onRenderDetailsHeader={_onRenderDetailsHeader}
+                        items={items} 
+                        columns={columns}                          
+                        selection={selection}
+                        selectionPreservedOnEmptyClick={true}
+                        selectionMode={SelectionMode.multiple}     
+                        layoutMode={DetailsListLayoutMode.justified}       
+                        onItemInvoked={myItemInvoked}
+                        
+                        ariaLabelForSelectionColumn="Toggle selection"
+                        ariaLabelForSelectAllCheckbox="Toggle selection for all items"
+                        checkButtonAriaLabel="Row checkbox"
+                        >
+                    </DetailsList>
+                </MarqueeSelection>                    
+                
+                <GridFooter dataset={dataset} selectedCount={selectedCount}></GridFooter>                                    
+            </>            
+        )
+    }
 
+    const height = (containerHeight != null && containerHeight!==-1) ? `${containerHeight}px` : "100%";
     return (      
         <Stack grow verticalFill className="container" style={{height, width: "100%"}}>             
             <Stack.Item grow className="gridContainer" >
