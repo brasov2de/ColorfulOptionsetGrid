@@ -66,7 +66,7 @@ When the default icon is not enough, and you have to specify another icon per co
 ![DefineColumns](./Docs/img/config/ChooseColumns.png)
 
 After you defined the column for "Optionset 1", the you can use the "iconConfig1" in order to define the icons. This can be the name of the icon, or you can use a JSON configuration for this.
-![DefineColumns](./Docs/img/config/IconConfig_name.png)
+![DefineColumns](./Docs/img/config/iconConfig_Name.png)
 If each value needs another icon, the you can paste a JSON in this field containing : "value" : {icon, color}. 
 ```javascript
 {"434350002": {"icon": "Sad"}, "434350001": {"icon": "EmojiNeutral"}, "434350000":{"icon":"Emoji2"}, "434350003":{ "color": "black"}}
