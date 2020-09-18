@@ -3,12 +3,13 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import ReactDOM = require("react-dom");
 import React = require("react");
 import { ColorfulGrid, IColorfulGridProps } from "./App/ColorfulGrid";
-import { TooltipHost } from "@fluentui/react";
+
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container : HTMLDivElement;
+	private fullScreenUpdatedProperties = ["fullscreen_open", "fullscreen_close"];
    
 	constructor()
 	{
@@ -16,8 +17,10 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	}
 	
 
-	private renderGrid(context : ComponentFramework.Context<IInputs>){		
+
+	private renderGrid(context : ComponentFramework.Context<IInputs>){				
 		console.log(context.parameters.dataset.sortedRecordIds.length);		
+	
 		const props : IColorfulGridProps = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
@@ -29,7 +32,10 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 			iconConfig3 : context.parameters.iconConfig3?.raw ?? undefined, 
 			containerWidth : context.mode.allocatedWidth,
 			containerHeight: context.mode.allocatedHeight, 
-			isSubgrid : (context.parameters as any).autoExpand!= null
+			isSubgrid : (context.parameters as any).autoExpand!= null, 
+			setFullScreen : context.mode.setFullScreen, 
+			//updatedProperties : context.updatedProperties.filter((val) => this.fullScreenUpdatedProperties.includes(val))
+			updatedProperties : context.updatedProperties
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
@@ -54,7 +60,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
 	public updateView(context: ComponentFramework.Context<IInputs>): void
-	{	
+	{	console.log(context.updatedProperties);
 		this.renderGrid(context);
 	}
 

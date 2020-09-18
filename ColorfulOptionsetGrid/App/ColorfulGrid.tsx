@@ -17,6 +17,11 @@ import { useSelection } from './Hooks/useSelection';
 import { ColorfulCell } from './Controls/ColorfulCell';
 import { GridFooter } from './Controls/GridFooter';
 import { useConfig } from './Hooks/useConfig';
+import { Icon } from '@fluentui/react/lib/Icon';
+import { useZoom } from './Hooks/useZoom';
+
+
+
 
 
 
@@ -37,11 +42,27 @@ export interface IColorfulGridProps{
     containerWidth ?: number;
     containerHeight ?: number;    
     isSubgrid : boolean;
+    setFullScreen: (value : boolean) => void;     
+    updatedProperties : string[];
 }
 
 
 
-export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils, displayTextType, displayIconType, defaultIcon, iconConfig1, iconConfig2, iconConfig3, containerWidth, containerHeight, isSubgrid} : IColorfulGridProps) : JSX.Element{    
+export const ColorfulGrid = React.memo(function ColorfulGridApp({
+    dataset, 
+    utils, 
+    displayTextType, 
+    displayIconType, 
+    defaultIcon, 
+    iconConfig1, 
+    iconConfig2, 
+    iconConfig3, 
+    containerWidth, 
+    containerHeight, 
+    isSubgrid, 
+    setFullScreen, 
+    updatedProperties
+} : IColorfulGridProps) : JSX.Element{    
     
     const {defaultIconNames, metadataAttributes } = useConfig(dataset, defaultIcon, utils, iconConfig1, iconConfig2, iconConfig3);
    
@@ -95,9 +116,9 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
     
       
     const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
-        return (
-          <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true}>
-            {defaultRender!({...props!, onColumnClick : onColumnHeaderClick })}
+        return (            
+          <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true} >                        
+            {defaultRender!({...props!, onColumnClick : onColumnHeaderClick })}                
           </Sticky>
         );
       }
@@ -109,10 +130,16 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({dataset, utils,
         const record = dataset.records[item.key];
         dataset.openDatasetItem(record.getNamedReference());
     }, [dataset]); 
+
+    const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
+   
                           
-    if(isSubgrid===true){
+    if(isSubgrid===true && isFullScreen===false ){
         return (                 
             <>
+                <div className="actionBar">
+                    <Icon iconName="MiniExpand" style={{height: "30px", width: "30px", cursor: "pointer"}} onClick={toggleFullScreen} /> 
+                </div>
                 <MarqueeSelection selection={selection}>
                     <DetailsList       
                         setKey="items"                
