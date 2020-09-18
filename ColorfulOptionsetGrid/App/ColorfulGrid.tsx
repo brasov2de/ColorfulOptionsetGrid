@@ -18,6 +18,7 @@ import { ColorfulCell } from './Controls/ColorfulCell';
 import { GridFooter } from './Controls/GridFooter';
 import { useConfig } from './Hooks/useConfig';
 import { Icon } from '@fluentui/react/lib/Icon';
+import { useZoom } from './Hooks/useZoom';
 
 
 
@@ -41,7 +42,8 @@ export interface IColorfulGridProps{
     containerWidth ?: number;
     containerHeight ?: number;    
     isSubgrid : boolean;
-    toggleScreen: () => void;     
+    setFullScreen: (value : boolean) => void;     
+    updatedProperties : string[];
 }
 
 
@@ -58,7 +60,8 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
     containerWidth, 
     containerHeight, 
     isSubgrid, 
-    toggleScreen    
+    setFullScreen, 
+    updatedProperties
 } : IColorfulGridProps) : JSX.Element{    
     
     const {defaultIconNames, metadataAttributes } = useConfig(dataset, defaultIcon, utils, iconConfig1, iconConfig2, iconConfig3);
@@ -128,13 +131,14 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
         dataset.openDatasetItem(record.getNamedReference());
     }, [dataset]); 
 
+    const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
    
                           
-    if(isSubgrid===true ){
+    if(isSubgrid===true && isFullScreen===false ){
         return (                 
             <>
                 <div className="actionBar">
-                    <Icon iconName="MiniExpand" style={{height: "30px", width: "30px", cursor: "pointer"}} onClick={toggleScreen} /> 
+                    <Icon iconName="MiniExpand" style={{height: "30px", width: "30px", cursor: "pointer"}} onClick={toggleFullScreen} /> 
                 </div>
                 <MarqueeSelection selection={selection}>
                     <DetailsList       

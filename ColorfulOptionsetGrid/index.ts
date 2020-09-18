@@ -3,33 +3,24 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import ReactDOM = require("react-dom");
 import React = require("react");
 import { ColorfulGrid, IColorfulGridProps } from "./App/ColorfulGrid";
-import { TooltipHost } from "@fluentui/react";
+
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
 
 	private _container : HTMLDivElement;
-	private _isFullScreen : boolean = false;
-	private _setFullScreen : (value:boolean) => void;
+	private fullScreenUpdatedProperties = ["fullscreen_open", "fullscreen_close"];
    
 	constructor()
 	{
 
 	}
 	
-	private toggleFullScreen = ()=>{
-		this._setFullScreen(!this._isFullScreen);
-	}
+
 
 	private renderGrid(context : ComponentFramework.Context<IInputs>){				
 		console.log(context.parameters.dataset.sortedRecordIds.length);		
-		this._setFullScreen = context.mode.setFullScreen;
-		this._isFullScreen = context.updatedProperties.includes("fullscreen_open") 
-			? true 
-			: context.updatedProperties.includes("fullscreen_close") 
-				? false
-				: this._isFullScreen;
-
+	
 		const props : IColorfulGridProps = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
@@ -42,7 +33,9 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 			containerWidth : context.mode.allocatedWidth,
 			containerHeight: context.mode.allocatedHeight, 
 			isSubgrid : (context.parameters as any).autoExpand!= null, 
-			toggleScreen : this.toggleFullScreen
+			setFullScreen : context.mode.setFullScreen, 
+			//updatedProperties : context.updatedProperties.filter((val) => this.fullScreenUpdatedProperties.includes(val))
+			updatedProperties : context.updatedProperties
 		};
 		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
 	}
