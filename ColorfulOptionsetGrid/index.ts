@@ -19,13 +19,12 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 
 
 	private renderGrid(context : ComponentFramework.Context<IInputs>){				
-		console.log(context.parameters.dataset.sortedRecordIds.length);		
-	
+		console.log(context.parameters.dataset.sortedRecordIds.length);				
 		const props : IColorfulGridProps = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
 			displayTextType: context.parameters.displayTextType?.raw ?? "SIMPLE",
-			displayIconType : context.parameters.displayIconType?.raw ?? "NAME",
+			displayIconType : context.parameters.displayTextType?.raw!=="NOTEXT" ? context.parameters.displayIconType?.raw ?? "NAME" : "NAME",
 			defaultIcon: context.parameters.defaultIcon?.raw ?? "CircleShapeSolid",
 			iconConfig1 : context.parameters.iconConfig1?.raw ?? undefined, 
 			iconConfig2 : context.parameters.iconConfig2?.raw ?? undefined, 

@@ -1,5 +1,6 @@
 import { Icon } from '@fluentui/react/lib/Icon';
 import * as React  from 'react';
+import { render } from 'react-dom';
 import { IGridColumn } from '../Hooks/useColumns';
 import { ISetupSchemaValue } from '../Utils/interfaces';
 
@@ -7,7 +8,7 @@ export interface IColorfulCellProps {
     item: any;
     column: IGridColumn;
     metadataOptions :   Map<string, ISetupSchemaValue> | undefined;
-    displayTextType: "SIMPLE" | "BOX" | "BORDER";    
+    displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NOTEXT";    
     displayIconType : "NONE" | "NAME";//| "ENVIRONMENT";
     defaultIcon: string;       
 }
@@ -33,12 +34,16 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
             backgroundColor: color==="white" ? "gray" : color, color: iconColor, borderRadius: "5px"
         }, 
         "SIMPLE" : {             
+        }, 
+        "NOTEXT": {       
+            cursor: "pointer"     
         }
     }[displayTextType];   
     const content = item[column.original.name];
+    const renderText = displayTextType!=="NOTEXT" ? <span className="cell">{content}</span> : ""    
     return(<div className="ColorfulCell" style={style} title={content}>            
             {renderIcon}         
-            <span  className="cell">{content}</span>
+            {renderText}
         </div>);
 
     

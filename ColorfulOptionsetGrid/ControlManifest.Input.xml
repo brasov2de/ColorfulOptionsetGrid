@@ -15,6 +15,7 @@
       <value name="SIMPLE" display-name-key="No decoration" description-key="No decoration" default="true">SIMPLE</value>
       <value name="BOX" display-name-key="Colorful background" description-key="Colorful background">BOX</value>
       <value name="BORDER" display-name-key="Colorful Border" description-key="Colorful Border">BORDER</value>
+      <value name="NOTEXT" display-name-key="No text" description-key="Only the icon will be shown">NOTEXT</value>
     </property>
     <property name="displayIconType" display-name-key="Icon definition" description-key="Icon definition" of-type="Enum" usage="input" required="true">
       <value name="NONE" display-name-key="No icon" description-key="No icon">NONE</value>

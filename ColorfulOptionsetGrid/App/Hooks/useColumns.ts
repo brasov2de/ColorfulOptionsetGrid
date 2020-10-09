@@ -9,6 +9,7 @@ export interface IColumnFeature{
     order ?:number;
 }
 
+export type ColumnWidthCallback = (column: ComponentFramework.PropertyHelper.DataSetApi.Column, preCalculatedWidth: number) => number;
 
 export interface IGridColumn{
     original : ComponentFramework.PropertyHelper.DataSetApi.Column;
@@ -38,19 +39,23 @@ function calculateAggregatesBasedOnFeatures(cols : IGridColumn[]) : IGridColumnA
 
 
 
-function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSetApi.Column[]): IColumnsHookState{        
+function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSetApi.Column[], columnWidthCallback ?: ColumnWidthCallback): IColumnsHookState{        
     const calculatedColumns = originalColumns.map((column) => {
-       return {
-           original : column,
-           features: {
-               width : column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor,  //here callbacks (optionset + 20)
-               isVisible : !column.isHidden===true, 
-               order: column.order===-1 ? 100 : column.order
-           },
-           minWidth:0,
-           maxWidth:0
-       }
-    }).sort((c1, c2) => c1.features.order - c2.features.order );
+        const preCalculatedWidth = column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor;
+        const width = columnWidthCallback!== undefined 
+                    ? columnWidthCallback(column, preCalculatedWidth) 
+                    : preCalculatedWidth;
+        return {
+            original : column,
+            features: {
+                width : width, 
+                isVisible : !column.isHidden===true, 
+                order: column.order===-1 ? 100 : column.order
+            },
+            minWidth:0,
+            maxWidth:0
+        }
+        }).sort((c1, c2) => c1.features.order - c2.features.order );
     return {
         calculatedColumns, 
         aggregates : calculateAggregatesBasedOnFeatures(calculatedColumns)
@@ -69,7 +74,7 @@ function recalculateWidth(calculatedColumns: IGridColumn[], aggregates: IGridCol
     }));
 }
 
-export const useColumns = (dataset: DataSet, availableWidth?: number) => {    
+export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidthCallback ?: ColumnWidthCallback) => {    
     const [state, setState] = React.useState<IColumnsHookState>({calculatedColumns: [], aggregates: {sum: 0, count:0} });
     const [columns, setColumns] = React.useState<IGridColumn[]>(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));  
     const [sorting, setSorting] = React.useState<DataSetInterfaces.SortStatus[]>(dataset.sorting);
@@ -91,10 +96,10 @@ export const useColumns = (dataset: DataSet, availableWidth?: number) => {
     };  
 
     React.useEffect(() => {       
-        const tempState = parseColumns(dataset.columns);        
+        const tempState = parseColumns(dataset.columns, columnWidthCallback);        
         setState(tempState);        
         setColumns(recalculateWidth(tempState.calculatedColumns, tempState.aggregates, availableWidth));
-    }, [dataset]);
+    }, [dataset, availableWidth]);
 
     React.useEffect(() => {
         setColumns(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));

@@ -10,7 +10,7 @@ import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import { Stack } from '@fluentui/react/lib/Stack';
 
 
-import { useColumns } from './Hooks/useColumns';
+import { ColumnWidthCallback, useColumns } from './Hooks/useColumns';
 import { useSelection } from './Hooks/useSelection';
 
 
@@ -33,7 +33,7 @@ initializeIcons();
 export interface IColorfulGridProps{
     dataset: DataSet;    
     utils : ComponentFramework.Utility;    
-    displayTextType: "SIMPLE" | "BOX" | "BORDER";    
+    displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NOTEXT";    
     displayIconType : "NONE" | "NAME";// | "ENVIRONMENT";
     defaultIcon : string;
     iconConfig1 ?: string;
@@ -65,8 +65,16 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
 } : IColorfulGridProps) : JSX.Element{    
     
     const {defaultIconNames, metadataAttributes } = useConfig(dataset, defaultIcon, utils, iconConfig1, iconConfig2, iconConfig3);
-   
-    const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth);
+    const columnWidthCalculator: ColumnWidthCallback = (column: ComponentFramework.PropertyHelper.DataSetApi.Column, preCalculatedWidth: number) => {
+            const isOptionSetRenderer : boolean = metadataAttributes?.has(column.name)
+            if(isOptionSetRenderer===false){
+                return preCalculatedWidth;
+            }
+            return (displayTextType==="NOTEXT") 
+                ? 30
+                :  preCalculatedWidth + 30                    
+    }
+    const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
     const {selection, selectedCount} = useSelection(dataset);
   
     
