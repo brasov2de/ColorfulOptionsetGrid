@@ -14,6 +14,7 @@ The most important parameters are:
     - "Colorful background": with colorful background
     - "No decoration": a text should have no styles
 ![Display Type](./Docs/img/config/TextDecorationConfig.png)
+    - "No text" : the text won't be shown. If this option is set, the Icon-definition will be forced on "Icon name or JSON"
 
 - **Icon definition** - here you can choose how the icon should be displayed
     - "No icon" : the icon won't be displayed
@@ -60,6 +61,10 @@ Here you have two possibilities: the text with border, or the text with backgrou
 ![ColorfulBorderAndIcon](./Docs/img/NoIcon_TextBorder.png)
 ![ColorfulBorderAndIcon](./Docs/img/NoIcon_TextBox.png) 
 
+### No Text
+In this case only the icon will be shown, while the text will be visible only in the tooltip. In this case, the width of the column defined in the customizing will be overridden, because we don't need that much space. But the remaining space will be distributed to all columns, so it can happend that the column is still wider.
+![NoText](./Docs/img/TextDisplayOption_NoText.png)
+Unfortunatelly there is no possibility to set this option on each optionset (would get too complicated to customize). In case you choose this option, it will apply to all optionset columns.
 
 ## Icons configuration
 When the default icon is not enough, and you have to specify another icon per column, or in case you want to specify an icon per Optionset value, you need to define first the columns. You can specify up to 3 columns. Then the other columns will be ignored, and shown without colors.
