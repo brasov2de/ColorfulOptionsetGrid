@@ -10,7 +10,7 @@ import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import { Stack } from '@fluentui/react/lib/Stack';
 
 
-import { ColumnWidthCallback, useColumns } from './Generic/Hooks/useColumns';
+import { ColumnWidthCallback, getDefaultColumnSetup, IGridColumn, useColumns } from './Generic/Hooks/useColumns';
 import { useSelection } from './Generic/Hooks/useSelection';
 
 
@@ -86,22 +86,11 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
         onColumnClick(name);       
     }    
     
-    const columns = gridColumns.map((column) : IColumn => {        
-        const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);
-        const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);                     
+    const columns = gridColumns.map((column: IGridColumn) : IColumn => {        
+        const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);      
         const columnDefaultIcon = displayIconType==="NAME" ? defaultIconNames.get(column.original.name)??defaultIcon : defaultIcon; 
         return {
-            key: column.original.name,
-            name : column.original.displayName,             
-            fieldName: column.original.name,
-            minWidth : column.minWidth,
-            maxWidth : column.maxWidth,
-            isResizable: true, 
-            isSorted: sortNode?.sortDirection===0 || sortNode?.sortDirection===1,
-            isSortedDescending: sortNode?.sortDirection === 1,                                 
-            sortAscendingAriaLabel: "A-Z",
-            sortDescendingAriaLabel: "Z-A",
-           // columnActionsMode: 2,         
+            ...getDefaultColumnSetup(column, dataset),
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
               return <ColorfulCell 
                 item={item} 

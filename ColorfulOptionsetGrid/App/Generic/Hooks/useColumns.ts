@@ -74,6 +74,22 @@ function recalculateWidth(calculatedColumns: IGridColumn[], aggregates: IGridCol
     }));
 }
 
+export const getDefaultColumnSetup = (column: IGridColumn, dataset: DataSet) => {
+    const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);                     
+    return {
+        key: column.original.name,
+        name : column.original.displayName,             
+        fieldName: column.original.name,
+        minWidth : column.minWidth,
+        maxWidth : column.maxWidth,
+        isResizable: true, 
+        isSorted: sortNode?.sortDirection===0 || sortNode?.sortDirection===1,
+        isSortedDescending: sortNode?.sortDirection === 1,                                 
+        sortAscendingAriaLabel: "A-Z",
+        sortDescendingAriaLabel: "Z-A",
+    }
+}
+
 export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidthCallback ?: ColumnWidthCallback) => {    
     const [state, setState] = React.useState<IColumnsHookState>({calculatedColumns: [], aggregates: {sum: 0, count:0} });
     const [columns, setColumns] = React.useState<IGridColumn[]>(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));  
@@ -94,6 +110,7 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
         
         setSorting(dataset.sorting);
     };     
+    
 
     React.useEffect(() => {       
         const tempState = parseColumns(dataset.columns, columnWidthCallback);        
