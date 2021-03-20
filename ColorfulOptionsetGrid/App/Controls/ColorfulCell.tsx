@@ -1,7 +1,7 @@
 import { Icon } from '@fluentui/react/lib/Icon';
 import * as React  from 'react';
 import { render } from 'react-dom';
-import { IGridColumn } from '../Hooks/useColumns';
+import { IGridColumn } from '../Generic/Hooks/useColumns';
 import { ISetupSchemaValue } from '../Utils/interfaces';
 
 export interface IColorfulCellProps {

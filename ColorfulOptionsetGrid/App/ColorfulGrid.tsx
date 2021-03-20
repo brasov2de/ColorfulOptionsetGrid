@@ -10,15 +10,16 @@ import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import { Stack } from '@fluentui/react/lib/Stack';
 
 
-import { ColumnWidthCallback, useColumns } from './Hooks/useColumns';
-import { useSelection } from './Hooks/useSelection';
+import { ColumnWidthCallback, useColumns } from './Generic/Hooks/useColumns';
+import { useSelection } from './Generic/Hooks/useSelection';
 
 
 import { ColorfulCell } from './Controls/ColorfulCell';
-import { GridFooter } from './Controls/GridFooter';
+import { GridFooter } from './Generic/Components/GridFooter';
 import { useConfig } from './Hooks/useConfig';
 import { Icon } from '@fluentui/react/lib/Icon';
-import { useZoom } from './Hooks/useZoom';
+import { useZoom } from './Generic/Hooks/useZoom';
+import { GridOverlay } from './Generic/Components/GridOverlay';
 
 
 
@@ -140,16 +141,12 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
     }, [dataset]); 
 
     const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
+    const toggleBar = () => {
+        return null;
+    }
    
-                          
-    if(isSubgrid===true && isFullScreen===false ){
-        return (                 
-            <>
-                <div className="actionBar">
-                    <Icon iconName="MiniExpand" style={{height: "30px", width: "30px", cursor: "pointer"}} onClick={toggleFullScreen} /> 
-                </div>
-                <MarqueeSelection selection={selection}>
-                    <DetailsList       
+    return (<GridOverlay containerHeight={containerHeight} dataset={dataset} isFullScreen={isFullScreen} isSubgrid={isSubgrid} selectedCount={selectedCount} selection={selection} toggleBar={toggleBar}>
+                <DetailsList       
                         setKey="items"                
                         onRenderDetailsHeader={_onRenderDetailsHeader}
                         items={items} 
@@ -164,47 +161,8 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
                         checkButtonAriaLabel="Row checkbox"
                         >
-                    </DetailsList>
-                </MarqueeSelection>                    
-                
-                <GridFooter dataset={dataset} selectedCount={selectedCount}></GridFooter>                                    
-            </>            
-        )
-    }
-
-    const height = (containerHeight != null && containerHeight!==-1) ? `${containerHeight}px` : "100%";
-    return (      
-        <Stack grow verticalFill className="container" style={{height, width: "100%"}}>             
-            <Stack.Item grow className="gridContainer" >
-                <ScrollablePane scrollbarVisibility={"auto"} >                 
-                    <MarqueeSelection selection={selection}>
-                        <DetailsList       
-                            setKey="items"                
-                            onRenderDetailsHeader={_onRenderDetailsHeader}
-                            items={items} 
-                            columns={columns}                          
-                            selection={selection}
-                            selectionPreservedOnEmptyClick={true}
-                            selectionMode={SelectionMode.multiple}     
-                            layoutMode={DetailsListLayoutMode.justified}       
-                            onItemInvoked={myItemInvoked}
-                            
-                            ariaLabelForSelectionColumn="Toggle selection"
-                            ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-                            checkButtonAriaLabel="Row checkbox"
-                            >
-                        </DetailsList>
-                    </MarqueeSelection>                    
-                </ScrollablePane>
-            </Stack.Item>
-            
-            <Stack.Item>                
-                <GridFooter dataset={dataset} selectedCount={selectedCount}></GridFooter>                
-            </Stack.Item>
-
-        </Stack>         
-        
-    );
+                </DetailsList>
+        </GridOverlay>);                          
 },(prevProps, newProps) => {
     return prevProps.dataset === newProps.dataset 
         && prevProps.containerWidth === newProps.containerWidth
