@@ -78,6 +78,7 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
     const [state, setState] = React.useState<IColumnsHookState>({calculatedColumns: [], aggregates: {sum: 0, count:0} });
     const [columns, setColumns] = React.useState<IGridColumn[]>(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));  
     const [sorting, setSorting] = React.useState<DataSetInterfaces.SortStatus[]>(dataset.sorting);
+    const [items, setItems] = React.useState<any[]>([]);
 
     function onColumnClick(columnClicked : string){       
         const oldSorting = (sorting || []).find((sort) => sort.name===columnClicked);        
@@ -93,13 +94,26 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
         dataset.refresh();
         
         setSorting(dataset.sorting);
-    };  
+    };     
 
     React.useEffect(() => {       
         const tempState = parseColumns(dataset.columns, columnWidthCallback);        
         setState(tempState);        
-        setColumns(recalculateWidth(tempState.calculatedColumns, tempState.aggregates, availableWidth));
-    }, [dataset, availableWidth]);
+        setColumns(recalculateWidth(tempState.calculatedColumns, tempState.aggregates, availableWidth));             
+        }, [dataset, availableWidth]);
+
+        React.useEffect(() => {
+            //workaround bug: search while on page >1, has 25 records, but totalResultCount is right   
+            setItems(dataset.sortedRecordIds.slice(0, Math.min(dataset.sortedRecordIds.length, dataset.paging.totalResultCount)).map((id) => {                
+                const entityIn = dataset.records[id];
+                const attributes = dataset.columns.map((column) => ({[column.name]: entityIn.getFormattedValue(column.name)}));
+                return Object.assign({
+                        key: entityIn.getRecordId(),
+                        raw : entityIn
+                    },
+                    ...attributes);
+                }));
+        }, [dataset]);
 
     React.useEffect(() => {
         setColumns(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));
@@ -107,6 +121,7 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
 
     return {
         columns, 
-        onColumnClick
+        onColumnClick, 
+        items
     };
 }

@@ -75,7 +75,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                 ? 30
                 :  preCalculatedWidth + 30                    
     }
-    const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
+    const {columns: gridColumns, onColumnClick, items} = useColumns(dataset, containerWidth, columnWidthCalculator);
     const {selection, selectedCount, onItemInvoked} = useSelection(dataset);
   
     
@@ -112,17 +112,6 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
               } : undefined,                  
         };
     });    
-    //bworkaround bug: search while on page >1, has 25 records, but totalResultCount is right
-    const items = dataset.sortedRecordIds.slice(0, Math.min(dataset.sortedRecordIds.length, dataset.paging.totalResultCount)).map((id) => {                
-        const entityIn = dataset.records[id];
-        const attributes = dataset.columns.map((column) => ({[column.name]: entityIn.getFormattedValue(column.name)}));
-        return Object.assign({
-                key: entityIn.getRecordId(),
-                raw : entityIn
-            },
-            ...attributes)
-    });      
-    
       
     const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
         return (            
