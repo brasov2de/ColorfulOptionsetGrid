@@ -76,7 +76,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                 :  preCalculatedWidth + 30                    
     }
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
-    const {selection, selectedCount} = useSelection(dataset);
+    const {selection, selectedCount, onItemInvoked} = useSelection(dataset);
   
     
     const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
@@ -131,18 +131,12 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
           </Sticky>
         );
       }
-
-     
-  
-    const myItemInvoked = React.useCallback((item : any) : void => {
-        console.log("item invoked");
-        const record = dataset.records[item.key];
-        dataset.openDatasetItem(record.getNamedReference());
-    }, [dataset]); 
-
+           
     const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
    
-    return (<GridOverlay containerHeight={containerHeight} dataset={dataset} isFullScreen={isFullScreen} isSubgrid={isSubgrid} selectedCount={selectedCount} selection={selection} toggleFullScreen={toggleFullScreen}>
+    return (<GridOverlay 
+                containerHeight={containerHeight} dataset={dataset} isFullScreen={isFullScreen} isSubgrid={isSubgrid} 
+                selectedCount={selectedCount} selection={selection} toggleFullScreen={toggleFullScreen}>
                 <DetailsList       
                         setKey="items"                
                         onRenderDetailsHeader={_onRenderDetailsHeader}
@@ -152,7 +146,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                         selectionPreservedOnEmptyClick={true}
                         selectionMode={SelectionMode.multiple}     
                         layoutMode={DetailsListLayoutMode.justified}       
-                        onItemInvoked={myItemInvoked}
+                        onItemInvoked={onItemInvoked}
                         
                         ariaLabelForSelectionColumn="Toggle selection"
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
