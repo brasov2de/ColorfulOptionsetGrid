@@ -141,11 +141,8 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
     }, [dataset]); 
 
     const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
-    const toggleBar = () => {
-        return null;
-    }
    
-    return (<GridOverlay containerHeight={containerHeight} dataset={dataset} isFullScreen={isFullScreen} isSubgrid={isSubgrid} selectedCount={selectedCount} selection={selection} toggleBar={toggleBar}>
+    return (<GridOverlay containerHeight={containerHeight} dataset={dataset} isFullScreen={isFullScreen} isSubgrid={isSubgrid} selectedCount={selectedCount} selection={selection} toggleFullScreen={toggleFullScreen}>
                 <DetailsList       
                         setKey="items"                
                         onRenderDetailsHeader={_onRenderDetailsHeader}
