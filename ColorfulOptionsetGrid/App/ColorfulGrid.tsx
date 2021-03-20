@@ -20,6 +20,7 @@ import { useConfig } from './Hooks/useConfig';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { useZoom } from './Generic/Hooks/useZoom';
 import { GridOverlay } from './Generic/Components/GridOverlay';
+import { useItems } from './Generic/Hooks/useItems';
 
 
 
@@ -75,7 +76,8 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                 ? 30
                 :  preCalculatedWidth + 30                    
     }
-    const {columns: gridColumns, onColumnClick, items} = useColumns(dataset, containerWidth, columnWidthCalculator);
+    const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
+    const {items} = useItems(dataset);
     const {selection, selectedCount, onItemInvoked} = useSelection(dataset);
   
     
