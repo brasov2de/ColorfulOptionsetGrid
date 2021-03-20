@@ -20,6 +20,7 @@ import { useConfig } from './Hooks/useConfig';
 import { Icon } from '@fluentui/react/lib/Icon';
 import { GridOverlay } from './Generic/Components/GridOverlay';
 import { useItems } from './Generic/Hooks/useItems';
+import { gridHeader } from './Generic/Components/GridHeader';
 
 
 
@@ -78,13 +79,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
     const {items} = useItems(dataset);
     const {selection, selectedCount, onItemInvoked} = useSelection(dataset);
-  
-    
-    const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
-        const name = column?.fieldName ?? "";
-        onColumnClick(name);       
-    }    
-    
+             
     const columns = gridColumns.map((column: IGridColumn) : IColumn => {        
         const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);      
         const columnDefaultIcon = displayIconType==="NAME" ? defaultIconNames.get(column.original.name)??defaultIcon : defaultIcon; 
@@ -92,26 +87,17 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
             ...getDefaultColumnSetup(column, dataset),
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
               return <ColorfulCell 
-                item={item} 
-                column={column} 
-                metadataOptions={metadataAttributes.get(column.original.name)} 
-                displayTextType ={displayTextType} 
-                displayIconType={displayIconType}
-                defaultIcon = {columnDefaultIcon}
+                            item={item} 
+                            column={column} 
+                            metadataOptions={metadataAttributes.get(column.original.name)} 
+                            displayTextType ={displayTextType} 
+                            displayIconType={displayIconType}
+                            defaultIcon = {columnDefaultIcon}
                 ></ColorfulCell>
               } : undefined,                  
         };
     });    
       
-    const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
-        return (            
-          <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true} >                        
-            {defaultRender!({...props!, onColumnClick : onColumnHeaderClick })}                
-          </Sticky>
-        );
-      }
-           
-    
    
     return (<GridOverlay 
                 containerHeight={containerHeight} dataset={dataset} isSubgrid={isSubgrid} 
@@ -119,15 +105,14 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                 setFullScreen={setFullScreen} updatedProperties={updatedProperties}>
                 <DetailsList       
                         setKey="items"                
-                        onRenderDetailsHeader={_onRenderDetailsHeader}
+                        onRenderDetailsHeader={gridHeader(onColumnClick)}
                         items={items} 
                         columns={columns}                          
                         selection={selection}
                         selectionPreservedOnEmptyClick={true}
                         selectionMode={SelectionMode.multiple}     
                         layoutMode={DetailsListLayoutMode.justified}       
-                        onItemInvoked={onItemInvoked}
-                        
+                        onItemInvoked={onItemInvoked}                        
                         ariaLabelForSelectionColumn="Toggle selection"
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
                         checkButtonAriaLabel="Row checkbox"
