@@ -9,12 +9,13 @@ import { Stack } from '@fluentui/react/lib/Stack';
 import { Icon } from '@fluentui/react/lib/Icon';
 
 import { GridFooter } from './GridFooter';
+import { useZoom } from '../Hooks/useZoom';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
 export interface IGridOPverlayProps{
     isSubgrid: Boolean;
-    isFullScreen: Boolean; 
-    toggleFullScreen: (event: any) => void | undefined;
+    updatedProperties: string[];
+    setFullScreen: (value:boolean) => void | undefined;
     selection:Selection;
     containerHeight: number | null | undefined;
     dataset: DataSet;
@@ -22,7 +23,8 @@ export interface IGridOPverlayProps{
     children: JSX.Element;
 }
 
-export const GridOverlay = ({isSubgrid, isFullScreen, toggleFullScreen , selection, dataset, selectedCount, children, containerHeight}: IGridOPverlayProps): JSX.Element  => {
+export const GridOverlay = ({isSubgrid, updatedProperties, setFullScreen, selection, dataset, selectedCount, children, containerHeight}: IGridOPverlayProps): JSX.Element  => {
+    const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
     if(isSubgrid===true && isFullScreen===false ){
         return (                 
             <>

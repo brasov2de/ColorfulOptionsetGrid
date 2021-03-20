@@ -18,7 +18,6 @@ import { ColorfulCell } from './Controls/ColorfulCell';
 import { GridFooter } from './Generic/Components/GridFooter';
 import { useConfig } from './Hooks/useConfig';
 import { Icon } from '@fluentui/react/lib/Icon';
-import { useZoom } from './Generic/Hooks/useZoom';
 import { GridOverlay } from './Generic/Components/GridOverlay';
 import { useItems } from './Generic/Hooks/useItems';
 
@@ -112,11 +111,12 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
         );
       }
            
-    const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
+    
    
     return (<GridOverlay 
-                containerHeight={containerHeight} dataset={dataset} isFullScreen={isFullScreen} isSubgrid={isSubgrid} 
-                selectedCount={selectedCount} selection={selection} toggleFullScreen={toggleFullScreen}>
+                containerHeight={containerHeight} dataset={dataset} isSubgrid={isSubgrid} 
+                selectedCount={selectedCount} selection={selection} 
+                setFullScreen={setFullScreen} updatedProperties={updatedProperties}>
                 <DetailsList       
                         setKey="items"                
                         onRenderDetailsHeader={_onRenderDetailsHeader}
