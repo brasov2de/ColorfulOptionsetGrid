@@ -1,8 +1,5 @@
 import * as React from 'react';
-import {initializeIcons} from '@fluentui/react/lib/Icons';
 import {ScrollablePane} from '@fluentui/react/lib/ScrollablePane';
-import {IRenderFunction} from '@fluentui/react/lib/Utilities';
-import {Sticky, StickyPositionType} from '@fluentui/react/lib/Sticky';
 import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import {Selection} from '@fluentui/react/lib/DetailsList';
 import { Stack } from '@fluentui/react/lib/Stack';
