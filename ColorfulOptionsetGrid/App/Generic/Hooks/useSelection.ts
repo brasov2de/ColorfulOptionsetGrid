@@ -12,8 +12,14 @@ export const useSelection = (dataset: DataSet) => {
         }
     }));
 
+    const onItemInvoked = React.useCallback((item : any) : void => {      
+        const record = dataset.records[item.key];
+        dataset.openDatasetItem(record.getNamedReference());
+    }, [dataset]); 
+
     return {
-        selection, selectedCount
+        selection, selectedCount, 
+        onItemInvoked
     };
 
   

@@ -10,15 +10,17 @@ import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
 import { Stack } from '@fluentui/react/lib/Stack';
 
 
-import { ColumnWidthCallback, useColumns } from './Hooks/useColumns';
-import { useSelection } from './Hooks/useSelection';
+import { ColumnWidthCallback, getDefaultColumnSetup, IGridColumn, useColumns } from './Generic/Hooks/useColumns';
+import { useSelection } from './Generic/Hooks/useSelection';
 
 
 import { ColorfulCell } from './Controls/ColorfulCell';
-import { GridFooter } from './Controls/GridFooter';
+import { GridFooter } from './Generic/Components/GridFooter';
 import { useConfig } from './Hooks/useConfig';
 import { Icon } from '@fluentui/react/lib/Icon';
-import { useZoom } from './Hooks/useZoom';
+import { GridOverlay } from './Generic/Components/GridOverlay';
+import { useItems } from './Generic/Hooks/useItems';
+import { gridHeader } from './Generic/Components/GridHeader';
 
 
 
@@ -75,136 +77,48 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                 :  preCalculatedWidth + 30                    
     }
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
-    const {selection, selectedCount} = useSelection(dataset);
-  
-    
-    const onColumnHeaderClick = (ev?: React.MouseEvent<HTMLElement>, column?: IColumn): void => {
-        const name = column?.fieldName ?? "";
-        onColumnClick(name);       
-    }    
-    
-    const columns = gridColumns.map((column) : IColumn => {        
-        const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);
-        const sortNode = dataset.sorting.find((sort) => sort.name===column.original.name);                     
+    const {items} = useItems(dataset);
+    const {selection, selectedCount, onItemInvoked} = useSelection(dataset);
+             
+    const columns = gridColumns.map((column: IGridColumn) : IColumn => {        
+        const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);      
         const columnDefaultIcon = displayIconType==="NAME" ? defaultIconNames.get(column.original.name)??defaultIcon : defaultIcon; 
         return {
-            key: column.original.name,
-            name : column.original.displayName,             
-            fieldName: column.original.name,
-            minWidth : column.minWidth,
-            maxWidth : column.maxWidth,
-            isResizable: true, 
-            isSorted: sortNode?.sortDirection===0 || sortNode?.sortDirection===1,
-            isSortedDescending: sortNode?.sortDirection === 1,                                 
-            sortAscendingAriaLabel: "A-Z",
-            sortDescendingAriaLabel: "Z-A",
-           // columnActionsMode: 2,         
+            ...getDefaultColumnSetup(column, dataset),
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
               return <ColorfulCell 
-                item={item} 
-                column={column} 
-                metadataOptions={metadataAttributes.get(column.original.name)} 
-                displayTextType ={displayTextType} 
-                displayIconType={displayIconType}
-                defaultIcon = {columnDefaultIcon}
+                            item={item} 
+                            column={column} 
+                            metadataOptions={metadataAttributes.get(column.original.name)} 
+                            displayTextType ={displayTextType} 
+                            displayIconType={displayIconType}
+                            defaultIcon = {columnDefaultIcon}
                 ></ColorfulCell>
               } : undefined,                  
         };
     });    
-    //bworkaround bug: search while on page >1, has 25 records, but totalResultCount is right
-    const items = dataset.sortedRecordIds.slice(0, Math.min(dataset.sortedRecordIds.length, dataset.paging.totalResultCount)).map((id) => {                
-        const entityIn = dataset.records[id];
-        const attributes = dataset.columns.map((column) => ({[column.name]: entityIn.getFormattedValue(column.name)}));
-        return Object.assign({
-                key: entityIn.getRecordId(),
-                raw : entityIn
-            },
-            ...attributes)
-    });      
-    
       
-    const _onRenderDetailsHeader = (props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>): JSX.Element => {
-        return (            
-          <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true} >                        
-            {defaultRender!({...props!, onColumnClick : onColumnHeaderClick })}                
-          </Sticky>
-        );
-      }
-
-     
-  
-    const myItemInvoked = React.useCallback((item : any) : void => {
-        console.log("item invoked");
-        const record = dataset.records[item.key];
-        dataset.openDatasetItem(record.getNamedReference());
-    }, [dataset]); 
-
-    const {isFullScreen, toggleFullScreen } = useZoom({setFullScreen, updatedProperties});
    
-                          
-    if(isSubgrid===true && isFullScreen===false ){
-        return (                 
-            <>
-                <div className="actionBar">
-                    <Icon iconName="MiniExpand" style={{height: "30px", width: "30px", cursor: "pointer"}} onClick={toggleFullScreen} /> 
-                </div>
-                <MarqueeSelection selection={selection}>
-                    <DetailsList       
+    return (<GridOverlay 
+                containerHeight={containerHeight} dataset={dataset} isSubgrid={isSubgrid} 
+                selectedCount={selectedCount} selection={selection} 
+                setFullScreen={setFullScreen} updatedProperties={updatedProperties}>
+                <DetailsList       
                         setKey="items"                
-                        onRenderDetailsHeader={_onRenderDetailsHeader}
+                        onRenderDetailsHeader={gridHeader(onColumnClick)}
                         items={items} 
                         columns={columns}                          
                         selection={selection}
                         selectionPreservedOnEmptyClick={true}
                         selectionMode={SelectionMode.multiple}     
                         layoutMode={DetailsListLayoutMode.justified}       
-                        onItemInvoked={myItemInvoked}
-                        
+                        onItemInvoked={onItemInvoked}                        
                         ariaLabelForSelectionColumn="Toggle selection"
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
                         checkButtonAriaLabel="Row checkbox"
                         >
-                    </DetailsList>
-                </MarqueeSelection>                    
-                
-                <GridFooter dataset={dataset} selectedCount={selectedCount}></GridFooter>                                    
-            </>            
-        )
-    }
-
-    const height = (containerHeight != null && containerHeight!==-1) ? `${containerHeight}px` : "100%";
-    return (      
-        <Stack grow verticalFill className="container" style={{height, width: "100%"}}>             
-            <Stack.Item grow className="gridContainer" >
-                <ScrollablePane scrollbarVisibility={"auto"} >                 
-                    <MarqueeSelection selection={selection}>
-                        <DetailsList       
-                            setKey="items"                
-                            onRenderDetailsHeader={_onRenderDetailsHeader}
-                            items={items} 
-                            columns={columns}                          
-                            selection={selection}
-                            selectionPreservedOnEmptyClick={true}
-                            selectionMode={SelectionMode.multiple}     
-                            layoutMode={DetailsListLayoutMode.justified}       
-                            onItemInvoked={myItemInvoked}
-                            
-                            ariaLabelForSelectionColumn="Toggle selection"
-                            ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-                            checkButtonAriaLabel="Row checkbox"
-                            >
-                        </DetailsList>
-                    </MarqueeSelection>                    
-                </ScrollablePane>
-            </Stack.Item>
-            
-            <Stack.Item>                
-                <GridFooter dataset={dataset} selectedCount={selectedCount}></GridFooter>                
-            </Stack.Item>
-
-        </Stack>         
-        
-    );
+                </DetailsList>
+        </GridOverlay>);                          
 },(prevProps, newProps) => {
     return prevProps.dataset === newProps.dataset 
         && prevProps.containerWidth === newProps.containerWidth
