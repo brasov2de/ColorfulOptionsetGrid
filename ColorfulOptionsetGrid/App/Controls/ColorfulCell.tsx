@@ -15,6 +15,9 @@ export interface IColorfulCellProps {
 
 export const ColorfulCell = function ColorfulCell({item, column, metadataOptions, displayTextType, displayIconType, defaultIcon} : IColorfulCellProps) : JSX.Element{    
     const currentOptionSetValue=  item.raw.getValue(column.original.name) as number;    
+    if(currentOptionSetValue==null){
+        return <div></div>;
+    }
     let color = metadataOptions?.get(currentOptionSetValue?.toString() ?? "")?.color ?? "gray";  
     if(color==="white"){
         color = "gray"
@@ -40,8 +43,9 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
         }
     }[displayTextType];   
     const content = item[column.original.name];
+    const title = `${column.original.displayName}: ${item[column.original.name]}` ;
     const renderText = displayTextType!=="NOTEXT" ? <span className="cell">{content}</span> : ""    
-    return(<div className="ColorfulCell" style={style} title={content}>            
+    return(<div className="ColorfulCell" style={style} title={title}>            
             {renderIcon}         
             {renderText}
         </div>);
