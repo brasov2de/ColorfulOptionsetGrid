@@ -1,7 +1,7 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import ReactDOM = require("react-dom");
-import React = require("react");
+import * as ReactDOM  from "react-dom";
+import * as React from "react";
 import { ColorfulGrid, IColorfulGridProps } from "./App/ColorfulGrid";
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
