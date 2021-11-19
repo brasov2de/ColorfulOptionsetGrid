@@ -84,7 +84,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
         const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);      
         const columnDefaultIcon = displayIconType==="NAME" ? defaultIconNames.get(column.original.name)??defaultIcon : defaultIcon; 
         return {
-            ...getDefaultColumnSetup(column, dataset),
+            ...getDefaultColumnSetup(column, dataset),            
             onRender: isOptionSetRenderer===true  ? (item : any) => {      
               return <ColorfulCell 
                             item={item} 

@@ -1,3 +1,4 @@
+import { ColumnActionsMode } from '@fluentui/react';
 import * as React from 'react';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
@@ -50,6 +51,7 @@ function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSet
             features: {
                 width : width, 
                 isVisible : !column.isHidden===true, 
+                isSortable: column.dataType!="MultiSelectPicklist",
                 order: column.order===-1 ? 100 : column.order
             },
             minWidth:0,
@@ -96,7 +98,10 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
     const [sorting, setSorting] = React.useState<DataSetInterfaces.SortStatus[]>(dataset.sorting); 
 
     function onColumnClick(columnClicked : string){       
-        const oldSorting = (sorting || []).find((sort) => sort.name===columnClicked);        
+        const oldSorting = (sorting || []).find((sort) => sort.name===columnClicked); 
+        if(dataset.columns.find((column) => column.name === columnClicked)?.dataType==="MultiSelectPicklist"){
+            return; //This column is not sortabke
+        }
         const newValue : DataSetInterfaces.SortStatus = {
             name: columnClicked, 
             sortDirection : oldSorting!= null ? (oldSorting.sortDirection === 0 ? 1 : 0) : 0 //0 = ascendinf
