@@ -26,10 +26,10 @@ export const GridFooter = ({dataset, selectedCount} : IGridFooterProps) => {
         <Stack grow horizontal horizontalAlign="space-between" >
             <Stack.Item grow={1} align="center" >{firstItemNumber} - {lastItemNumber} of {totalRecords} ({selectedCount} selected)</Stack.Item>
             <Stack.Item grow={1} align="center" className="FooterRight">
-                <IconButton className="FooterIcon" iconProps={{ iconName: "DoubleChevronLeft"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
-                <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronLeft"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>
+                <IconButton className="FooterIcon" iconProps={{ iconName: "Rewind"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
+                <IconButton className="FooterIcon" iconProps={{ iconName: "Previous"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>
                 <span >Page {currentPage}</span>
-                <IconButton className="FooterIcon" iconProps={{ iconName: "ChevronRight" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
+                <IconButton className="FooterIcon" iconProps={{ iconName: "Next" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
             </Stack.Item>
         </Stack>
     </Stack.Item>

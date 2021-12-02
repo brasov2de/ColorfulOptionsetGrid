@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsHeaderProps, SelectionMode} from '@fluentui/react/lib/DetailsList';
+import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsHeaderProps, SelectionMode, ConstrainMode} from '@fluentui/react/lib/DetailsList';
 import {mergeStyles, DefaultFontStyles } from '@fluentui/react/lib/Styling';
 import {initializeIcons} from '@fluentui/react/lib/Icons';
 import {ScrollablePane} from '@fluentui/react/lib/ScrollablePane';
@@ -112,6 +112,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                         selectionPreservedOnEmptyClick={true}
                         selectionMode={SelectionMode.multiple}     
                         layoutMode={DetailsListLayoutMode.justified}       
+                        constrainMode={ConstrainMode.unconstrained}
                         onItemInvoked={onItemInvoked}                        
                         ariaLabelForSelectionColumn="Toggle selection"
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
