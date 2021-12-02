@@ -2,6 +2,8 @@
     width: 100%;
     position: relative;
     min-height: 200px ;  
+    font-family: "Segoe UI", "Segoe UI Web (West European)", "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", sans-serif;
+    -webkit-font-smoothing: antialiased;      
 }
 
 .ORBIS\.ColorfulOptionsetGrid  .gridContainer{
@@ -55,16 +57,27 @@
     border-top: 1px solid #edebe9;    
 }
 
+.ORBIS\.ColorfulOptionsetGrid  .Footer span,
+.ORBIS\.ColorfulOptionsetGrid  .Footer div{
+    font-size: 12px;
+    font-weight: 400;
+    color: rgb(50, 49, 48);    
+}
+
 .ORBIS\.ColorfulOptionsetGrid  .FooterRight{
    text-align: right; 
    margin-right:10px;
 }
 
 .ORBIS\.ColorfulOptionsetGrid  .FooterIcon i{
-    color: #333333;
-    font-size: 11px;
+    font-size: 12px;
 }
-
+.ORBIS\.ColorfulOptionsetGrid  .FooterIcon span{    
+    color: #0078D4;
+}
+.ORBIS\.ColorfulOptionsetGrid  .FooterIcon span:disabled{
+    color: gray;
+}
 
 
 .ORBIS\.ColorfulOptionsetGrid  .colorIcon{      
@@ -74,7 +87,7 @@
 
 .ORBIS\.ColorfulOptionsetGrid  div{
     font-weight: normal;
-    font-size: 15px;
+    font-size: 14px;
     vertical-align: baseline;
 }
 
