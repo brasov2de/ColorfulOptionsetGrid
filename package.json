@@ -9,15 +9,18 @@
     "start": "pcf-scripts start"
   },
   "dependencies": {
-    "@fluentui/react": "^7.121.4",
+    "@fluentui/react": "^8.20.2",
     "@types/node": "^10.12.18",
-    "@types/powerapps-component-framework": "^1.2.0",
-    "@types/react": "^16.9.41",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "@types/powerapps-component-framework": "^1.3.1",
+    "@types/react": "^17.0.37",
+    "latest": "^0.2.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
   },
   "devDependencies": {
+    "@types/react-dom": "^17.0.11",
     "pcf-scripts": "^1",
-    "pcf-start": "^1"
+    "pcf-start": "^1",
+    "typescript": "^4.5.2"
   }
 }

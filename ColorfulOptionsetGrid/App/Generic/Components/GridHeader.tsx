@@ -11,9 +11,12 @@ export function gridHeader(onColumnClick : Function) : ((props: IDetailsHeaderPr
         onColumnClick(name);       
     }   
     return ((props: IDetailsHeaderProps | undefined, defaultRender?: IRenderFunction<IDetailsHeaderProps>) => (
+        props && defaultRender ? 
         <Sticky stickyPosition={StickyPositionType.Header} isScrollSynced={true} >                        
         {defaultRender!({...props!, onColumnClick : onColumnHeaderClick })}                
-        </Sticky>)
+        </Sticky>
+        : <></>
+        )
     );
 }
            

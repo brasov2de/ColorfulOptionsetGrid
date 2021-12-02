@@ -41,7 +41,7 @@ export const useConfig= (dataset: DataSet, defaultIcon: string, utils: Component
          setConfigs(myConfigs);
          const myOptionSetColumns = customizedColumnsArray.length >0  //found customized, or take all optionset columns otherwise
             ? customizedColumnsArray.map((setup) => setup.column?.name ?? "")
-            : dataset.columns.filter((column) => column.dataType==="OptionSet").map((column) => column.name);
+            : dataset.columns.filter((column) => column.dataType==="OptionSet" || column.dataType==="TwoOptions" || column.dataType==="MultiSelectOptionSet" || column.dataType==="MultiSelectPicklist").map((column) => column.name);
          setOptionSetColumns(myOptionSetColumns);   
          getAttributes(dataset.getTargetEntityType(), myOptionSetColumns, utils , new Map(myConfigs))
             .then(setMetadataAttributes);
