@@ -2,6 +2,8 @@
 
 The family of ColorfulOptionset Controls has a new member: ColorfulOptionsetGrid. Using this control, you can show the OptionsSets using the colors customized using the standard experience.
 The Grid is not limited to showing the color "with a dot". You can choose from different possibities: with/no icon of your choice, whowing a border or a filled box.
+Starting with the release 8, the ColorfulOptionsetGrid works also for Boolean/TwoOptions and for MultiSelectOptionset/MultiSelectPicklist.
+
 ![ColorfulOptionsetGrid](./Docs/img/ColorfulOptionsetGrid.png)
 ![ColorfulOptionsetGrid](./Docs/img/ColorfulOptionsetGrid.gif)
 
@@ -65,6 +67,21 @@ Here you have two possibilities: the text with border, or the text with backgrou
 In this case only the icon will be shown, while the text will be visible only in the tooltip. In this case, the width of the column defined in the customizing will be overridden, because we don't need that much space. But the remaining space will be distributed to all columns, so it can happend that the column is still wider.
 ![NoText](./Docs/img/TextDisplayOption_NoText.png)
 Unfortunatelly there is no possibility to set this option on each optionset (would get too complicated to customize). In case you choose this option, it will apply to all optionset columns.
+
+## Screenshots for all data types: optionset/multiple optionset/boolean
+
+![Border](./Docs/img/NewDataTypes/Border.png)
+
+![Border](./Docs/img/NewDataTypes/OnlyThreeSelectedColumns.png)
+
+![All data types](./Docs/img/NewDataTypes/ColumnConfig_AllDataTypes.png)
+
+![Dot](./Docs/img/NewDataTypes/Dot.png)
+
+![Dor Border](./Docs/img/NewDataTypes/Dot_Border.png)
+
+![Background](./Docs/img/NewDataTypes/Background.png)
+
 
 ## Icons configuration
 When the default icon is not enough, and you have to specify another icon per column, or in case you want to specify an icon per Optionset value, you need to define first the columns. You can specify up to 3 columns. Then the other columns will be ignored, and shown without colors.
