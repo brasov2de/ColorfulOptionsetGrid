@@ -79,7 +79,17 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
     const {items} = useItems(dataset);
     const {selection, selectedCount, onItemInvoked} = useSelection(dataset);
-             
+    
+    const onChange= (id: string, columnName: string, value: number) => {
+        console.log(`changing to ${value}`);
+        const record = dataset.records[id];
+        if(record){ //@ts-ignore
+            record.setValue(columnName, value);  
+            //@ts-ignore
+            record.save().then(()=> {console.log(`record ${id} was saved`)}).catch(console.error);         
+        }
+    }
+
     const columns = gridColumns.map((column: IGridColumn) : IColumn => {        
         const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);      
         const columnDefaultIcon = displayIconType==="NAME" ? defaultIconNames.get(column.original.name)??defaultIcon : defaultIcon; 
@@ -93,6 +103,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                             displayTextType ={displayTextType} 
                             displayIconType={displayIconType}
                             defaultIcon = {columnDefaultIcon}
+                            onChange={onChange}                            
                 ></ColorfulCell>
               } : undefined,                  
         };

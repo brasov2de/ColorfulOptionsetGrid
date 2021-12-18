@@ -1,6 +1,8 @@
+import { getItemClassNames } from '@fluentui/react/lib/components/ContextualMenu/ContextualMenu.classNames';
 import { Icon } from '@fluentui/react/lib/Icon';
 import * as React  from 'react';
 import { render } from 'react-dom';
+import internal = require('stream');
 import { IGridColumn } from '../Generic/Hooks/useColumns';
 import { ISetupSchemaValue } from '../Utils/interfaces';
 import { ColorfulCellItem } from './ColorfulCellItem';
@@ -12,13 +14,19 @@ export interface IColorfulCellProps {
     displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NOTEXT";    
     displayIconType : "NONE" | "NAME";//| "ENVIRONMENT";
     defaultIcon: string;       
+    onChange: ((id : string, columnName: string, value: number) => void) | undefined
 }
 
-export const ColorfulCell = function ColorfulCell({item, column, metadataOptions, displayTextType, displayIconType, defaultIcon} : IColorfulCellProps) : JSX.Element{    
+export const ColorfulCell = function ColorfulCell({item, column, metadataOptions, displayTextType, displayIconType, defaultIcon, onChange} : IColorfulCellProps) : JSX.Element{    
     
     if(item.raw.getValue(column.original.name) ==null){
         return <div></div>;
     }
+    const onClick = (value:number) => {         
+           if(onChange!=null) {
+                onChange(item.raw.getRecordId(), column.original.name, value);        
+           }
+    };
     if(column.original.dataType==="MultiSelectOptionSet"  || column.original.dataType==="MultiSelectPicklist"){
         const currentValues = (item.raw.getValue(column.original.name) as string ?? "").split(",");        
         const currentDisplayNames = (item.raw.getFormattedValue(column.original.name) as string ?? "").split(";");
@@ -31,6 +39,7 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
                displayIconType={displayIconType}
                displayTextType={displayTextType}
                metadataOptions={metadataOptions}
+               onChange={undefined}
                />) 
             })}
         </div>)
@@ -43,6 +52,7 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
                 displayIconType={displayIconType}
                 displayTextType={displayTextType}
                 metadataOptions={metadataOptions}
+                onChange={onClick}
                 />);
 
     

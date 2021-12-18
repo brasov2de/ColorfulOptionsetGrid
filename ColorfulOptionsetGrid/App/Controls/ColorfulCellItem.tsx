@@ -11,10 +11,11 @@ export interface IColorfulCellItemProps {
     displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NOTEXT";    
     displayIconType : "NONE" | "NAME";//| "ENVIRONMENT";
     defaultIcon: string;    
-    className ?: string;   
+    className ?: string;  
+    onChange: ((value: number) => void) | undefined
 }
 
-export const ColorfulCellItem = function ColorfulCellItem({currentValue, currentDisplayName, metadataOptions, displayTextType, displayIconType, defaultIcon, className} : IColorfulCellItemProps) : JSX.Element{        
+export const ColorfulCellItem = function ColorfulCellItem({currentValue, currentDisplayName, metadataOptions, displayTextType, displayIconType, defaultIcon, className, onChange} : IColorfulCellItemProps) : JSX.Element{        
     if(currentValue==null){
         return <div></div>;
     }
@@ -22,6 +23,17 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     if(color==="white"){
         color = "gray"
     }
+    const onClick = React.useCallback((elm: any) => {
+        if(onChange!= undefined){ //@ts-ignore
+            if(currentValue==1 || currentValue==0){
+                onChange(currentValue == 0 ? 1 : 0)
+            }//@ts-ignore
+            if(currentValue==true || currentValue==false){
+                //@ts-ignore
+                onChange({Id: !currentValue})
+            }
+        }
+    }, [currentValue])
     const icon  = metadataOptions?.get(currentValue?.toString() ?? "")?.icon ?? defaultIcon;  
     const iconColor = displayTextType==="BOX" ? "white" : color;
     const renderIcon = displayIconType!=="NONE" ? <Icon className="colorIcon" style={{color: iconColor , marginRight: "5px"}} iconName={icon} aria-hidden="true" /> : "";
@@ -44,7 +56,7 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     }[displayTextType];   
     const content = currentDisplayName;    
     const renderText = displayTextType!=="NOTEXT" ? <span className="cell">{content}</span> : ""    
-    return(<div className={className} style={style} title={content}>            
+    return(<div className={className} style={style} title={content} onClick={onChange ? onClick : undefined}>            
             {renderIcon}         
             {renderText}
         </div>);
