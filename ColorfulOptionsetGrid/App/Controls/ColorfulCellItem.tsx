@@ -25,13 +25,16 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     }
     const onClick = React.useCallback((elm: any) => {
         if(onChange!= undefined){ //@ts-ignore
-            if(currentValue==1 || currentValue==0){
-                onChange(currentValue == 0 ? 1 : 0)
-            }//@ts-ignore
-            if(currentValue==true || currentValue==false){
+            if(currentValue===true || currentValue===false){
                 //@ts-ignore
                 onChange({Id: !currentValue})
+                return;
             }
+            if(currentValue==1 || currentValue==0){
+                onChange(currentValue == 0 ? 1 : 0)
+                return;
+            }//@ts-ignore
+            
         }
     }, [currentValue])
     const icon  = metadataOptions?.get(currentValue?.toString() ?? "")?.icon ?? defaultIcon;  
