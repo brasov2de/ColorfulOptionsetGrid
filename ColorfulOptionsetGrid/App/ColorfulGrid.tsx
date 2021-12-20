@@ -136,3 +136,12 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
         && prevProps.containerWidth === newProps.containerWidth
         && prevProps.containerHeight === newProps.containerHeight
 });
+
+
+/*
+//create
+dataset.newRecord().then((rec) => {
+    rec.setValue("diana_name","testdummy"); 
+    rec.save().then( () => console.log("Saved")).catch(console.error) }
+)
+*/
