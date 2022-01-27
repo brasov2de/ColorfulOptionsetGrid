@@ -65,8 +65,8 @@ function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSet
 }
 
 function recalculateWidth(calculatedColumns: IGridColumn[], aggregates: IGridColumnAggregates, availableWidth?: number): IGridColumn[]{
-    const aggreatedWidth =  aggregates.sum + 50;           
-    const widthBuffer = (availableWidth != null && availableWidth > aggreatedWidth) ? ((availableWidth - aggreatedWidth)/ aggregates.count) : 0;
+    const aggregatedWidth =  aggregates.sum;// + 50;           
+    const widthBuffer = (availableWidth != null && availableWidth > aggregatedWidth) ? Math.round((availableWidth - aggregatedWidth)/ aggregates.count) : 0;
 
     return calculatedColumns.map((intermediateColumn) => ({
         original : intermediateColumn.original,
@@ -123,9 +123,9 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
         setColumns(recalculateWidth(tempState.calculatedColumns, tempState.aggregates, availableWidth));             
         }, [dataset, availableWidth]);      
 
-    React.useEffect(() => {
+  /*  React.useEffect(() => { 
         setColumns(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));
-    }, [availableWidth]);
+    }, [availableWidth]);*/
 
     return {
         columns, 
