@@ -29,7 +29,7 @@ export const GridFooter = ({dataset, selectedCount} : IGridFooterProps) => {
                 <IconButton className="FooterIcon" iconProps={{ iconName: "Previous"}} onClick={moveToFirst} disabled={!dataset.paging.hasPreviousPage}/>
                 <IconButton className="FooterIcon" iconProps={{ iconName: "ReplyAlt"}} onClick={movePrevious} disabled={!dataset.paging.hasPreviousPage}/>
                 <span >Page {currentPage}</span>
-                <IconButton className="FooterIcon" iconProps={{ iconName: "ReplyAlt" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
+                <IconButton className="FooterIcon ArrowRight" iconProps={{ iconName: "ReplyAlt" }} onClick={moveNext} disabled={!dataset.paging.hasNextPage}/>
             </Stack.Item>
         </Stack>
     </Stack.Item>
