@@ -59,7 +59,7 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     }[displayTextType];   
     const content = currentDisplayName;    
     const renderText = displayTextType!=="NOTEXT" ? <span className="cell">{content}</span> : ""    
-    return(<div className={className} style={style} title={content} onClick={onChange ? onClick : undefined}>            
+    return(<div className={`${className}${onChange!=undefined ? " ColorfulCellEditable" : "" } ` } style={style} title={content} onClick={onChange ? onClick : undefined}>            
             {renderIcon}         
             {renderText}
         </div>);
