@@ -5,7 +5,7 @@ import { IGridColumn } from '../Generic/Hooks/useColumns';
 import { ISetupSchemaValue } from '../Utils/interfaces';
 
 export interface IColorfulCellItemProps {
-    currentValue ?: number;
+    currentValue ?: number | boolean;
     currentDisplayName ?: string;
     metadataOptions :   Map<string, ISetupSchemaValue> | undefined;
     displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NOTEXT";    
@@ -19,7 +19,16 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     if(currentValue==null){
         return <div></div>;
     }
-    let color = metadataOptions?.get(currentValue?.toString() ?? "")?.color ?? "gray";  
+
+    let metadata = metadataOptions?.get(currentValue?.toString() ?? "");
+    if(metadata == null && currentValue===true){
+        metadata = metadataOptions?.get("1");
+   }
+    if(metadata == null && currentValue===false){
+        metadata = metadataOptions?.get("0");
+   }
+   
+    let color = metadata?.color ?? "gray";  
     if(color==="white"){
         color = "gray"
     }
