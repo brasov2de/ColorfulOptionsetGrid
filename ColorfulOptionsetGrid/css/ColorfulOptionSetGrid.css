@@ -111,9 +111,16 @@
    text-overflow: ellipsis;
 }
 
+.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable{
+    /*border: 1px solid silver;    */
+   
+    border-bottom: 1px outset transparent;    
+}
+
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable:hover{
     /*border: 1px solid silver;    */
     cursor: pointer;
+    border-color: rgb(219, 219, 219);    
 }
 
 
