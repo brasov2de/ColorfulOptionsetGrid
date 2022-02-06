@@ -120,7 +120,7 @@
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable:hover{
     /*border: 1px solid silver;    */
     cursor: pointer;
-    border-color: rgb(219, 219, 219);    
+    border-bottom-color: rgb(219, 219, 219);    
 }
 
 
