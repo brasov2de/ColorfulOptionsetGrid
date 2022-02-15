@@ -3,6 +3,7 @@ import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 import * as ReactDOM  from "react-dom";
 import * as React from "react";
 import { ColorfulGrid, IColorfulGridProps } from "./App/ColorfulGrid";
+import { ContextualMenuBase } from "@fluentui/react";
 
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
@@ -33,6 +34,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 			containerHeight: context.mode.allocatedHeight, 
 			isSubgrid : (context.parameters as any).autoExpand!= null, 
 			setFullScreen : context.mode.setFullScreen, 
+			isEditable : context.parameters.isEditable.raw==="Editable",
 			//updatedProperties : context.updatedProperties.filter((val) => this.fullScreenUpdatedProperties.includes(val))
 			updatedProperties : context.updatedProperties
 		};

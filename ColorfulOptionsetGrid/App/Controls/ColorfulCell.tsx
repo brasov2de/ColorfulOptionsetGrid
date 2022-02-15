@@ -22,11 +22,11 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
     if(item.raw.getValue(column.original.name) ==null){
         return <div></div>;
     }
-    const onClick = (value:number) => {         
+    const onClick = onChange!=null ? (value:number) => {         
            if(onChange!=null) {
                 onChange(item.raw.getRecordId(), column.original.name, value);        
            }
-    };
+    } : undefined;
     if(column.original.dataType==="MultiSelectOptionSet"  || column.original.dataType==="MultiSelectPicklist"){
         const currentValues = (item.raw.getValue(column.original.name) as string ?? "").split(",");        
         const currentDisplayNames = (item.raw.getFormattedValue(column.original.name) as string ?? "").split(";");
