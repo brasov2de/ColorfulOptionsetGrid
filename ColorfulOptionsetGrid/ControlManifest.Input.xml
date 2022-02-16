@@ -1,14 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.17" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ORBIS_ColorfulOptionsetGrid_Description" control-type="standard" preview-image="css/imgs/Preview.png">
+  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.32" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ORBIS_ColorfulOptionsetGrid_Description" control-type="standard" preview-image="css/imgs/Preview.png">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <type-group name="colorfulTypes">
        <type>OptionSet</type>
        <type>TwoOptions</type>    
        <type>MultiSelectOptionSet</type>   
-</type-group>
-    <data-set name="dataset" display-name-key="Dataset" cds-data-set-options="displayCommandBar:true;displayViewSelector:true;displayquickfind:true">
+    </type-group>
+    <data-set name="dataset" display-name-key="Dataset" >
       <!-- 'property-set' node represents a unique, configurable property that each record in the dataset must provide. -->
+      <!--property-set name="optionset1" display-name-key="Optionset 1" description-key="Property_Desc_Key" of-type="TwoOptions" usage="bound" required="false" />
+      <property-set name="optionset2" display-name-key="Optionset 2" description-key="Property_Desc_Key" of-type="TwoOptions" usage="bound" required="false" />
+      <property-set name="optionset3" display-name-key="Optionset 3" description-key="Property_Desc_Key" of-type="TwoOptions" usage="bound" required="false" /-->
       <property-set name="optionset1" display-name-key="Optionset 1" description-key="Property_Desc_Key" of-type-group="colorfulTypes" usage="bound" required="false" />
       <property-set name="optionset2" display-name-key="Optionset 2" description-key="Property_Desc_Key" of-type-group="colorfulTypes" usage="bound" required="false" />
       <property-set name="optionset3" display-name-key="Optionset 3" description-key="Property_Desc_Key" of-type-group="colorfulTypes" usage="bound" required="false" />
@@ -24,8 +27,11 @@
     </property>
     <property name="displayIconType" display-name-key="Icon definition" description-key="Icon definition" of-type="Enum" usage="input" required="true">
       <value name="NONE" display-name-key="No icon" description-key="No icon">NONE</value>
-      <value name="NAME" display-name-key="Icon name or JSON" description-key="Using the icon name or a JSON config {value: {icon, color}}" default="true">NAME</value>
-      <!--value name="ENVIRONMENT" display-name-key="Name of environment variable" description-key="The iconConfig parameters contains the name of Envirionment Variables containing JSON Config like {value, color, icon}">ENVIRONMENT</value-->
+      <value name="NAME" display-name-key="Icon name or JSON" description-key="Using the icon name or a JSON config {value: {icon, color}}" default="true">NAME</value>     
+    </property>
+    <property name="isEditable" display-name-key="isEditable" description-key="ColumnIsEditable" of-type="Enum" usage="input" required="true" >
+      <value name="Editable" display-name-key="Editable" description-key="editable">Editable</value>
+      <value name="ReadOnly" display-name-key="ReadOnly" description-key="ReadOnly" default="true">ReadOnly</value>
     </property>
     <property name="defaultIcon" display-name-key="Default Icon name" description-key="The default name of the icon" of-type="SingleLine.Text" usage="input" required="false" default-value="CircleShapeSolid" />
     <property name="iconConfig1" display-name-key="iconConfig1" description-key="iconConfig1" of-type="SingleLine.Text" usage="input" required="false" />

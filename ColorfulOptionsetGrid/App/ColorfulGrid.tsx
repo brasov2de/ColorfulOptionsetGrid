@@ -45,6 +45,7 @@ export interface IColorfulGridProps{
     containerHeight ?: number;    
     isSubgrid : boolean;
     setFullScreen: (value : boolean) => void;     
+    isEditable : boolean;
     updatedProperties : string[];
 }
 
@@ -63,7 +64,8 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
     containerHeight, 
     isSubgrid, 
     setFullScreen, 
-    updatedProperties
+    updatedProperties, 
+    isEditable
 } : IColorfulGridProps) : JSX.Element{    
     
     const {defaultIconNames, metadataAttributes } = useConfig(dataset, defaultIcon, utils, iconConfig1, iconConfig2, iconConfig3);
@@ -79,7 +81,17 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
     const {columns: gridColumns, onColumnClick} = useColumns(dataset, containerWidth, columnWidthCalculator);
     const {items} = useItems(dataset);
     const {selection, selectedCount, onItemInvoked} = useSelection(dataset);
-             
+    
+    const onChange= isEditable ? (id: string, columnName: string, value: number) => {
+        console.log(`changing to ${value}`);
+        const record = dataset.records[id];
+        if(record){ //@ts-ignore
+            record.setValue(columnName, value);  
+            //@ts-ignore
+            record.save().then(()=> {console.log(`record ${id} was saved`)}).catch(console.error);         
+        }
+    } : undefined;
+
     const columns = gridColumns.map((column: IGridColumn) : IColumn => {        
         const isOptionSetRenderer : boolean = metadataAttributes?.has(column.original.name);      
         const columnDefaultIcon = displayIconType==="NAME" ? defaultIconNames.get(column.original.name)??defaultIcon : defaultIcon; 
@@ -93,6 +105,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                             displayTextType ={displayTextType} 
                             displayIconType={displayIconType}
                             defaultIcon = {columnDefaultIcon}
+                            onChange={column.original.dataType==="TwoOptions" ? onChange : undefined}
                 ></ColorfulCell>
               } : undefined,                  
         };
@@ -116,7 +129,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                         onItemInvoked={onItemInvoked}                        
                         ariaLabelForSelectionColumn="Toggle selection"
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-                        checkButtonAriaLabel="Row checkbox"
+                        checkButtonAriaLabel="Row checkbox"                           
                         >
                 </DetailsList>
         </GridOverlay>);                          
@@ -125,3 +138,12 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
         && prevProps.containerWidth === newProps.containerWidth
         && prevProps.containerHeight === newProps.containerHeight
 });
+
+
+/*
+//create
+dataset.newRecord().then((rec) => {
+    rec.setValue("diana_name","testdummy"); 
+    rec.save().then( () => console.log("Saved")).catch(console.error) }
+)
+*/

@@ -5,23 +5,50 @@ import { IGridColumn } from '../Generic/Hooks/useColumns';
 import { ISetupSchemaValue } from '../Utils/interfaces';
 
 export interface IColorfulCellItemProps {
-    currentValue ?: number;
+    currentValue ?: number | boolean;
     currentDisplayName ?: string;
     metadataOptions :   Map<string, ISetupSchemaValue> | undefined;
     displayTextType: "SIMPLE" | "BOX" | "BORDER" | "NOTEXT";    
     displayIconType : "NONE" | "NAME";//| "ENVIRONMENT";
     defaultIcon: string;    
-    className ?: string;   
+    className ?: string;  
+    onChange: ((value: number) => void) | undefined
 }
 
-export const ColorfulCellItem = function ColorfulCellItem({currentValue, currentDisplayName, metadataOptions, displayTextType, displayIconType, defaultIcon, className} : IColorfulCellItemProps) : JSX.Element{        
+export const ColorfulCellItem = function ColorfulCellItem({currentValue, currentDisplayName, metadataOptions, displayTextType, displayIconType, defaultIcon, className, onChange} : IColorfulCellItemProps) : JSX.Element{        
+
+    const onClick = React.useCallback((elm: any) => {
+        if(onChange!= undefined){ //@ts-ignore
+            if(currentValue===true || currentValue===false){
+                //@ts-ignore
+                onChange({Id: !currentValue})
+                return;
+            }
+            if(currentValue==1 || currentValue==0  || currentValue==null){
+                onChange((currentValue == 0 || currentValue==null) ? 1 : 0)
+                return;
+            }//@ts-ignore
+            
+        }
+    }, [currentValue, onChange]);
+
     if(currentValue==null){
-        return <div></div>;
+        return <div onClick={onClick}></div>;
     }
-    let color = metadataOptions?.get(currentValue?.toString() ?? "")?.color ?? "gray";  
+
+    let metadata = metadataOptions?.get(currentValue?.toString() ?? "");
+    if(metadata == null && currentValue===true){
+        metadata = metadataOptions?.get("1");
+   }
+    if(metadata == null && currentValue===false){
+        metadata = metadataOptions?.get("0");
+   }
+   
+    let color = metadata?.color ?? "gray";  
     if(color==="white"){
         color = "gray"
     }
+   
     const icon  = metadataOptions?.get(currentValue?.toString() ?? "")?.icon ?? defaultIcon;  
     const iconColor = displayTextType==="BOX" ? "white" : color;
     const renderIcon = displayIconType!=="NONE" ? <Icon className="colorIcon" style={{color: iconColor , marginRight: "5px"}} iconName={icon} aria-hidden="true" /> : "";
@@ -44,7 +71,7 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     }[displayTextType];   
     const content = currentDisplayName;    
     const renderText = displayTextType!=="NOTEXT" ? <span className="cell">{content}</span> : ""    
-    return(<div className={className} style={style} title={content}>            
+    return(<div className={className} style={style} title={content} onClick={onClick}>            
             {renderIcon}         
             {renderText}
         </div>);

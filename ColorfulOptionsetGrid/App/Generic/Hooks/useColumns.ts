@@ -41,7 +41,7 @@ function calculateAggregatesBasedOnFeatures(cols : IGridColumn[]) : IGridColumnA
 
 
 function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSetApi.Column[], columnWidthCallback ?: ColumnWidthCallback): IColumnsHookState{        
-    const calculatedColumns = originalColumns.map((column) => {
+    const calculatedColumns = originalColumns.filter((column) => column.order>-1).map((column) => { //in canvas apps, columnset is 1
         const preCalculatedWidth = column.visualSizeFactor===-1 ? 75 : column.visualSizeFactor;
         const width = columnWidthCallback!== undefined 
                     ? columnWidthCallback(column, preCalculatedWidth) 
@@ -65,8 +65,8 @@ function parseColumns(originalColumns: ComponentFramework.PropertyHelper.DataSet
 }
 
 function recalculateWidth(calculatedColumns: IGridColumn[], aggregates: IGridColumnAggregates, availableWidth?: number): IGridColumn[]{
-    const aggreatedWidth =  aggregates.sum + 50;           
-    const widthBuffer = (availableWidth != null && availableWidth > aggreatedWidth) ? ((availableWidth - aggreatedWidth)/ aggregates.count) : 0;
+    const aggregatedWidth =  aggregates.sum;// + 50;           
+    const widthBuffer = (availableWidth != null && availableWidth > aggregatedWidth) ? Math.round((availableWidth - aggregatedWidth)/ aggregates.count) : 0;
 
     return calculatedColumns.map((intermediateColumn) => ({
         original : intermediateColumn.original,
@@ -121,9 +121,9 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
         const tempState = parseColumns(dataset.columns, columnWidthCallback);        
         setState(tempState);        
         setColumns(recalculateWidth(tempState.calculatedColumns, tempState.aggregates, availableWidth));             
-        }, [dataset, availableWidth]);      
+        }, [dataset]);      
 
-    React.useEffect(() => {
+    React.useEffect(() => { 
         setColumns(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));
     }, [availableWidth]);
 
