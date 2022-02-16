@@ -19,9 +19,9 @@ export interface IColorfulCellProps {
 
 export const ColorfulCell = function ColorfulCell({item, column, metadataOptions, displayTextType, displayIconType, defaultIcon, onChange} : IColorfulCellProps) : JSX.Element{    
     
-    if(item.raw.getValue(column.original.name) ==null){
-        return <div></div>;
-    }
+   /* if(item.raw.getValue(column.original.name) ==null){
+        return <div></div>; 
+    }*/
     const onClick = onChange!=null ? (value:number) => {         
            if(onChange!=null) {
                 onChange(item.raw.getRecordId(), column.original.name, value);        

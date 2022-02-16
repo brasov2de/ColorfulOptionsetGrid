@@ -16,8 +16,24 @@ export interface IColorfulCellItemProps {
 }
 
 export const ColorfulCellItem = function ColorfulCellItem({currentValue, currentDisplayName, metadataOptions, displayTextType, displayIconType, defaultIcon, className, onChange} : IColorfulCellItemProps) : JSX.Element{        
+
+    const onClick = React.useCallback((elm: any) => {
+        if(onChange!= undefined){ //@ts-ignore
+            if(currentValue===true || currentValue===false){
+                //@ts-ignore
+                onChange({Id: !currentValue})
+                return;
+            }
+            if(currentValue==1 || currentValue==0  || currentValue==null){
+                onChange((currentValue == 0 || currentValue==null) ? 1 : 0)
+                return;
+            }//@ts-ignore
+            
+        }
+    }, [currentValue, onChange]);
+
     if(currentValue==null){
-        return <div></div>;
+        return <div className={`${className}${onChange!=undefined ? " ColorfulCellEditable" : "" } ` }  onClick={onClick}></div>;
     }
 
     let metadata = metadataOptions?.get(currentValue?.toString() ?? "");
@@ -32,20 +48,7 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     if(color==="white"){
         color = "gray"
     }
-    const onClick = React.useCallback((elm: any) => {
-        if(onChange!= undefined){ //@ts-ignore
-            if(currentValue===true || currentValue===false){
-                //@ts-ignore
-                onChange({Id: !currentValue})
-                return;
-            }
-            if(currentValue==1 || currentValue==0){
-                onChange(currentValue == 0 ? 1 : 0)
-                return;
-            }//@ts-ignore
-            
-        }
-    }, [currentValue])
+   
     const icon  = metadataOptions?.get(currentValue?.toString() ?? "")?.icon ?? defaultIcon;  
     const iconColor = displayTextType==="BOX" ? "white" : color;
     const renderIcon = displayIconType!=="NONE" ? <Icon className="colorIcon" style={{color: iconColor , marginRight: "5px"}} iconName={icon} aria-hidden="true" /> : "";
@@ -68,7 +71,7 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     }[displayTextType];   
     const content = currentDisplayName;    
     const renderText = displayTextType!=="NOTEXT" ? <span className="cell">{content}</span> : ""    
-    return(<div className={`${className}${onChange!=undefined ? " ColorfulCellEditable" : "" } ` } style={style} title={content} onClick={onChange ? onClick : undefined}>            
+    return(<div className={`${className}${onChange!=undefined ? " ColorfulCellEditable" : "" } ` } style={style} title={content} onClick={onClick}>            
             {renderIcon}         
             {renderText}
         </div>);
