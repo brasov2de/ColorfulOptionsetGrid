@@ -33,7 +33,7 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     }, [currentValue, onChange]);
 
     if(currentValue==null){
-        return <div className={`${className}${onChange!=undefined ? " ColorfulCellEditable" : "" } ` }  onClick={onClick}></div>;
+        return <div onClick={onClick}></div>;
     }
 
     let metadata = metadataOptions?.get(currentValue?.toString() ?? "");
@@ -71,7 +71,7 @@ export const ColorfulCellItem = function ColorfulCellItem({currentValue, current
     }[displayTextType];   
     const content = currentDisplayName;    
     const renderText = displayTextType!=="NOTEXT" ? <span className="cell">{content}</span> : ""    
-    return(<div className={`${className}${onChange!=undefined ? " ColorfulCellEditable" : "" } ` } style={style} title={content} onClick={onClick}>            
+    return(<div className={className} style={style} title={content} onClick={onClick}>            
             {renderIcon}         
             {renderText}
         </div>);

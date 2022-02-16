@@ -114,7 +114,9 @@
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable{
     /*border: 1px solid silver;    */
    
-    border-bottom: 1px outset transparent;    
+    border-bottom: 1px outset transparent;  
+    padding-bottom: 1px;  
+    min-height: 20px;
 }
 
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable:hover{

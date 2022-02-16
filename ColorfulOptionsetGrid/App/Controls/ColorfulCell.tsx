@@ -33,7 +33,7 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
         return (<div className="ColorfulCell_MultiSelectOptionSet">
             {currentValues.map((currentValue, index) => {
                return (<ColorfulCellItem className='ColorfulCellItem' 
-               currentValue={parseInt(currentValue)} 
+               currentValue={currentValue=="" || currentValue == null ? undefined : parseInt(currentValue)} 
                currentDisplayName={currentDisplayNames[index] ?? ""} 
                defaultIcon={defaultIcon}
                displayIconType={displayIconType}
@@ -45,7 +45,8 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
         </div>)
     }
     const currentOptionSetValue=  item.raw.getValue(column.original.name) as number;    
-    return(<ColorfulCellItem className='ColorfulCell' 
+    return(<div className={onChange!=undefined ? "ColorfulCellEditable" : undefined }> 
+            <ColorfulCellItem className='ColorfulCell' 
                 currentValue={currentOptionSetValue} 
                 currentDisplayName={item[column.original.name]} 
                 defaultIcon={defaultIcon}
@@ -53,7 +54,7 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
                 displayTextType={displayTextType}
                 metadataOptions={metadataOptions}
                 onChange={onClick}
-                />);
+                /></div>);
 
     
 };

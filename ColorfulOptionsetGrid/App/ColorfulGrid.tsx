@@ -105,7 +105,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                             displayTextType ={displayTextType} 
                             displayIconType={displayIconType}
                             defaultIcon = {columnDefaultIcon}
-                            onChange={onChange}                            
+                            onChange={column.original.dataType==="TwoOptions" ? onChange : undefined}
                 ></ColorfulCell>
               } : undefined,                  
         };
@@ -129,7 +129,7 @@ export const ColorfulGrid = React.memo(function ColorfulGridApp({
                         onItemInvoked={onItemInvoked}                        
                         ariaLabelForSelectionColumn="Toggle selection"
                         ariaLabelForSelectAllCheckbox="Toggle selection for all items"
-                        checkButtonAriaLabel="Row checkbox"                       
+                        checkButtonAriaLabel="Row checkbox"                           
                         >
                 </DetailsList>
         </GridOverlay>);                          
