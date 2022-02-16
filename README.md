@@ -117,7 +117,7 @@ If you need more columns, you can define "Optionset 2" and "iconConfig2" paramet
 Starting with the release 9, you can make the boolean (two option) columns editable. To do that, just choose the "Editable" option in the PCF customizing. 
 The default will be "Read only"
 ![ConfigEditable](./Docs/img/config/Editable_Config.png)
-
+The user will get a visual feedback for the cells which are editable.
 ![Editable](./Docs/img/Release/ColorfulOptionsetGrid_Editable.gif)
 
 
