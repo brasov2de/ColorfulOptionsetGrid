@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest>
-  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.30" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ORBIS_ColorfulOptionsetGrid_Description" control-type="standard" preview-image="css/imgs/Preview.png">
+  <control namespace="ORBIS" constructor="ColorfulOptionsetGrid" version="0.0.32" display-name-key="ORBIS_ColorfulOptionsetGrid" description-key="ORBIS_ColorfulOptionsetGrid_Description" control-type="standard" preview-image="css/imgs/Preview.png">
     <!-- dataset node represents a set of entity records on CDS; allow more than one datasets -->
     <type-group name="colorfulTypes">
        <type>OptionSet</type>

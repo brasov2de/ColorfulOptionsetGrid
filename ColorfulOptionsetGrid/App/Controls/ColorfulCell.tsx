@@ -32,7 +32,7 @@ export const ColorfulCell = function ColorfulCell({item, column, metadataOptions
         const currentDisplayNames = (item.raw.getFormattedValue(column.original.name) as string ?? "").split(";");
         return (<div className="ColorfulCell_MultiSelectOptionSet">
             {currentValues.map((currentValue, index) => {
-               return (<ColorfulCellItem className='ColorfulCellItem' 
+               return (<ColorfulCellItem className='ColorfulCellItem' key={currentValue}
                currentValue={currentValue=="" || currentValue == null ? undefined : parseInt(currentValue)} 
                currentDisplayName={currentDisplayNames[index] ?? ""} 
                defaultIcon={defaultIcon}

@@ -119,13 +119,17 @@
     min-height: 20px;
 }
 
+
 .ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable:hover{
     /*border: 1px solid silver;    */
     cursor: pointer;
     border-bottom-color: rgb(219, 219, 219);    
 }
 
-
+.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable div{
+    min-height: 20px;
+    cursor: pointer;
+}
 
 .ORBIS\.ColorfulOptionsetGrid .actionBar{
     width: 100%;
