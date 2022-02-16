@@ -96,12 +96,29 @@ If each value needs another icon, the you can paste a JSON in this field contain
 Icon and color doesn't have to be both defined. You can specify only the icon or only the color. 
 Actually the color shouldn't be necessary at this point. I intend to have it more for CanvasApps later on. 
 
+If you want to define the configuration for a boolean (two option) column, you need to define for values "0" - false and "1" - true.
+So boolean configurations could look like this:
+```javascript
+{"0": {"icon": "Sad"}, "1":{"icon":"Emoji2"}}
+```
+
+
+
 &#10071; The input length is limited to 100 char for now. So only a short JSON will pass. The next step will be to introduce the 3rd possibility for "Icon definition": "Environment variables". There the place is not limited, while they are solution aware.
 
 
 If you need more columns, you can define "Optionset 2" and "iconConfig2" parameters. Proceed with the 3rs attribute, if needed.
 
 &#10071; If only "Optionset x" is defined, but not the "iconConfig x", then the "Default icon name" will be used.
+
+
+## Editable version
+
+Starting with the release 9, you can make the boolean (two option) columns editable. To do that, just choose the "Editable" option in the PCF customizing. 
+The default will be "Read only"
+![ConfigEditable](./Docs/img/config/Editable_Config.png)
+
+![Editable](./Docs/img/Release/ColorfulOptionsetGrid_Editable.gif)
 
 
 ## Open isses:
