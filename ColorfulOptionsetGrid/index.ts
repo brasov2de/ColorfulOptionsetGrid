@@ -51,6 +51,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 */
 	public init(context: ComponentFramework.Context<IInputs>, notifyOutputChanged: () => void, state: ComponentFramework.Dictionary, container:HTMLDivElement)
 	{
+		console.log("ini");
 		this._container = container;			
 		context.mode.trackContainerResize(true);
 	}

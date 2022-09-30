@@ -119,13 +119,13 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
 
     React.useEffect(() => {       
         const tempState = parseColumns(dataset.columns, columnWidthCallback);        
-        setState(tempState);        
-        setColumns(recalculateWidth(tempState.calculatedColumns, tempState.aggregates, availableWidth));             
+        setState(tempState);             
         }, [dataset]);      
 
     React.useEffect(() => { 
-        setColumns(recalculateWidth(state.calculatedColumns, state.aggregates, availableWidth));
-    }, [availableWidth]);
+        const myState = state.calculatedColumns.length === 0 ? parseColumns(dataset.columns, columnWidthCallback) : state;
+        setColumns(recalculateWidth(myState.calculatedColumns, myState.aggregates, availableWidth));
+    }, [availableWidth, state]);
 
     return {
         columns, 
