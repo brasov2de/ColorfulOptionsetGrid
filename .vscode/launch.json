@@ -1,0 +1,17 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+    {
+        "type": "powerplatform-vscode.debug",
+        "request": "launch",
+        "name": "Launch PCF control in Edge",
+        "url": "https://dianamics.crm4.dynamics.com/main.aspx?appid=6212d800-a3d3-ec11-a7b5-000d3abb98ab",
+        "webRoot": "${workspaceFolder}",
+        "renderFullScreen": true,
+        "controlName": "orb_ORBIS.ColorfulOptionsetGrid",
+        "file": "out/controls/ColorfulOptionsetGrid/bundle.js",        
+        "useDefaultUserDataProfile": false
+    }
+    ]
+
+}
