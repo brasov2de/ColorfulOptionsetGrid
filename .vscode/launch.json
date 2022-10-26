@@ -10,7 +10,7 @@
         "renderFullScreen": true,
         "controlName": "orb_ORBIS.ColorfulOptionsetGrid",
         "file": "out/controls/ColorfulOptionsetGrid/bundle.js",        
-        "useDefaultUserDataProfile": false
+        "useDefaultUserDataProfile": false        
     }
     ]
 
