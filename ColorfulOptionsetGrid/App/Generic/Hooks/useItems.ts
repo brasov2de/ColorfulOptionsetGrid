@@ -1,6 +1,5 @@
 import * as React from 'react';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
 
 
 export const useItems = (dataset: DataSet) => {       

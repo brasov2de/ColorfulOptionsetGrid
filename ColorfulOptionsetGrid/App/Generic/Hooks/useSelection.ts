@@ -4,6 +4,7 @@ import {Selection} from '@fluentui/react/lib/DetailsList';
 
 export const useSelection = (dataset: DataSet) => {       
     const [selectedCount, setSelectedCount]  = React.useState<number>(0);
+    // eslint-disable-next-line no-unused-vars
     const [selection, setSelection] = React.useState(new Selection({
         onSelectionChanged: () => {
             const ids = selection.getSelection().map((item :any) => item.key);

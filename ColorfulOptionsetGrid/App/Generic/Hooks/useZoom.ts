@@ -1,4 +1,4 @@
-import { ContextualMenu } from '@fluentui/react';
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 
 export interface IUseZoomProps{

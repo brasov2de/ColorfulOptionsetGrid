@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import * as React from 'react';
 import {ScrollablePane} from '@fluentui/react/lib/ScrollablePane';
 import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';

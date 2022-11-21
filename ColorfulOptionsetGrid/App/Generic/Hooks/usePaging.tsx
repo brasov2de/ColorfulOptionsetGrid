@@ -1,8 +1,6 @@
-import { CommandBar, ICommandBarItemProps } from '@fluentui/react/lib/CommandBar';
-import { IDetailsFooterProps, Selection } from '@fluentui/react/lib/DetailsList';
-import { Label } from '@fluentui/react/lib/Label';
-import { Sticky, StickyPositionType } from '@fluentui/react/lib/Sticky';
-import { IRenderFunction } from '@fluentui/react/lib/Utilities';
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
+
 import * as React from 'react';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
 import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;

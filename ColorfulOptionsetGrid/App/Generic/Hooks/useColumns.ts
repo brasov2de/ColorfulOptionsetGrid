@@ -1,7 +1,7 @@
-import { ColumnActionsMode } from '@fluentui/react';
+/* eslint-disable no-undef */
 import * as React from 'react';
 type DataSet = ComponentFramework.PropertyTypes.DataSet;
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
+import DataSetInterfaces =  ComponentFramework.PropertyHelper.DataSetApi;
 
 //for 6
 export interface IColumnFeature{
@@ -114,7 +114,7 @@ export const useColumns = (dataset: DataSet, availableWidth?: number, columnWidt
         dataset.refresh();
         
         setSorting(dataset.sorting);
-    };     
+    }     
     
 
     React.useEffect(() => {       

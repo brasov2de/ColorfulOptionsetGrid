@@ -1,7 +1,6 @@
+/* eslint-disable no-unused-vars */
 import { Icon } from '@fluentui/react/lib/Icon';
 import * as React  from 'react';
-import { render } from 'react-dom';
-import { IGridColumn } from '../Generic/Hooks/useColumns';
 import { ISetupSchemaValue } from '../Utils/interfaces';
 
 export interface IColorfulCellItemProps {

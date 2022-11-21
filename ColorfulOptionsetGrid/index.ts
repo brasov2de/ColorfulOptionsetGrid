@@ -1,13 +1,10 @@
 import {IInputs, IOutputs} from "./generated/ManifestTypes";
-import DataSetInterfaces = ComponentFramework.PropertyHelper.DataSetApi;
-import * as ReactDOM  from "react-dom";
 import * as React from "react";
 import { ColorfulGrid, IColorfulGridProps } from "./App/ColorfulGrid";
-import { ContextualMenuBase } from "@fluentui/react";
 
-type DataSet = ComponentFramework.PropertyTypes.DataSet;
+//type DataSet = ComponentFramework.PropertyTypes.DataSet;
 
-export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl<IInputs, IOutputs> {
+export class ColorfulOptionsetGrid implements ComponentFramework.ReactControl<IInputs, IOutputs> {
 
 	private _container : HTMLDivElement;
 	private fullScreenUpdatedProperties = ["fullscreen_open", "fullscreen_close"];
@@ -21,7 +18,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 
 	private renderGrid(context : ComponentFramework.Context<IInputs>){				
 		console.log(context.parameters.dataset.sortedRecordIds.length);				
-		const props : IColorfulGridProps = {
+		const props  = {
 			dataset : context.parameters.dataset, 
 			utils : context.utils, 
 			displayTextType: context.parameters.displayTextType?.raw ?? "SIMPLE",
@@ -38,7 +35,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 			//updatedProperties : context.updatedProperties.filter((val) => this.fullScreenUpdatedProperties.includes(val))
 			updatedProperties : context.updatedProperties
 		};
-		ReactDOM.render(React.createElement(ColorfulGrid, props ), this._container);
+		return React.createElement(ColorfulGrid, props );		
 	}
  
 	/**
@@ -61,9 +58,26 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 * Called when any value in the property bag has changed. This includes field values, data-sets, global values such as container height and width, offline status, control metadata values such as label, visible, etc.
 	 * @param context The entire property bag available to control via Context Object; It contains values as set up by the customizer mapped to names defined in the manifest, as well as utility functions
 	 */
-	public updateView(context: ComponentFramework.Context<IInputs>): void
+	public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement
 	{	console.log(context.updatedProperties);
-		this.renderGrid(context);
+		const props  = {
+			dataset : context.parameters.dataset, 
+			utils : context.utils, 
+			displayTextType: context.parameters.displayTextType?.raw ?? "SIMPLE",
+			displayIconType : context.parameters.displayTextType?.raw!=="NOTEXT" ? context.parameters.displayIconType?.raw ?? "NAME" : "NAME",
+			defaultIcon: context.parameters.defaultIcon?.raw ?? "CircleShapeSolid",
+			iconConfig1 : context.parameters.iconConfig1?.raw ?? undefined, 
+			iconConfig2 : context.parameters.iconConfig2?.raw ?? undefined, 
+			iconConfig3 : context.parameters.iconConfig3?.raw ?? undefined, 
+			containerWidth : context.mode.allocatedWidth,
+			containerHeight: context.mode.allocatedHeight, 
+			isSubgrid : (context.parameters as any).autoExpand!= null, 
+			setFullScreen : context.mode.setFullScreen, 
+			isEditable : context.parameters.isEditable.raw==="Editable",
+			//updatedProperties : context.updatedProperties.filter((val) => this.fullScreenUpdatedProperties.includes(val))
+			updatedProperties : context.updatedProperties
+		};
+		return React.createElement(ColorfulGrid, props );		
 	}
 
 	/** 
@@ -81,8 +95,7 @@ export class ColorfulOptionsetGrid implements ComponentFramework.StandardControl
 	 * i.e. cancelling any pending remote calls, removing listeners, etc.
 	 */
 	public destroy(): void
-	{
-		ReactDOM.unmountComponentAtNode(this._container);
+	{		
 	}
 
 }

@@ -1,8 +1,5 @@
-import { getItemClassNames } from '@fluentui/react/lib/components/ContextualMenu/ContextualMenu.classNames';
-import { Icon } from '@fluentui/react/lib/Icon';
+/* eslint-disable no-unused-vars */
 import * as React  from 'react';
-import { render } from 'react-dom';
-import internal = require('stream');
 import { IGridColumn } from '../Generic/Hooks/useColumns';
 import { ISetupSchemaValue } from '../Utils/interfaces';
 import { ColorfulCellItem } from './ColorfulCellItem';

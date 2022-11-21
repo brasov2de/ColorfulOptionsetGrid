@@ -1,13 +1,8 @@
+/* eslint-disable no-unused-vars */
 import * as React from 'react';
 
-import {DetailsList, IColumn, DetailsListLayoutMode, IDetailsHeaderProps, SelectionMode, ConstrainMode} from '@fluentui/react/lib/DetailsList';
-import {mergeStyles, DefaultFontStyles } from '@fluentui/react/lib/Styling';
+import {DetailsList, IColumn, DetailsListLayoutMode,  SelectionMode, ConstrainMode} from '@fluentui/react/lib/DetailsList';
 import {initializeIcons} from '@fluentui/react/lib/Icons';
-import {ScrollablePane} from '@fluentui/react/lib/ScrollablePane';
-import {IRenderFunction} from '@fluentui/react/lib/Utilities';
-import {Sticky, StickyPositionType} from '@fluentui/react/lib/Sticky';
-import {MarqueeSelection} from '@fluentui/react/lib/MarqueeSelection';
-import { Stack } from '@fluentui/react/lib/Stack';
 
 
 import { ColumnWidthCallback, getDefaultColumnSetup, IGridColumn, useColumns } from './Generic/Hooks/useColumns';
@@ -15,9 +10,7 @@ import { useSelection } from './Generic/Hooks/useSelection';
 
 
 import { ColorfulCell } from './Controls/ColorfulCell';
-import { GridFooter } from './Generic/Components/GridFooter';
 import { useConfig } from './Hooks/useConfig';
-import { Icon } from '@fluentui/react/lib/Icon';
 import { GridOverlay } from './Generic/Components/GridOverlay';
 import { useItems } from './Generic/Hooks/useItems';
 import { gridHeader } from './Generic/Components/GridHeader';
