@@ -1,4 +1,4 @@
-.ORBIS\.ColorfulOptionsetGrid  .container{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .container{
     width: 100%;
     position: relative;
     min-height: 200px ;  
@@ -6,7 +6,7 @@
     -webkit-font-smoothing: antialiased;      
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .gridContainer{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .gridContainer{
     height: 100%;
     overflow-y: auto;
     overflow-x: auto;
@@ -14,12 +14,12 @@
 }
 
 
-.ORBIS\.ColorfulOptionsetGrid .ColorfulCell_MultiSelectOptionSet{
+/*.ORBIS\.ColorfulOptionsetGrid*/ .ColorfulCell_MultiSelectOptionSet{
     display: flex;
     flex-wrap: wrap;
 }
  
-.ORBIS\.ColorfulOptionsetGrid  .Footer{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .Footer{
     height: 32px;
     width: 100%;    
     padding-top: 3px;
@@ -29,44 +29,44 @@
     border-top: 1px solid #edebe9;    
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .Footer span,
-.ORBIS\.ColorfulOptionsetGrid  .Footer div{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .Footer span,
+/*.ORBIS\.ColorfulOptionsetGrid*/  .Footer div{
     font-size: 12px;
     font-weight: 400;
     color: rgb(50, 49, 48);    
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .FooterRight{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .FooterRight{
    text-align: right; 
    margin-right:10px;
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .FooterIcon{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .FooterIcon{
     background-color: transparent;
 }
-.ORBIS\.ColorfulOptionsetGrid  .FooterIcon i{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .FooterIcon i{
     font-size: 12px;
 }
-.ORBIS\.ColorfulOptionsetGrid  .FooterIcon span{    
+/*.ORBIS\.ColorfulOptionsetGrid*/  .FooterIcon span{    
     color: #0078D4;
     
 }
-.ORBIS\.ColorfulOptionsetGrid  .FooterIcon span:disabled{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .FooterIcon span:disabled{
     color: gray;
     
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .ArrowRight{    
+/*.ORBIS\.ColorfulOptionsetGrid*/  .ArrowRight{    
     transform: rotate(180deg);
 }
 
 
-.ORBIS\.ColorfulOptionsetGrid  .colorIcon{      
+/*.ORBIS\.ColorfulOptionsetGrid*/  .colorIcon{      
         font-weight: 600;
         vertical-align: baseline;     
 }
 
-.ORBIS\.ColorfulOptionsetGrid  div{
+/*.ORBIS\.ColorfulOptionsetGrid*/  div{
     font-weight: normal;
     font-size: 14px;
     vertical-align: baseline;
@@ -74,7 +74,7 @@
 
 
 
-.ORBIS\.ColorfulOptionsetGrid  .ColorfulCell{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .ColorfulCell{
     overflow: hidden;    
     padding-left: 3px;
   /*  padding-top: 1px;
@@ -91,7 +91,7 @@
     padding-bottom: 3px;    */
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellItem{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .ColorfulCellItem{
     overflow: hidden;
     padding-top: 3px;
     padding-left: 4px;
@@ -104,14 +104,14 @@
 }
 
 
-.ORBIS\.ColorfulOptionsetGrid  .ColorfulCell span{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .ColorfulCell span{
     font-weight: normal;
     font-size: 15px;
     vertical-align: baseline;
    text-overflow: ellipsis;
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .ColorfulCellEditable{
     /*border: 1px solid silver;    */
    
     border-bottom: 1px outset transparent;  
@@ -120,18 +120,18 @@
 }
 
 
-.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable:hover{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .ColorfulCellEditable:hover{
     /*border: 1px solid silver;    */
     cursor: pointer;
     border-bottom-color: rgb(219, 219, 219);    
 }
 
-.ORBIS\.ColorfulOptionsetGrid  .ColorfulCellEditable div{
+/*.ORBIS\.ColorfulOptionsetGrid*/  .ColorfulCellEditable div{
     min-height: 20px;
     cursor: pointer;
 }
 
-.ORBIS\.ColorfulOptionsetGrid .actionBar{
+/*.ORBIS\.ColorfulOptionsetGrid*/ .actionBar{
     width: 100%;
     text-align: right;
     font-size: 20px;
