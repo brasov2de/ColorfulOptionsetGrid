@@ -20,7 +20,7 @@ The most important parameters are:
 
 - **Icon definition** - here you can choose how the icon should be displayed
     - "No icon" : the icon won't be displayed
-    - "Icon name or JSON": the content can be the fiendly name of an icon from FluentUI Icons. You nay choose from here: https://uifabricicons.azurewebsites.net/
+    - "Icon name or JSON": the content can be the fiendly name of an icon from FluentUI Icons. You nay choose from here: https://developer.microsoft.com/en-us/fluentui#/styles/web/icons (scroll down until you find the available icons)
     Another possibility for this paramerter is having JSON objects containing "icon" and/or "color" for each option. For mor details see the section "JSON definition" below.
     To be able to use this parameter, you havce to configure the columns you want to have displayed. See the configuration possibilities below.
 ![Display Type](./Docs/img/config/IconTypes.png)
